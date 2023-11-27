@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.API", "Core.API\Core.API.csproj", "{1CDC720E-1909-41B9-B6EE-D906543844EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{BA139DD0-0093-435E-97EE-8E55076065F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Modules.Shared", "Core.Modules.Shared\Core.Modules.Shared.csproj", "{4F137848-ABBC-478D-849C-572037513DF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Modules.UserAccess", "Core.Modules.UserAccess\Core.Modules.UserAccess.csproj", "{69999B45-CBCE-4DC3-8B5E-E6FA3737B51A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1CDC720E-1909-41B9-B6EE-D906543844EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CDC720E-1909-41B9-B6EE-D906543844EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CDC720E-1909-41B9-B6EE-D906543844EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CDC720E-1909-41B9-B6EE-D906543844EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F137848-ABBC-478D-849C-572037513DF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F137848-ABBC-478D-849C-572037513DF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F137848-ABBC-478D-849C-572037513DF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F137848-ABBC-478D-849C-572037513DF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69999B45-CBCE-4DC3-8B5E-E6FA3737B51A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69999B45-CBCE-4DC3-8B5E-E6FA3737B51A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69999B45-CBCE-4DC3-8B5E-E6FA3737B51A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69999B45-CBCE-4DC3-8B5E-E6FA3737B51A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4F137848-ABBC-478D-849C-572037513DF2} = {BA139DD0-0093-435E-97EE-8E55076065F8}
+		{69999B45-CBCE-4DC3-8B5E-E6FA3737B51A} = {BA139DD0-0093-435E-97EE-8E55076065F8}
+	EndGlobalSection
+EndGlobal
