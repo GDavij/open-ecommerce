@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Core.Modules.UserAccess.Domain.Models;
 
 internal class Token
@@ -6,7 +8,12 @@ internal class Token
     public string Password { get; set; }
     public ETokenType Type { get; set; }
     public long Exp { get; set; }
-
+    
+    // Constructor only for deserialize JWT Tokens 
+    [JsonConstructor]
+    public Token()
+    {}
+    
     private Token(
         Guid id,
         string password,
@@ -21,13 +28,15 @@ internal class Token
 
     public static Token Create(
         Guid id,
-        string password,
+        byte[] password,
         ETokenType type,
         long exp)
     {
+        string base64Password = Convert.ToBase64String(password);
+        
         return new Token(
             id,
-            password,
+            base64Password,
             type,
             exp);
     }

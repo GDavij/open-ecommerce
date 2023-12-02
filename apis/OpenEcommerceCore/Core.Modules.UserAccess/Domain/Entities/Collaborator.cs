@@ -7,8 +7,8 @@ internal sealed class Collaborator
     public Guid Id { get; init; }
     public Guid CollaboratorModuleId { get; init; }
     public string Email { get; set; }
-    public string Password { get; set; }
-    public string SecurityKey { get; set; }
+    public byte[] Password { get; set; }
+    public byte[] SecurityKey { get; set; }
     public ECollaboratorSector Sector { get; set; }
     public DateTime CreatedAt { get; init; }
     public DateTime LastLogin { get; set; }
@@ -17,8 +17,8 @@ internal sealed class Collaborator
         Guid id,
         Guid collaboratorModuleId,
         string email,
-        string password,
-        string securityKey,
+        byte[] password,
+        byte[] securityKey,
         ECollaboratorSector sector,
         DateTime createdAt,
         DateTime lastLogin)
@@ -37,8 +37,8 @@ internal sealed class Collaborator
         Guid id,
         Guid collaboratorModuleId,
         string email,
-        string password,
-        string securityKey,
+        byte[] password,
+        byte[] securityKey,
         ECollaboratorSector sector,
         DateTime createdAt,
         DateTime lastLogin)

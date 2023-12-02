@@ -1,0 +1,22 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">/home/gdavi/.cache/JetBrains/Rider2023.2/resharper-host/temp/Rider/vAny/CoverageData/_OpenEcommerceCore.-2081584893/Snapshot/snapshot.utdcvr</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=344eee57_002Dff04_002D4f96_002D829b_002Db83d2d1beef6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ShouldEncodeAndDecodeTokenWithSuccessWithAnyUserType #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Project Location="/home/gdavi/Projects/Github/SideProjects/open-ecommerce/apis/OpenEcommerceCore/Core.Modules.UserAccess.Tests" Presentation="&amp;lt;Modules&amp;gt;\&amp;lt;Tests&amp;gt;\&amp;lt;Core.Modules.UserAccess.Tests&amp;gt;" /&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=89b6862e_002D40f6_002D4205_002D8c08_002D4565d3cc8fcc/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ShouldEncodeAndDecodeTokenWithSuccessWithAnyUserType #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::BBE9B762-02E0-4342-AB1A-576C77975C27::net6.0::Core.Modules.UserAccess.Tests.Services.SecurityService.TokenTests.ShouldEncodeAndDecodeTokenWithSuccessWithAnyUserType&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=980cd28a_002D1303_002D44d9_002D8220_002D7840bb1ccc3b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ShouldEncodeAndDecodeTokenWithSuccessWithAnyUserType" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::BBE9B762-02E0-4342-AB1A-576C77975C27::net6.0::Core.Modules.UserAccess.Tests.Services.SecurityService.TokenTests.ShouldEncodeAndDecodeTokenWithSuccessWithAnyUserType&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c5192863_002D997b_002D4923_002Da5c3_002Dd497524e935b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ShouldCreateAClientSession" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::BBE9B762-02E0-4342-AB1A-576C77975C27::net6.0::Core.Modules.UserAccess.Tests.UseCases.CreateClientSessionCommandHandlerTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::BBE9B762-02E0-4342-AB1A-576C77975C27::net6.0::Core.Modules.UserAccess.Tests.Services.SecurityService.TokenTests.ShouldEncodeAndDecodeTokenWithSuccessWithAnyUserType&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::BBE9B762-02E0-4342-AB1A-576C77975C27::net6.0::Core.Modules.UserAccess.Tests.Services.SecurityService.TokenTests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

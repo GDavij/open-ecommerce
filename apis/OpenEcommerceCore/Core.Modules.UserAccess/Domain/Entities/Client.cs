@@ -5,8 +5,8 @@ internal sealed class Client
     public Guid Id { get; init; }
     public Guid ClientModuleId { get; init; }
     public string Email { get; set; }
-    public string Password { get; set; }
-    public string SecurityKey { get; set; }
+    public byte[] Password { get; set; }
+    public byte[] SecurityKey { get; set; }
     public DateTime CreatedAt { get; init; }
     public DateTime LastLogin { get; set; }
     
@@ -14,8 +14,8 @@ internal sealed class Client
         Guid id,
         Guid clientModuleId,
         string email,
-        string password,
-        string securityKey,
+        byte[] password,
+        byte[] securityKey,
         DateTime createdAt,
         DateTime lastLogin)
     {
@@ -32,8 +32,8 @@ internal sealed class Client
         Guid id,
         Guid clientModuleId,
         string email,
-        string password,
-        string securityKey,
+        byte[] password,
+        byte[] securityKey,
         DateTime createdAt,
         DateTime lastLogin)
     {
