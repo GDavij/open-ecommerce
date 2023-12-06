@@ -35,17 +35,43 @@ This use case has the objective to Receive a Client `Email` and `Password` proce
 
 - **_Create Client Session Domain Event_**
 
-> Represents a Session that created a session on this module
->
-> **Consumers (Modules that Depends on)**
->
-> - AuditModule
+Represents a Client session that has been created
+
+- **Consumers**
+
+- AuditModule
+  > Probably replace this with a diagram showing domain events coupling (connections)
 
 ### Create Collaborator Session
 
+#### Objective
+
+This use case has the objective to receive a collaborator `E-mail` and `Password` process data, validate and if valid return a Collaborator `Session Token`, that is used to authenticate the collaborator again
+
+#### Payloads
+
+**Ideia of Request Payload** - JSON
+
+```JSON
+{
+    "email": "docs.email@email.com",
+    "password": "my-secret-password"
+}
+```
+
+**Ideia of Response Payload** - JSON with Comments
+
+```JSON with Comments
+{
+    "token": "JWT Token"// It Is a Encoded JWT Token
+}
+```
+
 #### Domain Events
 
-Create Collaborator Session Domain Event
+- **_Create Collaborator Session Domain Event_**
+
+Represents a Collaborator session that has been created
 
 ## Messaging Calls
 

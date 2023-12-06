@@ -1,6 +1,6 @@
 namespace Core.Modules.Shared.Domain.Models;
 
-internal class Identity
+public class Identity
 {
     public Guid Id { get; private set; }
 

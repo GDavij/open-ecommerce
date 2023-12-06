@@ -1,3 +1,4 @@
+using System.Net;
 using Core.Modules.Shared.Domain.ResultObjects;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;
 using Core.Modules.UserAccess.Domain.Contracts.Providers;
@@ -26,18 +27,18 @@ internal class CreateClientSessionCommandHandler : ICreateClientSessionCommandHa
     public async Task<ValidationResult<CreateClientSessionResponse>> Handle(CreateClientSessionCommand request, CancellationToken cancellationToken)
     {
         Client? existentClient = await _dbContext.Clients
-            .FirstOrDefaultAsync(c => c.Email == request.Email, cancellationToken);
+            .FirstOrDefaultAsync(c => c.Email == request.Email && c.Deleted == false, cancellationToken);
 
         if (existentClient == null)
         {
-            return ValidationResult<CreateClientSessionResponse>.Error();
+            return ValidationResult<CreateClientSessionResponse>.Error(HttpStatusCode.NotFound);
         }
 
         byte[] derivedPassword = await _securityService.DerivePassword(request.Password, existentClient.SecurityKey, cancellationToken);
         bool isPasswordsEqual = derivedPassword.SequenceEqual(existentClient.Password);
         if (isPasswordsEqual is false)
         {
-            return ValidationResult<CreateClientSessionResponse>.Error();
+            return ValidationResult<CreateClientSessionResponse>.Error(HttpStatusCode.BadRequest);
         }
         
         Token token = Token.Create(

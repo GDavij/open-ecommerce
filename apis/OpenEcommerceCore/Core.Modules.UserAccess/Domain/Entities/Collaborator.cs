@@ -12,6 +12,7 @@ internal sealed class Collaborator
     public ECollaboratorSector Sector { get; set; }
     public DateTime CreatedAt { get; init; }
     public DateTime LastLogin { get; set; }
+    public bool Deleted { get; set; }
     
     private Collaborator(
         Guid id,
@@ -21,7 +22,8 @@ internal sealed class Collaborator
         byte[] securityKey,
         ECollaboratorSector sector,
         DateTime createdAt,
-        DateTime lastLogin)
+        DateTime lastLogin,
+        bool deleted)
     {
         Id = id;
         CollaboratorModuleId = collaboratorModuleId;
@@ -31,6 +33,7 @@ internal sealed class Collaborator
         Sector = sector;
         CreatedAt = createdAt;
         LastLogin = lastLogin;
+        Deleted = deleted;
     }
 
     public static Collaborator Create(
@@ -39,9 +42,7 @@ internal sealed class Collaborator
         string email,
         byte[] password,
         byte[] securityKey,
-        ECollaboratorSector sector,
-        DateTime createdAt,
-        DateTime lastLogin)
+        ECollaboratorSector sector)
     {
         return new Collaborator(
             id,
@@ -50,7 +51,8 @@ internal sealed class Collaborator
             password,
             securityKey,
             sector,
-            createdAt,
-            lastLogin);
+            DateTime.UtcNow,
+            DateTime.UtcNow,
+            false);
     }
 }

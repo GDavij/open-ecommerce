@@ -9,6 +9,7 @@ internal sealed class Client
     public byte[] SecurityKey { get; set; }
     public DateTime CreatedAt { get; init; }
     public DateTime LastLogin { get; set; }
+    public bool Deleted { get; set; }
     
     private Client(
         Guid id,
@@ -17,7 +18,8 @@ internal sealed class Client
         byte[] password,
         byte[] securityKey,
         DateTime createdAt,
-        DateTime lastLogin)
+        DateTime lastLogin,
+        bool deleted)
     {
         Id = id;
         ClientModuleId = clientModuleId;
@@ -26,6 +28,7 @@ internal sealed class Client
         SecurityKey = securityKey;
         CreatedAt = createdAt;
         LastLogin = lastLogin;
+        Deleted = deleted;
     }
 
     public static Client Create(
@@ -33,9 +36,7 @@ internal sealed class Client
         Guid clientModuleId,
         string email,
         byte[] password,
-        byte[] securityKey,
-        DateTime createdAt,
-        DateTime lastLogin)
+        byte[] securityKey)
     {
         return new Client(
             id,
@@ -43,7 +44,8 @@ internal sealed class Client
             email,
             password,
             securityKey,
-            createdAt,
-            lastLogin);
+            DateTime.UtcNow,
+            DateTime.UtcNow,
+            false);
     }
 }

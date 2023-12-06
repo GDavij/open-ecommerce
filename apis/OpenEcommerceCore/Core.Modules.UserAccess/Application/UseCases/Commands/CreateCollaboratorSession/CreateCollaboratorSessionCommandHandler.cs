@@ -1,3 +1,4 @@
+using System.Net;
 using Core.Modules.Shared.Domain.ResultObjects;
 using Core.Modules.UserAccess.Application.UseCases.Commands.CreateClientSession;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;
@@ -30,24 +31,24 @@ internal class CreateCollaboratorSessionCommandHandler : ICreateCollaboratorSess
     public async Task<ValidationResult<CreateCollaboratorSessionResponse>> Handle(CreateCollaboratorSessionCommand request, CancellationToken cancellationToken)
     {
         Collaborator? existentCollaborator = await _dbContext.Collaborators
-            .FirstOrDefaultAsync(c => c.Email == request.Email,cancellationToken);
+            .FirstOrDefaultAsync(c => c.Email == request.Email && c.Deleted == false, cancellationToken);
 
         if (existentCollaborator is null)
         {
-            return ValidationResult<CreateCollaboratorSessionResponse>.Error();
+            return ValidationResult<CreateCollaboratorSessionResponse>.Error(HttpStatusCode.NotFound);
         }
         
         byte[] derivedPassword = await _securityService.DerivePassword(request.Password, existentCollaborator.SecurityKey, cancellationToken);
         bool isPasswordsEqual = derivedPassword.SequenceEqual(existentCollaborator.Password);
         if (isPasswordsEqual is false)
         {
-            return ValidationResult<CreateCollaboratorSessionResponse>.Error();
+            return ValidationResult<CreateCollaboratorSessionResponse>.Error(HttpStatusCode.BadRequest);
         }
         
         Token token = Token.Create(
             existentCollaborator.Id,
             existentCollaborator.Password,
-            ETokenType.Client,
+            ETokenType.Collaborator,
             TokenExpiration.OneDayFromNow(_dateTimeProvider));
 
         string encodedToken = _securityService.EncodeToken(token);
