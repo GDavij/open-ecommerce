@@ -124,4 +124,246 @@ public class AuthenticateCollaboratorForSectorCommandHandlerTests
             .Should()
             .Be(databaseCollaborator.CollaboratorModuleId);
     }
+    
+    [Fact]
+    internal async Task ShouldAuthenticateValidCollaboratorForItsModuleWithInvalidPassword()
+    {
+        // Arrange
+        CancellationToken cancellationToken = default;
+        
+        string systemSecurityKeyEnvironmentVariableName = "user_access::DERIVATION_SECURITY_KEY";
+        
+        _appConfigService.GetEnvironmentVariable(systemSecurityKeyEnvironmentVariableName)
+            .Returns("unit-tests-system-security-key");
+        
+        string secretValidationKeyEnvironmentVariableName = "user_access::JWT_SECURITY_KEY";
+
+        _appConfigService.GetEnvironmentVariable(secretValidationKeyEnvironmentVariableName)
+            .Returns("unit-tests-jwt-security-key");
+        string rawCollaboratorPassword = "secure-unit-tests-collaborator-password";
+        
+        byte[] securityKey = _securityService.GenerateSecurityKey();
+        byte[] derivedPassword = await _securityService.DerivePassword(
+            rawCollaboratorPassword,
+            securityKey,
+            cancellationToken);
+        
+        ECollaboratorSector collaboratorSector = ECollaboratorSector.Stock;
+
+        // Mock Database 
+        var databaseCollaborator = Collaborator.Create(
+            Guid.NewGuid(),
+            Guid.NewGuid(),
+            "collaboratoremail@unittests.com",
+            derivedPassword,
+            securityKey,
+            collaboratorSector);
+
+        IQueryable<Collaborator> mockCollaboratorQueryable = new List<Collaborator>
+        {
+            databaseCollaborator
+        }.AsQueryable();
+
+        DbSet<Collaborator> mockCollaboratorDbSet = mockCollaboratorQueryable.BuildMockDbSet();
+
+        _dbContext.Collaborators.Returns(mockCollaboratorDbSet);
+        
+        // Mock DateTime for Token Equality
+        DateTimeOffset testEnvironmentDateTimeOffset = DateTimeOffset.UtcNow;
+        _dateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
+
+        var invalidRawPassword = "secret-invalid-password";
+        byte[] invalidDerivedPassword = await _securityService.DerivePassword(
+            invalidRawPassword,
+            databaseCollaborator.SecurityKey,
+            cancellationToken);
+        
+        var validToken = Token.Create(
+            databaseCollaborator.Id,
+            invalidDerivedPassword,
+            ETokenType.Collaborator,
+            TokenExpiration.OneDayFromNow(_dateTimeProvider));
+        
+        var validEncodedToken = _securityService.EncodeToken(validToken);
+
+        var consumerRequest = Substitute.For<ConsumeContext<AuthenticateCollaboratorForSectorCommand>>();
+        var request = new AuthenticateCollaboratorForSectorCommand(validEncodedToken, databaseCollaborator.Sector);
+        
+        consumerRequest.Message
+            .Returns(request);
+
+        // Necessary to assign so the compiler doesn't complain 
+        AuthenticationResult? authenticationResult = null;
+        await consumerRequest.RespondAsync(Arg.Do<AuthenticationResult>(result => authenticationResult = result));
+        
+        // Act
+        await _command.Consume(consumerRequest);
+        
+        // Assert
+        var expectedIdentity = Identity.Create(databaseCollaborator.CollaboratorModuleId);
+        
+        await consumerRequest.ReceivedWithAnyArgs(1)
+            .RespondAsync(AuthenticationResult.NotAuthenticated());
+
+        authenticationResult!.IsAuthenticated
+            .Should()
+            .BeFalse();
+    }
+    
+    [Fact]
+    internal async Task ShouldAuthenticateValidCollaboratorForItsModuleWithInvalidToken()
+    {
+        // Arrange
+        CancellationToken cancellationToken = default;
+        
+        string systemSecurityKeyEnvironmentVariableName = "user_access::DERIVATION_SECURITY_KEY";
+        
+        _appConfigService.GetEnvironmentVariable(systemSecurityKeyEnvironmentVariableName)
+            .Returns("unit-tests-system-security-key");
+        
+        string secretValidationKeyEnvironmentVariableName = "user_access::JWT_SECURITY_KEY";
+
+        _appConfigService.GetEnvironmentVariable(secretValidationKeyEnvironmentVariableName)
+            .Returns("unit-tests-jwt-security-key");
+        
+        string rawCollaboratorPassword = "secure-unit-tests-collaborator-password";
+        
+        byte[] securityKey = _securityService.GenerateSecurityKey();
+        byte[] derivedPassword = await _securityService.DerivePassword(
+            rawCollaboratorPassword,
+            securityKey,
+            cancellationToken);
+        
+        ECollaboratorSector collaboratorSector = ECollaboratorSector.Stock;
+
+        // Mock Database 
+        var databaseCollaborator = Collaborator.Create(
+            Guid.NewGuid(),
+            Guid.NewGuid(),
+            "collaboratoremail@unittests.com",
+            derivedPassword,
+            securityKey,
+            collaboratorSector);
+
+        IQueryable<Collaborator> mockCollaboratorQueryable = new List<Collaborator>
+        {
+            databaseCollaborator
+        }.AsQueryable();
+
+        DbSet<Collaborator> mockCollaboratorDbSet = mockCollaboratorQueryable.BuildMockDbSet();
+
+        _dbContext.Collaborators.Returns(mockCollaboratorDbSet);
+        
+        // Mock DateTime for Token Equality
+        DateTimeOffset testEnvironmentDateTimeOffset = DateTimeOffset.UtcNow;
+        _dateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
+
+
+        var invalidEncodedToken = "invalid-jwt";
+
+        var consumerRequest = Substitute.For<ConsumeContext<AuthenticateCollaboratorForSectorCommand>>();
+        var request = new AuthenticateCollaboratorForSectorCommand(invalidEncodedToken, databaseCollaborator.Sector);
+        
+        consumerRequest.Message
+            .Returns(request);
+
+        // Necessary to assign so the compiler doesn't complain 
+        AuthenticationResult? authenticationResult = null;
+        await consumerRequest.RespondAsync(Arg.Do<AuthenticationResult>(result => authenticationResult = result));
+        
+        // Act
+        await _command.Consume(consumerRequest);
+        
+        // Assert
+        var expectedIdentity = Identity.Create(databaseCollaborator.CollaboratorModuleId);
+        
+        await consumerRequest.ReceivedWithAnyArgs(1)
+            .RespondAsync(AuthenticationResult.NotAuthenticated());
+
+        authenticationResult!.IsAuthenticated
+            .Should()
+            .BeFalse();
+    }
+    
+    [Fact]
+    internal async Task ShouldAuthenticateValidCollaboratorForItsModuleWithNotExistentId()
+    {
+        // Arrange
+        CancellationToken cancellationToken = default;
+        
+        string systemSecurityKeyEnvironmentVariableName = "user_access::DERIVATION_SECURITY_KEY";
+        
+        _appConfigService.GetEnvironmentVariable(systemSecurityKeyEnvironmentVariableName)
+            .Returns("unit-tests-system-security-key");
+        
+        string secretValidationKeyEnvironmentVariableName = "user_access::JWT_SECURITY_KEY";
+
+        _appConfigService.GetEnvironmentVariable(secretValidationKeyEnvironmentVariableName)
+            .Returns("unit-tests-jwt-security-key");
+        
+        string rawCollaboratorPassword = "secure-unit-tests-collaborator-password";
+        
+        byte[] securityKey = _securityService.GenerateSecurityKey();
+        byte[] derivedPassword = await _securityService.DerivePassword(
+            rawCollaboratorPassword,
+            securityKey,
+            cancellationToken);
+        
+        ECollaboratorSector collaboratorSector = ECollaboratorSector.Stock;
+
+        // Mock Database 
+        var databaseCollaborator = Collaborator.Create(
+            Guid.NewGuid(),
+            Guid.NewGuid(),
+            "collaboratoremail@unittests.com",
+            derivedPassword,
+            securityKey,
+            collaboratorSector);
+
+        IQueryable<Collaborator> mockCollaboratorQueryable = new List<Collaborator>
+        {
+            databaseCollaborator
+        }.AsQueryable();
+
+        DbSet<Collaborator> mockCollaboratorDbSet = mockCollaboratorQueryable.BuildMockDbSet();
+
+        _dbContext.Collaborators.Returns(mockCollaboratorDbSet);
+        
+        // Mock DateTime for Token Equality
+        DateTimeOffset testEnvironmentDateTimeOffset = DateTimeOffset.UtcNow;
+        _dateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
+        
+        Guid invalidCollaboratorId = Guid.NewGuid();
+        
+        var token = Token.Create(
+            invalidCollaboratorId,
+            databaseCollaborator.Password,
+            ETokenType.Collaborator,
+            TokenExpiration.OneDayFromNow(_dateTimeProvider));
+
+        var invalidEncodedToken = _securityService.EncodeToken(token);
+
+        var consumerRequest = Substitute.For<ConsumeContext<AuthenticateCollaboratorForSectorCommand>>();
+        var request = new AuthenticateCollaboratorForSectorCommand(invalidEncodedToken, databaseCollaborator.Sector);
+        
+        consumerRequest.Message
+            .Returns(request);
+
+        // Necessary to assign so the compiler doesn't complain 
+        AuthenticationResult? authenticationResult = null;
+        await consumerRequest.RespondAsync(Arg.Do<AuthenticationResult>(result => authenticationResult = result));
+        
+        // Act
+        await _command.Consume(consumerRequest);
+        
+        // Assert
+        var expectedIdentity = Identity.Create(databaseCollaborator.CollaboratorModuleId);
+        
+        await consumerRequest.ReceivedWithAnyArgs(1)
+            .RespondAsync(AuthenticationResult.NotAuthenticated());
+
+        authenticationResult!.IsAuthenticated
+            .Should()
+            .BeFalse();
+    }
 }
