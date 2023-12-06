@@ -58,7 +58,7 @@ internal class AuthenticateClientCommandHandler : IAuthenticateClientCommandHand
 
         byte[] password = Convert.FromBase64String(token.Password);
 
-        bool isPasswordValid = existentClient!.Password.SequenceEqual(password);
+        bool isPasswordValid = existentClient.Password.SequenceEqual(password);
         if (!isPasswordValid)
         {
             await context.RespondAsync(AuthenticationResult.NotAuthenticated());
