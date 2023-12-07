@@ -174,7 +174,7 @@ Since This Use Case is an Only **Pub Consumer** and don't implement the `Request
 ```JSON With Comments
 {
     "CollaboratorModuleId": "guid-from-probably-human-resources-module",
-    "CollaboratorModule": 1,// This is a ENUM
+    "CollaboratorSector": 1,// This is a ENUM
     "Email": "client-email",
     "Password": "client-password",
 }
