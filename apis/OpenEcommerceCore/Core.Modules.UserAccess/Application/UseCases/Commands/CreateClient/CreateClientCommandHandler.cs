@@ -11,6 +11,12 @@ internal class CreateClientCommandHandler : ICreateClientCommandHandler
 {
     private readonly IUserAccessContext _dbContext;
     private readonly ISecurityService _securityService;
+
+    public CreateClientCommandHandler(IUserAccessContext dbContext, ISecurityService securityService)
+    {
+        _dbContext = dbContext;
+        _securityService = securityService;
+    }
     
     public async Task Consume(ConsumeContext<CreateClientCommand> context)
     {

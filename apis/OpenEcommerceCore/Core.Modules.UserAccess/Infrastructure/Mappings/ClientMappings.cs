@@ -40,5 +40,9 @@ internal class ClientMappings : IEntityTypeConfiguration<Client>
         builder.Property(c => c.LastLogin)
             .HasColumnName("LastLogin")
             .IsRequired();
+
+        builder.Property(c => c.Deleted)
+            .HasColumnName("Deleted")
+            .IsRequired();
     }
 }
