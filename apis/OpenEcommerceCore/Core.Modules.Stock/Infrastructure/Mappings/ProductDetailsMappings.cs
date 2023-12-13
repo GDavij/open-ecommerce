@@ -13,6 +13,25 @@ internal class ProductDetailsMappings : IEntityTypeConfiguration<ProductDetail>
         builder.Property(pd => pd.Id)
             .HasColumnName("Id");
 
+        builder.HasOne(pd => pd.Product)
+            .WithMany(p => p.Measurements)
+            .HasForeignKey(pd => pd.Product.Id)
+            .IsRequired();
+        
+        builder.HasOne(pd => pd.Product)
+            .WithMany(p => p.TechnicalDetails)
+            .HasForeignKey(pd => pd.Product.Id)
+            .IsRequired();
+        
+        builder.HasOne(pd => pd.Product)
+            .WithMany(p => p.OtherDetails)
+            .HasForeignKey(pd => pd.Product.Id)
+            .IsRequired();
+        
+        builder.Property(pd => pd.ShowOrder)
+            .HasColumnName("ShowOrder")
+            .IsRequired();
+        
         builder.Property(pd => pd.Name)
             .HasColumnName("Name")
             .HasMaxLength(128)
@@ -22,15 +41,9 @@ internal class ProductDetailsMappings : IEntityTypeConfiguration<ProductDetail>
             .HasColumnName("Value")
             .HasMaxLength(128)
             .IsRequired();
-
-        builder.Property(pd => pd.ShowOrder)
-            .HasColumnName("ShowOrder")
-            .IsRequired();
-
-        builder.HasOne(pd => pd.MeasureUnit)
-            .WithOne()
-            .OnDelete(DeleteBehavior.);
         
-        //TODO: Model complex relationship
+        builder.HasOne(pd => pd.MeasureUnit)
+            .WithMany(m => m.ProductDetails)
+            .HasForeignKey(pd => pd.MeasureUnit.Id);
     }
 }

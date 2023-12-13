@@ -13,11 +13,6 @@ internal class CollaboratorMappings : IEntityTypeConfiguration<Collaborator>
         builder.Property(c => c.Id)
             .HasColumnName("Id");
 
-        builder.Property(c => c.Email)
-            .HasColumnName("Email")
-            .HasMaxLength(255)
-            .IsRequired();
-
         builder.Property(c => c.FirstName)
             .HasColumnName("FirstName")
             .HasMaxLength(128)
@@ -27,6 +22,15 @@ internal class CollaboratorMappings : IEntityTypeConfiguration<Collaborator>
             .HasColumnName("LastName")
             .HasMaxLength(128)
             .IsRequired();
+
+        builder.Property(c => c.Email)
+            .HasColumnName("Email")
+            .HasMaxLength(255)
+            .IsRequired();
+
+        builder.HasMany(c => c.DemandMessages)
+            .WithOne(dm => dm.Collaborator)
+            .HasForeignKey(dm => dm.Collaborator.Id);
 
         builder.Property(c => c.Deleted)
             .HasColumnName("Deleted")

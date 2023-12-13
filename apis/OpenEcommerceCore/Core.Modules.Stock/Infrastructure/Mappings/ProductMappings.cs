@@ -14,9 +14,12 @@ internal class ProductMappings : IEntityTypeConfiguration<Product>
             .HasColumnName("Id");
 
         builder.HasOne(p => p.Brand)
-            .WithMany()
+            .WithMany(b => b.Products)
             .HasForeignKey(p => p.Brand.Id)
             .IsRequired();
+
+        builder.HasMany(p => p.Suppliers)
+            .WithMany(s => s.Products);
 
         builder.Property(p => p.Name)
             .HasColumnName("Name")
@@ -28,15 +31,11 @@ internal class ProductMappings : IEntityTypeConfiguration<Product>
             .HasMaxLength(512);
 
         builder.HasMany(p => p.Tags)
-            .WithOne()
-            .HasForeignKey(t => t.Id)
-            .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
+            .WithMany(t => t.TaggedProducts);
 
         builder.HasMany(p => p.Images)
-            .WithOne()
-            .HasForeignKey(i => i.Id)
-            .IsRequired()
+            .WithOne(i => i.Product)
+            .HasForeignKey(i => i.Product.Id)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(p => p.SKU)
@@ -54,6 +53,7 @@ internal class ProductMappings : IEntityTypeConfiguration<Product>
 
         builder.Property(p => p.Price)
             .HasColumnName("Price")
+            .HasPrecision(16, 2)
             .IsRequired();
 
         builder.Property(p => p.StockUnitCount)
@@ -62,17 +62,26 @@ internal class ProductMappings : IEntityTypeConfiguration<Product>
 
         builder.HasMany(p => p.Measurements)
             .WithOne(m => m.Product)
+            .HasForeignKey(pd => pd.Product.Id)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
 
+
         builder.HasMany(p => p.TechnicalDetails)
             .WithOne(t => t.Product)
+            .HasForeignKey(pd => pd.Product.Id)
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(p => p.OtherDetails)
             .WithOne(o => o.Product)
+            .HasForeignKey(pd => pd.Product.Id)
             .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(p => p.ProductRestockDemands)
+            .WithOne(prd => prd.Product)
+            .HasForeignKey(prd => prd.Product.Id)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(p => p.CreatedAt)

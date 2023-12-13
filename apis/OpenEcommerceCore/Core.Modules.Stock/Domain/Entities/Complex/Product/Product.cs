@@ -1,3 +1,5 @@
+using Core.Modules.Stock.Domain.Entities.Demands;
+
 namespace Core.Modules.Stock.Domain.Entities.Complex.Product;
 /*
  * If Possible Find a better alternative to declare it's Sub Types that not add much complexity to the main class and files in the project
@@ -7,6 +9,7 @@ internal class Product
 {
     public Guid Id { get; init; }
     public Brand Brand { get; init; }
+    public List<Supplier> Suppliers { get; set; }
     public string Name { get; set; }
     public string? Description { get; set; }
     public List<ProductTag> Tags { get; set; }
@@ -19,12 +22,14 @@ internal class Product
     public List<ProductDetail> Measurements { get; set; }
     public List<ProductDetail> TechnicalDetails { get; set; }
     public List<ProductDetail> OtherDetails { get; set; }
+    public List<ProductRestockDemand> ProductRestockDemands { get; set; }
     public DateTime CreatedAt { get; init; }
     public DateTime LastUpdate { get; set; }
 
     private Product(
         Guid id,
-        Guid brandId,
+        Brand brand,
+        List<Supplier> suppliers,
         string name,
         string description,
         List<ProductTag> tags,
@@ -37,10 +42,13 @@ internal class Product
         List<ProductDetail> measurements,
         List<ProductDetail> technicalDetails,
         List<ProductDetail> otherDetails,
+        List<ProductRestockDemand> productRestockDemands,
         DateTime createdAt,
         DateTime lastUpdate)
     {
         Id = id;
+        Brand = brand;
+        Suppliers = suppliers;
         Name = name;
         Description = description;
         Tags = tags;
@@ -53,13 +61,15 @@ internal class Product
         Measurements = measurements;
         TechnicalDetails = technicalDetails;
         OtherDetails = otherDetails;
+        ProductRestockDemands = productRestockDemands;
         CreatedAt = createdAt;
         LastUpdate = lastUpdate;
     }
 
     public Product Create(
         Guid id,
-        Guid brandId,
+        Brand brand,
+        List<Supplier> suppliers,
         string name,
         string description,
         List<ProductTag> tags,
@@ -73,7 +83,8 @@ internal class Product
         List<ProductDetail> otherDetails) {
         var createdProduct = new Product(
             id,
-            brandId,
+            brand,
+            suppliers,
             name,
             description,
             tags,
@@ -86,6 +97,7 @@ internal class Product
             measurements,
             technicalDetails,
             otherDetails,
+            new List<ProductRestockDemand>(),
             DateTime.UtcNow,
             DateTime.UtcNow);
 

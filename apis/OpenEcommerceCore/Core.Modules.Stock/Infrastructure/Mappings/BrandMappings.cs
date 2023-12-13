@@ -21,5 +21,9 @@ internal class BrandMappings : IEntityTypeConfiguration<Brand>
         builder.Property(b => b.Description)
             .HasColumnName("Description")
             .HasMaxLength(512);
+
+        builder.HasMany(b => b.Products)
+            .WithOne(p => p.Brand)
+            .HasForeignKey(p => p.Brand.Id);
     }
 }

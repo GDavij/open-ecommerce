@@ -4,50 +4,54 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Core.Modules.Stock.Infrastructure.Mappings;
 
-internal class DistributorMappings : IEntityTypeConfiguration<Distributor>
+internal class SupplierMappings : IEntityTypeConfiguration<Supplier>
 {
-    public void Configure(EntityTypeBuilder<Distributor> builder)
+    public void Configure(EntityTypeBuilder<Supplier> builder)
     {
-        builder.HasKey(d => d.Id);
+        builder.HasKey(s => s.Id);
 
-        builder.Property(d => d.Id)
+        builder.Property(s => s.Id)
             .HasColumnName("Id");
 
-        builder.Property(d => d.Email)
-            .HasColumnName("Email")
-            .HasMaxLength(255)
-            .IsRequired();
-
-        builder.Property(d => d.Name)
+        builder.Property(s => s.Name) 
             .HasColumnName("Name")
             .HasMaxLength(255)
             .IsRequired();
 
-        builder.Property(d => d.Phone)
+        builder.Property(s => s.Email)
+            .HasColumnName("Email")
+            .HasMaxLength(255)
+            .IsRequired();
+
+        builder.Property(s => s.Phone)
             .HasColumnName("Phone")
             .HasMaxLength(15);
 
-        builder.Property(d => d.SalesNumber)
-            .HasColumnName("SalesNumber")
-            .IsRequired();
+        builder.HasMany(s => s.Products)
+            .WithMany(p => p.Suppliers);
 
-        builder.Property(d => d.Address.Neighbourhood)
+        builder.Property(s => s.Address.Neighbourhood)
             .HasColumnName("Address_Neighbourhood")
             .HasMaxLength(255)
             .IsRequired();
 
-        builder.Property(d => d.Address.State)
+        builder.Property(s => s.Address.State)
             .HasColumnName("Address_State")
             .HasMaxLength(128)
             .IsRequired();
 
-        builder.Property(d => d.Address.ZipCode)
+        builder.Property(s => s.Address.ZipCode)
             .HasColumnName("Address_ZipCode")
             .IsRequired();
 
-        builder.Property(d => d.Address.Street)
+        builder.Property(s => s.Address.Street)
             .HasColumnName("Address_Street")
             .HasMaxLength(128)
             .IsRequired();
+        
+        builder.Property(s => s.SalesNumber)
+            .HasColumnName("SalesNumber")
+            .IsRequired();
+
     }
 }

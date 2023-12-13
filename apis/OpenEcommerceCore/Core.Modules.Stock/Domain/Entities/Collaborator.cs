@@ -6,6 +6,7 @@ internal class Collaborator
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }
+    public List<DemandMessage> DemandMessages { get; set; }
     public bool Deleted { get; set; }
 
     private Collaborator(
@@ -13,12 +14,14 @@ internal class Collaborator
         string firstName,
         string lastName,
         string email,
+        List<DemandMessage> demandMessages,
         bool deleted)
     {
         Id = id;
         FirstName = firstName;
         LastName = lastName;
         Email = email;
+        DemandMessages = demandMessages;
         Deleted = deleted;
     }
 
@@ -33,6 +36,7 @@ internal class Collaborator
             firstName,
             lastName,
             email,
+            new List<DemandMessage>(),
             false);
     }
 }

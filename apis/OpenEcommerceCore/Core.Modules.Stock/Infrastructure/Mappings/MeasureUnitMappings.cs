@@ -1,4 +1,5 @@
 using Core.Modules.Stock.Domain.Entities;
+using Core.Modules.Stock.Domain.Entities.Complex.Product;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ internal class MeasureUnitMappings : IEntityTypeConfiguration<MeasureUnit>
 
         builder.Property(m => m.Id)
             .HasColumnName("Id");
-
+        
         builder.Property(m => m.Name)
             .HasColumnName("Name")
             .HasMaxLength(128)
@@ -26,5 +27,9 @@ internal class MeasureUnitMappings : IEntityTypeConfiguration<MeasureUnit>
             .HasColumnName("Symbol")
             .HasMaxLength(4)
             .IsRequired();
+
+        builder.HasMany(m => m.ProductDetails)
+            .WithOne(pd => pd.MeasureUnit)
+            .HasForeignKey(pd => pd.MeasureUnit.Id);
     }
 }
