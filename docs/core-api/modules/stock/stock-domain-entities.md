@@ -1,1 +1,0 @@
-- Product will not have Discount this will be for market module context
