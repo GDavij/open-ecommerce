@@ -27,9 +27,5 @@ internal class MeasureUnitMappings : IEntityTypeConfiguration<MeasureUnit>
             .HasColumnName("Symbol")
             .HasMaxLength(4)
             .IsRequired();
-
-        builder.HasMany(m => m.ProductDetails)
-            .WithOne(pd => pd.MeasureUnit)
-            .HasForeignKey(pd => pd.MeasureUnit.Id);
     }
 }

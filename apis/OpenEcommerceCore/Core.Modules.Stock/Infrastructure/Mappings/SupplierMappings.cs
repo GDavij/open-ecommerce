@@ -30,23 +30,8 @@ internal class SupplierMappings : IEntityTypeConfiguration<Supplier>
         builder.HasMany(s => s.Products)
             .WithMany(p => p.Suppliers);
 
-        builder.Property(s => s.Address.Neighbourhood)
-            .HasColumnName("Address_Neighbourhood")
-            .HasMaxLength(255)
-            .IsRequired();
-
-        builder.Property(s => s.Address.State)
-            .HasColumnName("Address_State")
-            .HasMaxLength(128)
-            .IsRequired();
-
-        builder.Property(s => s.Address.ZipCode)
-            .HasColumnName("Address_ZipCode")
-            .IsRequired();
-
-        builder.Property(s => s.Address.Street)
-            .HasColumnName("Address_Street")
-            .HasMaxLength(128)
+        builder.HasOne(s => s.Address)
+            .WithMany(a => a.Suppliers)
             .IsRequired();
         
         builder.Property(s => s.SalesNumber)

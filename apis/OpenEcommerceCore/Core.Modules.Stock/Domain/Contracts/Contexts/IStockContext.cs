@@ -13,5 +13,6 @@ internal interface IStockContext
         DbSet<MeasureUnit> MeasureUnits { get; set; }
         DbSet<Product> Products { get; set; }
         DbSet<ProductRestockDemand> ProductRestockOrders { get; set; }
+        DbSet<Address> Addresses { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

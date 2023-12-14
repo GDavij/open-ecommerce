@@ -15,12 +15,12 @@ internal class DemandMessageMappings : IEntityTypeConfiguration<DemandMessage>
         
         builder.HasOne(dm => dm.ProductRestockDemand)
             .WithMany(pro => pro.DemandMessages)
-            .HasForeignKey(dm => dm.ProductRestockDemand.Id)
+            .HasForeignKey(dm => dm.Id)
             .IsRequired();
 
         builder.HasOne(dm => dm.Collaborator)
             .WithMany(c => c.DemandMessages)
-            .HasForeignKey(dm => dm.Collaborator.Id)
+            .HasForeignKey(dm => dm.Id)
             .IsRequired();
 
         builder.Property(dm => dm.Sector)

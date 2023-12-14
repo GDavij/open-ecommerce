@@ -15,7 +15,7 @@ internal class ProductRestockDemandMappings : IEntityTypeConfiguration<ProductRe
 
         builder.HasOne(prd => prd.Product)
             .WithMany(p => p.ProductRestockDemands)
-            .HasForeignKey(prd => prd.Product.Id)
+            .HasForeignKey(prd => prd.Id)
             .IsRequired();
 
         builder.Property(prd => prd.Description)
@@ -28,7 +28,7 @@ internal class ProductRestockDemandMappings : IEntityTypeConfiguration<ProductRe
 
         builder.HasMany(prd => prd.DemandMessages)
             .WithOne(dm => dm.ProductRestockDemand)
-            .HasForeignKey(dm => dm.ProductRestockDemand.Id)
+            .HasForeignKey(dm => dm.Id)
             .IsRequired();
         
         builder.Property(prd => prd.CreatedAt)

@@ -30,7 +30,7 @@ internal class CollaboratorMappings : IEntityTypeConfiguration<Collaborator>
 
         builder.HasMany(c => c.DemandMessages)
             .WithOne(dm => dm.Collaborator)
-            .HasForeignKey(dm => dm.Collaborator.Id);
+            .HasForeignKey(dm => dm.Id);
 
         builder.Property(c => c.Deleted)
             .HasColumnName("Deleted")

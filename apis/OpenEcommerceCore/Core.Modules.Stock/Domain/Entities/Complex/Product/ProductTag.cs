@@ -4,17 +4,19 @@ internal class ProductTag
 {
     public Guid Id { get; init; }
     public string Name { get; set; }
+    
+    // Relationships
     public List<Product> TaggedProducts { get; set; }
 
-    private ProductTag(Guid id, string name, List<Product> taggedProducts)
-    {
-        Id = id;
-        Name = name;
-        TaggedProducts = taggedProducts;
-    }
+    private ProductTag()
+    {}
 
-    public ProductTag Create(Guid id, string name, List<Product> taggedProducts)
+    public static ProductTag Create(Guid id, string name)
     {
-        return new ProductTag(id, name, taggedProducts);
+        return new ProductTag
+        {
+            Id = id,
+            Name = name
+        };
     }
 }

@@ -7,29 +7,22 @@ internal class Brand
     public Guid Id { get; init; }
     public string Name { get; set; }
     public string Description { get; set; }
+    
+    // Relationships
     public List<Product> Products { get; set; }
 
-    private Brand(
-        Guid id,
-        string name,
-        string description,
-        List<Product> products)
-    {
-        Id = id;
-        Name = name;
-        Description = description;
-        Products = products;
-    }
+    private Brand()
+    {}
 
-    public Brand Create(
-        Guid id,
+    public static Brand Create(
         string name,
         string description)
     {
-        return new Brand(
-            id,
-            name,
-            description,
-            new List<Product>());
+        return new Brand
+        {
+            Id = Guid.NewGuid(),
+            Name = name,
+            Description = description
+        };
     }
 }

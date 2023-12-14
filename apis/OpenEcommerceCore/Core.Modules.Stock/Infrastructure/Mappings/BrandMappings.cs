@@ -23,7 +23,6 @@ internal class BrandMappings : IEntityTypeConfiguration<Brand>
             .HasMaxLength(512);
 
         builder.HasMany(b => b.Products)
-            .WithOne(p => p.Brand)
-            .HasForeignKey(p => p.Brand.Id);
+            .WithOne(p => p.Brand);
     }
 }

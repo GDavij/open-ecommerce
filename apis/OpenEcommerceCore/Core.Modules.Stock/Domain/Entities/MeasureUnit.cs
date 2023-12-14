@@ -1,41 +1,30 @@
 using Core.Modules.Stock.Domain.Entities.Complex.Product;
+using Core.Modules.Stock.Domain.Entities.Complex.Product.ProductDetails;
 
 namespace Core.Modules.Stock.Domain.Entities;
 
 internal class MeasureUnit
 {
-    public int Id { get; init; }
+    public Guid Id { get; init; }
     public string Name { get; set; }
     public string? ShortName { get; set; }
     public string Symbol { get; set; }
-    public List<ProductDetail> ProductDetails { get; set; }
     
-    private MeasureUnit(
-        int id,
-        string name,
-        string shortName,
-        string symbol,
-        List<ProductDetail> productDetails)
-    {
-        Id = id;
-        Name = name;
-        ShortName = shortName;
-        Symbol = symbol;
-        ProductDetails = productDetails;
-    }
+    private MeasureUnit()
+    {}
 
-    public MeasureUnit Create(
-        int id,
+    public static MeasureUnit Create(
         string name,
         string shortName,
-        string symbol,
-        List<ProductDetail> productDetails = default)
+        string symbol)
     {
-        return new MeasureUnit(
-            id,
-            name,
-            shortName,
-            symbol,
-            productDetails);
+        return new MeasureUnit
+        {
+
+            Id = Guid.NewGuid(),
+            Name = name,
+            ShortName = shortName,
+            Symbol = symbol
+        };
     }
 }
