@@ -32,7 +32,7 @@ TODO: Request and Response.
 
 #### Integration Events
 
-- Product Created Integration Event -> (Important to Sales Module)
+[] - Product Created Integration Event -> (Important to Sales Module)
 
 ### Add Image to a Product
 

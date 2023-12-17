@@ -1,6 +1,6 @@
-namespace Core.Modules.Shared.Domain.IntegrationEvents.StockEvents.Product.ProductCreated.Dtos;
+namespace Core.Modules.Stock.Application.IntegrationEvents.Product.Dtos;
 
-public class MeasureUnitDto
+public record MeasureUnitDto
 {
     public Guid Id { get; init; }
     public string Name { get; init; }

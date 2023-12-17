@@ -1,10 +1,13 @@
+using Core.Modules.Shared.Domain.IntegrationEvents.StockEvents.Product.ProductCreated;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateProduct;
 using Core.Modules.Stock.Domain.Contracts.Providers;
 using Core.Modules.Stock.Domain.Entities.Product;
 using Core.Modules.Stock.Domain.Entities.Product.ProductDetails;
 using Core.Modules.Stock.Domain.Exceptions.Product;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Core.Modules.Stock.Application.IntegrationEvents.Product.Events.ProductCreated;
 
 namespace Core.Modules.Stock.Application.Http.Commands.CreateProductCommand;
 
@@ -12,11 +15,12 @@ internal class CreateProductCommandHandler : ICreateProductCommandHandler
 {
     private readonly IStockContext _context;
     private readonly IStockDateTimeProvider _stockDateTimeProvider;
-
-    public CreateProductCommandHandler(IStockContext context, IStockDateTimeProvider stockDateTimeProvider)
+    private readonly IPublishEndpoint _publishEndpoint;
+    public CreateProductCommandHandler(IStockContext context, IStockDateTimeProvider stockDateTimeProvider, IPublishEndpoint publishEndpoint)
     {
         _context = context;
         _stockDateTimeProvider = stockDateTimeProvider;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task Handle(Domain.Contracts.Http.Commands.CreateProduct.CreateProductCommand request, CancellationToken cancellationToken)
@@ -127,5 +131,7 @@ internal class CreateProductCommandHandler : ICreateProductCommandHandler
         _context.Products.Add(product);
 
         await _context.SaveChangesAsync(cancellationToken);
+
+        await _publishEndpoint.Publish<ProductCreatedIntegrationEvent>(ProductCreatedIntegrationEvent.CreateEvent(product.MapToProductDto()));
     }
 }

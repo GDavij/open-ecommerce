@@ -1,6 +1,6 @@
-namespace Core.Modules.Shared.Domain.IntegrationEvents.StockEvents.Product.ProductCreated.Dtos;
+namespace Core.Modules.Stock.Application.IntegrationEvents.Product.Dtos;
 
-internal class BrandDto
+public record BrandDto
 {
     public Guid Id { get; init; }
     public string Name { get; init; }

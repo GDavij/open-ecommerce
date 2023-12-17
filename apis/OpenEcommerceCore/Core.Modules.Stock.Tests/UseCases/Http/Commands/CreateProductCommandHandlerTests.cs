@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Core.Modules.Shared.Domain.IntegrationEvents.StockEvents.Product.ProductCreated;
 using Core.Modules.Stock.Application.Http.Commands.CreateProductCommand;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateProduct;
@@ -11,6 +12,7 @@ using Core.Modules.Stock.Domain.Entities;
 using Core.Modules.Stock.Domain.Entities.Product;
 using Core.Modules.Stock.Domain.Exceptions.Product;
 using FluentAssertions;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using MockQueryable.NSubstitute;
 using NSubstitute;
@@ -23,12 +25,14 @@ public class CreateProductCommandHandlerTests
     private readonly IStockContext _context;
     private readonly IStockDateTimeProvider _stockDateTimeProvider;
     private readonly ICreateProductCommandHandler _commandHandler;
+    private readonly IPublishEndpoint _publishEndpoint;
     
     public CreateProductCommandHandlerTests()
     {
         _context = Substitute.For<IStockContext>();
         _stockDateTimeProvider = Substitute.For<IStockDateTimeProvider>();
-        _commandHandler = new CreateProductCommandHandler(_context, _stockDateTimeProvider);
+        _publishEndpoint = Substitute.For<IPublishEndpoint>();
+        _commandHandler = new CreateProductCommandHandler(_context, _stockDateTimeProvider, _publishEndpoint);
     }
     
     [Theory]
@@ -147,6 +151,9 @@ public class CreateProductCommandHandlerTests
 
         Product createdProduct = null!;
         _context.Products.Add(Arg.Do<Product>(p => createdProduct = p));
+
+        _publishEndpoint.Publish<ProductCreatedIntegrationEvent>(Arg.Any<ProductCreatedIntegrationEvent>())
+            .Returns(Task.CompletedTask);
         
         //Act
         await _commandHandler.Handle(command, default);
@@ -159,6 +166,10 @@ public class CreateProductCommandHandlerTests
         await _context
             .Received(1)
             .SaveChangesAsync(Arg.Any<CancellationToken>());
+
+        await _publishEndpoint
+            .Received(1)
+            .Publish<ProductCreatedIntegrationEvent>(Arg.Any<ProductCreatedIntegrationEvent>());
         
         createdProduct.Name
             .Should()
