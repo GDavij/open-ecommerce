@@ -1,5 +1,5 @@
 using Core.Modules.Stock.Domain.Entities;
-using Core.Modules.Stock.Domain.Entities.Complex.Product;
+using Core.Modules.Stock.Domain.Entities.Product;
 using Core.Modules.Stock.Domain.Entities.Demands;
 using Microsoft.EntityFrameworkCore;
 

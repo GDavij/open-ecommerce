@@ -1,4 +1,4 @@
-using Core.Modules.Stock.Domain.Entities.Complex.Product;
+using Core.Modules.Stock.Domain.Entities.Product;
 
 namespace Core.Modules.Stock.Domain.Entities;
 
@@ -9,7 +9,7 @@ internal class Brand
     public string Description { get; set; }
     
     // Relationships
-    public List<Product> Products { get; set; } = new List<Product>();
+    public List<Product.Product> Products { get; set; } = new List<Product.Product>();
 
     private Brand()
     {}

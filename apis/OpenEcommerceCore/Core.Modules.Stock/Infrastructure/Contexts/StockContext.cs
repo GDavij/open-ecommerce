@@ -1,6 +1,6 @@
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Entities;
-using Core.Modules.Stock.Domain.Entities.Complex.Product;
+using Core.Modules.Stock.Domain.Entities.Product;
 using Core.Modules.Stock.Domain.Entities.Demands;
 using Core.Modules.Stock.Infrastructure.Mappings;
 using Microsoft.EntityFrameworkCore;

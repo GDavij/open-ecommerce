@@ -1,4 +1,4 @@
-namespace Core.Modules.Stock.Domain.Entities.Complex.Product;
+namespace Core.Modules.Stock.Domain.Entities.Product;
 
 internal class ProductTag
 {

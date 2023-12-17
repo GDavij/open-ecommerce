@@ -8,7 +8,7 @@ using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateProduct;
 using Core.Modules.Stock.Domain.Contracts.Providers;
 using Core.Modules.Stock.Domain.Entities;
-using Core.Modules.Stock.Domain.Entities.Complex.Product;
+using Core.Modules.Stock.Domain.Entities.Product;
 using Core.Modules.Stock.Domain.Exceptions.Product;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;

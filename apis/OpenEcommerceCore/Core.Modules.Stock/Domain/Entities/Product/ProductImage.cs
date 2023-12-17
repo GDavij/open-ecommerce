@@ -1,9 +1,9 @@
-namespace Core.Modules.Stock.Domain.Entities.Complex.Product;
+namespace Core.Modules.Stock.Domain.Entities.Product;
 
 internal class ProductImage
 {
     public Guid Id { get; init; }
-    public Product Product { get; init; }
+    public Entities.Product.Product Product { get; init; }
     public string Description { get; init; }
     public string Url { get; init; }
 

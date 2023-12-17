@@ -1,4 +1,4 @@
-namespace Core.Modules.Stock.Domain.Entities.Complex.Product.ProductDetails;
+namespace Core.Modules.Stock.Domain.Entities.Product.ProductDetails;
 
 internal class TechnicalDetail 
 {

@@ -1,11 +1,9 @@
-using Core.Modules.Stock.Domain.Entities.Complex.Product;
-
 namespace Core.Modules.Stock.Domain.Entities.Demands;
 
 internal class ProductRestockDemand
 {
     public Guid Id { get; init; }
-    public Product Product { get; init; }
+    public Product.Product Product { get; init; }
     public string Description { get; set; }
     public int RestockQuantity { get; set; }
     public DateTime CreatedAt { get; init; }
@@ -21,7 +19,7 @@ internal class ProductRestockDemand
     {}
 
     public static ProductRestockDemand Create(
-        Product product, 
+        Product.Product product, 
         string description,
         int restockQuantity)
     {

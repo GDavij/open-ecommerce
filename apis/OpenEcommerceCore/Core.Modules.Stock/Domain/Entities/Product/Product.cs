@@ -1,9 +1,8 @@
 using Core.Modules.Stock.Domain.Contracts.Providers;
-using Core.Modules.Stock.Domain.Entities.Complex.Product.ProductDetails;
+using Core.Modules.Stock.Domain.Entities.Product.ProductDetails;
 using Core.Modules.Stock.Domain.Entities.Demands;
-using Core.Modules.Shared.Domain.Entities.Bases;
 
-namespace Core.Modules.Stock.Domain.Entities.Complex.Product;
+namespace Core.Modules.Stock.Domain.Entities.Product;
 /*
  * If Possible Find a better alternative to declare it's Sub Types that not add much complexity to the main class and files in the project
  * the actual method is okay, but not good enough (Much Files on entities)

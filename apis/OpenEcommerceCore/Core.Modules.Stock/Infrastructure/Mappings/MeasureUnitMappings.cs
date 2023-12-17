@@ -1,5 +1,4 @@
 using Core.Modules.Stock.Domain.Entities;
-using Core.Modules.Stock.Domain.Entities.Complex.Product;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,4 +1,4 @@
-using Core.Modules.Stock.Domain.Entities.Complex.Product;
+using Core.Modules.Stock.Domain.Entities.Product;
 
 namespace Core.Modules.Stock.Domain.Entities;
 
@@ -12,7 +12,7 @@ internal class Supplier
     public int SalesNumber { get; set; }
     
     // Relationships
-    public List<Product> Products { get; set; } = new List<Product>();
+    public List<Product.Product> Products { get; set; } = new List<Product.Product>();
     
     private Supplier()
     {}
