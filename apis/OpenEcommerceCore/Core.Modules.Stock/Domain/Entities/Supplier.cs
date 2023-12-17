@@ -12,7 +12,7 @@ internal class Supplier
     public int SalesNumber { get; set; }
     
     // Relationships
-    public List<Product> Products { get; set; }
+    public List<Product> Products { get; set; } = new List<Product>();
     
     private Supplier()
     {}

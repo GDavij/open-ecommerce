@@ -12,12 +12,14 @@ internal class StockContext
 {
     public DbSet<Brand> Brands { get; set; }
     public DbSet<Collaborator> Collaborators { get; set; }
-    public DbSet<Supplier> Distributors { get; set; }
+    public DbSet<Supplier> Suppliers { get; set; }
     public DbSet<MeasureUnit> MeasureUnits { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductRestockDemand> ProductRestockOrders { get; set; }
     public DbSet<Address> Addresses { get; set; }
-
+    public DbSet<ProductTag> ProductTags { get; set; }
+    public DbSet<ProductImage> ProductImages { get; set; }
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);

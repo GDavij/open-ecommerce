@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Application\" />
+      <Folder Include="Domain\Entities\Bases\" />
       <Folder Include="Domain\Models\" />
     </ItemGroup>
 
@@ -16,6 +16,12 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Reference Include="MediatR">
+        <HintPath>..\..\..\..\..\..\..\.nuget\packages\mediatr\12.2.0\lib\net6.0\MediatR.dll</HintPath>
+      </Reference>
+      <Reference Include="MediatR.Contracts">
+        <HintPath>..\..\..\..\..\..\..\.nuget\packages\mediatr.contracts\2.0.1\lib\netstandard2.0\MediatR.Contracts.dll</HintPath>
+      </Reference>
       <Reference Include="Microsoft.EntityFrameworkCore">
         <HintPath>..\..\..\..\..\..\..\.nuget\packages\microsoft.entityframeworkcore\7.0.0\lib\net6.0\Microsoft.EntityFrameworkCore.dll</HintPath>
       </Reference>
@@ -23,14 +29,23 @@
         <HintPath>..\..\..\..\..\..\..\.nuget\packages\microsoft.extensions.dependencyinjection.abstractions\8.0.0\lib\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
       </Reference>
     </ItemGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="12.2.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.25" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.25" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.22" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>$(AssemblyName).Tests</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.25" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.25">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.22" />
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+        <InternalsVisibleTo Include="$(AssemblyName).Tests" />
     </ItemGroup>
 
 </Project>

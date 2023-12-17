@@ -1,5 +1,7 @@
+using Core.Modules.Stock.Domain.Contracts.Providers;
 using Core.Modules.Stock.Domain.Entities.Complex.Product.ProductDetails;
 using Core.Modules.Stock.Domain.Entities.Demands;
+using Core.Modules.Shared.Domain.Entities.Bases;
 
 namespace Core.Modules.Stock.Domain.Entities.Complex.Product;
 /*
@@ -21,13 +23,15 @@ internal class Product
     public DateTime LastUpdate { get; set; }
 
     // Relationships
-    public List<Supplier> Suppliers { get; set; }
-    public List<ProductTag> Tags { get; set; }
-    public List<ProductImage> Images { get; set; }
-    public List<MeasurementDetail> Measurements { get; set; }
-    public List<TechnicalDetail> TechnicalDetails { get; set; }
-    public List<OtherDetail> OtherDetails { get; set; }
-    public List<ProductRestockDemand> ProductRestockDemands { get; set; }
+    public List<Supplier> Suppliers { get; set; } = new List<Supplier>();
+    public List<ProductTag> Tags { get; set; } = new List<ProductTag>();
+
+    public List<ProductImage> Images { get; set; } = new List<ProductImage>();
+    // TODO: Apply Polymorphism
+    public List<MeasurementDetail> Measurements { get; set; } = new List<MeasurementDetail>();
+    public List<TechnicalDetail> TechnicalDetails { get; set; } = new List<TechnicalDetail>();
+    public List<OtherDetail> OtherDetails { get; set; } = new List<OtherDetail>();
+    public List<ProductRestockDemand> ProductRestockDemands { get; set; } = new List<ProductRestockDemand>();
     
     private Product()
     {}
@@ -35,15 +39,16 @@ internal class Product
     public static Product Create(
         Brand brand,
         string name,
-        string description,
+        string? description,
         string? sku,
         string ean,
         string? upc,
         decimal price,
-        int stockUnitCount) {
+        int stockUnitCount,
+        IStockDateTimeProvider stockDateTimeProvider) {
         return new Product{
             Id = Guid.NewGuid(),
-            Brand =brand,
+            Brand = brand,
             Name = name,
             Description = description,
             SKU = sku,
@@ -51,8 +56,8 @@ internal class Product
             UPC = upc,
             Price = price,
             StockUnitCount = stockUnitCount,
-            CreatedAt = DateTime.UtcNow,
-            LastUpdate = DateTime.UtcNow
+            CreatedAt = stockDateTimeProvider.UtcNow,
+            LastUpdate = stockDateTimeProvider.UtcNow
         };
     }
 }

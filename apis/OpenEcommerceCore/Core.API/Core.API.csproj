@@ -10,4 +10,14 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Core.Modules.Stock\Core.Modules.Stock.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="MediatR">
+        <HintPath>..\..\..\..\..\..\..\.nuget\packages\mediatr\12.2.0\lib\net6.0\MediatR.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

@@ -6,16 +6,16 @@ internal class ProductTag
     public string Name { get; set; }
     
     // Relationships
-    public List<Product> TaggedProducts { get; set; }
+    public List<Product> TaggedProducts { get; set; } = new List<Product>();
 
     private ProductTag()
     {}
 
-    public static ProductTag Create(Guid id, string name)
+    public static ProductTag Create(string name)
     {
         return new ProductTag
         {
-            Id = id,
+            Id = Guid.NewGuid(),
             Name = name
         };
     }

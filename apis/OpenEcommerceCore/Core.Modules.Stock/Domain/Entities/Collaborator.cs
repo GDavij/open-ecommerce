@@ -9,7 +9,7 @@ internal class Collaborator
     public bool Deleted { get; set; }
 
     // Relationships
-    public List<DemandMessage> DemandMessages { get; set; }
+    public List<DemandMessage> DemandMessages { get; set; } = new List<DemandMessage>();
     
     private Collaborator()
     {}

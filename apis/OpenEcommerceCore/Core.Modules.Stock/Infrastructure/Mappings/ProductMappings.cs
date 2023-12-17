@@ -61,8 +61,7 @@ internal class ProductMappings : IEntityTypeConfiguration<Product>
 
         builder.HasMany(p => p.Measurements)
             .WithOne(m => m.Product)
-            .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
+            .IsRequired();
 
         builder.HasMany(p => p.TechnicalDetails)
             .WithOne(t => t.Product)

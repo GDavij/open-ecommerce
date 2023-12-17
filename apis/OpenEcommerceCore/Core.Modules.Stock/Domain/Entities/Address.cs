@@ -9,7 +9,7 @@ internal class Address
     public string Street { get; set; }
     
     // Relationships
-    public List<Supplier> Suppliers { get; set; }
+    public List<Supplier> Suppliers { get; set; } = new List<Supplier>();
     
     private Address()
     {}
