@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Core.Modules.Shared.Domain.IntegrationEvents.StockEvents.Product.ProductCreated;
-using Core.Modules.Stock.Application.Http.Commands.CreateProductCommand;
+using Core.Modules.Stock.Application.Http.Commands.CreateProduct;
+using Core.Modules.Stock.Application.IntegrationEvents.Product.Events.ProductCreated;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateProduct;
 using Core.Modules.Stock.Domain.Contracts.Providers;
@@ -152,7 +153,7 @@ public class CreateProductCommandHandlerTests
         Product createdProduct = null!;
         _context.Products.Add(Arg.Do<Product>(p => createdProduct = p));
 
-        _publishEndpoint.Publish<ProductCreatedIntegrationEvent>(Arg.Any<ProductCreatedIntegrationEvent>())
+        _publishEndpoint.Publish(Arg.Any<ProductCreatedIntegrationEvent>())
             .Returns(Task.CompletedTask);
         
         //Act
@@ -169,7 +170,7 @@ public class CreateProductCommandHandlerTests
 
         await _publishEndpoint
             .Received(1)
-            .Publish<ProductCreatedIntegrationEvent>(Arg.Any<ProductCreatedIntegrationEvent>());
+            .Publish(Arg.Is<ProductCreatedIntegrationEvent>(ev => ev.Product == createdProduct.MapToProductDto()));
         
         createdProduct.Name
             .Should()

@@ -1,8 +1,10 @@
+[Return To Index](../../../../README.md)
+
 # Stock Use Cases
 
 This Documentation aims to document all Use Cases for Stock Module
 
-**ADVICE: None of Domain Events are implemented for these use cases yet**
+**ADVICE: None of Integration Events are implemented for these use cases yet**
 
 ## Direct Endpoint Call
 
@@ -46,9 +48,9 @@ This use case has the objective to receive a `multipart-formdata` with a blob of
 
 TODO: Request Response
 
-#### Domain Events
+#### Integration Events
 
-- Add Image To Product Domain Event -> (Important to Sales, since it add the image to then to)
+- Add Image To Product Integration Event -> (Important to Sales, since it add the image to then to)
 
 ### Remove Image of a product
 
@@ -74,9 +76,9 @@ This use case has the objective to receive a Id of a image and if valid(exists, 
 }
 ```
 
-#### Domain Events
+#### Integration Events
 
-- Remove Image From Product Domain Event -> (Important to Sales, since it will delete the image globally and remove it's reference to their module)
+- Remove Image From Product Integration Event -> (Important to Sales, since it will delete the image globally and remove it's reference to their module)
 
 ### Create Brand
 
@@ -88,9 +90,9 @@ This use case has the objective to receive data about a brand and if valid, will
 
 Todo: Request and Response
 
-#### Domain Events
+#### Integration Events
 
-- Brand Created Domain Event -> (Important to Sales Module)
+- Brand Created Integration Event -> (Important to Sales Module)
 
 ### Create Supplier
 
@@ -102,9 +104,9 @@ This use case has the objective to receive data about a supplier and if valid it
 
 TODO: Request and Response
 
-#### Domain Events
+#### Integration Events
 
-- Supplier Created Domain Events -> (Important to Finance Module)
+- Supplier Created Integration Events -> (Important to Finance Module)
 
 ### Create Measure Unit
 
@@ -116,7 +118,7 @@ This use case has the objective to receive data about a measure and if valid it 
 
 TODO: Request and Response
 
-#### Domain Events
+#### Integration Events
 
 - Measure Unit Created
 
@@ -130,9 +132,9 @@ This use case has the objective to receive a product id, and their updated data,
 
 TODO: Request and Response
 
-#### Domain Events
+#### Integration Events
 
-- Product Updated Domain Event -> (Important to Sales Module)
+- Product Updated Integration Event -> (Important to Sales Module)
 
 ### Delete Product
 
@@ -144,9 +146,9 @@ This use case has the objective to receive a product id, and if valid it will no
 
 TODO: Requests and Responses
 
-#### Domain Events
+#### Integration Events
 
-- Delete Product Domain Event -> (Important to Sales module, notify about the delete procedure to execute(remove from sales module))
+- Delete Product Integration Event -> (Important to Sales module, notify about the delete procedure to execute(remove from sales module))
 
 ### Update Brand
 
@@ -158,9 +160,9 @@ The objective of this use case is to receive a brand id and the updated brand da
 
 TODO: Requests and Responses
 
-#### Domain Events
+#### Integration Events
 
-- Update Brand Domain Event -> (Important to Sales Module)
+- Update Brand Integration Event -> (Important to Sales Module)
 
 ### Delete Brand
 
@@ -172,9 +174,9 @@ The objective of this use case is to receive a brand id and if valid, it will de
 
 TODO: Request and Response
 
-#### Domain Events
+#### Integration Events
 
-- Deleted Brand Domain Event
+- Deleted Brand Integration Event
 
 ### Update Supplier
 
@@ -186,7 +188,7 @@ The objective of this use case is to receive a Supplier Id and it's updated data
 
 TODO: Request and Response
 
-#### Domain Events
+#### Integration Events
 
 - Supplier Updated
 
@@ -200,7 +202,7 @@ The objective of this use case is to receive a Supplier Id and if valid, it will
 
 TODO: Request and Response
 
-#### Domain Events
+#### Integration Events
 
 - Delete Supplier
 
@@ -214,7 +216,7 @@ The objective of this use case is to receive a measure unit Id and it's updated 
 
 TODO: Request and Response
 
-#### Domain Events
+#### Integration Events
 
 - Measure Unit Updated
 
@@ -228,7 +230,7 @@ The objective of this use case is to receive a measure unit Id and if valid it w
 
 TODO: Request and Response
 
-#### Domain Events
+#### Integration Events
 
 - Measure Unit Deleted
 
@@ -237,14 +239,14 @@ TODO: Request and Response
 #### Objective
 
 This use case has the objective to receive data about a product that need to be restocked validate, and if valid, create a request that will needed to be validate by the buying's collaborator in
-No Domain Events for this use case, no "shared" entities between contexts
+No Integration Events for this use case, no "shared" entities between contexts
 the sales module.
 
 #### Payloads
 
 TODO: Request and Response
 
-#### Domain Events
+#### Integration Events
 
 - RestockOrderCreated
 
@@ -258,7 +260,7 @@ This use case has the objective to receive a restock order Id, and if valid it w
 
 TODO: Request and Response
 
-#### Domain Events
+#### Integration Events
 
 - RestockOrderDeleted
 
@@ -274,7 +276,7 @@ This is used for internal communication to respond to possible doubts between mo
 
 TODO: Request and Response
 
-#### Domain Events
+#### Integration Events
 
 - Demand Message For Restock Order Sent
 
@@ -288,13 +290,13 @@ This use case has the objective to receive a restock order Id, and a message Id,
 
 TODO: Request and Response
 
-#### Domain Events
+#### Integration Events
 
 - Demand Message For Restock Order Deleted
 
 ## Messaging Calls
 
-TODO: Define Messaging Domain Events(Subjects)
+TODO: Define Messaging Integration Events(Subjects)
 
 ### Stock Collaborator Created (RH)
 

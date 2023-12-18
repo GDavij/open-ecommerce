@@ -1,3 +1,5 @@
+[Return To Index](../../../../README.md)
+
 # User Access Module
 
 The User Access Module is considered a critical module, since it is responsible for generating user sessions and authenticating users(client or collaborators) for other modules.

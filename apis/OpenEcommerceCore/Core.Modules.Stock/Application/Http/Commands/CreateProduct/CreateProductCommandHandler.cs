@@ -1,4 +1,5 @@
 using Core.Modules.Shared.Domain.IntegrationEvents.StockEvents.Product.ProductCreated;
+using Core.Modules.Stock.Application.IntegrationEvents.Product.Events.ProductCreated;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateProduct;
 using Core.Modules.Stock.Domain.Contracts.Providers;
@@ -7,9 +8,8 @@ using Core.Modules.Stock.Domain.Entities.Product.ProductDetails;
 using Core.Modules.Stock.Domain.Exceptions.Product;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Core.Modules.Stock.Application.IntegrationEvents.Product.Events.ProductCreated;
 
-namespace Core.Modules.Stock.Application.Http.Commands.CreateProductCommand;
+namespace Core.Modules.Stock.Application.Http.Commands.CreateProduct;
 
 internal class CreateProductCommandHandler : ICreateProductCommandHandler
 {
@@ -132,6 +132,7 @@ internal class CreateProductCommandHandler : ICreateProductCommandHandler
 
         await _context.SaveChangesAsync(cancellationToken);
 
+        //TODO:  Implement Retry with Polly
         await _publishEndpoint.Publish<ProductCreatedIntegrationEvent>(ProductCreatedIntegrationEvent.CreateEvent(product.MapToProductDto()));
     }
 }

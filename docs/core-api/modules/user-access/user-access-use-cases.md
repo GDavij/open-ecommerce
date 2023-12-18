@@ -1,8 +1,10 @@
+[Return To Index](../../../../README.md)
+
 # User Access Use Cases
 
 This Documentation aims to document all Use Cases for User Access Module
 
-**ADVICE: None of Domain Events are implemented for these use cases yet**
+**ADVICE: None of Integration Events are implemented for these use cases yet**
 
 ## Direct Endpoint Call
 
@@ -33,9 +35,9 @@ This use case has the objective to Receive a Client `Email` and `Password` proce
 }
 ```
 
-#### Domain Events
+#### Integration Events
 
-- Create Client Session Domain Event
+- Create Client Session Integration Event
 
 ### Create Collaborator Session
 
@@ -62,9 +64,9 @@ This use case has the objective to receive a collaborator `E-mail` and `Password
 }
 ```
 
-#### Domain Events
+#### Integration Events
 
-- Create Collaborator Session Domain Event
+- Create Collaborator Session Integration Event
 
 ## Messaging Calls
 
@@ -94,9 +96,9 @@ The Objective is to receive a token, validate and return a authentication result
 }
 ```
 
-#### Domain Events
+#### Integration Events
 
-- Client Authenticated Domain Event
+- Client Authenticated Integration Event
 
 ### Authenticate Collaborator Session For Module X
 
@@ -125,9 +127,9 @@ The Objective is to receive a token and the module to authenticate to. then vali
 }
 ```
 
-#### Domain Events
+#### Integration Events
 
-- Collaborator Authenticated Domain Event
+- Collaborator Authenticated Integration Event
 
 ### Create Client
 
@@ -153,9 +155,9 @@ Since This Use Case is an Only **Pub Consumer** and don't implement the `Request
 
 **This module will have no response(Pub Consumer Only)**
 
-#### Domain Events
+#### Integration Events
 
-**No Domain Events till the moment**
+**No Integration Events till the moment**
 
 ### Create Collaborator
 
@@ -182,6 +184,6 @@ Since This Use Case is an Only **Pub Consumer** and don't implement the `Request
 
 **This module will have no response(Pub Consumer Only)**
 
-#### Domain Events
+#### Integration Events
 
-**No Domain Events till the moment**
+**No Integration Events till the moment**

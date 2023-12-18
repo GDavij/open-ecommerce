@@ -1,5 +1,5 @@
 using Core.Modules.Stock.Application.Http.Commands;
-using Core.Modules.Stock.Application.Http.Commands.CreateProductCommand;
+using Core.Modules.Stock.Application.Http.Commands.CreateProduct;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateProduct;
 using Core.Modules.Stock.Domain.Contracts.Providers;
