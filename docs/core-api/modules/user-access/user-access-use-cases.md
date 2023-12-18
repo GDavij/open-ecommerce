@@ -93,6 +93,7 @@ The Objective is to receive a token, validate and return a authentication result
     "IsAuthenticated": true, // or false
     "Identity": {
         "Id": "moduleId"
+    }
 }
 ```
 
@@ -124,6 +125,7 @@ The Objective is to receive a token and the module to authenticate to. then vali
     "IsAuthenticated": true, // or false
     "Identity": {
         "Id": "moduleId"
+    }
 }
 ```
 
@@ -177,8 +179,8 @@ Since This Use Case is an Only **Pub Consumer** and don't implement the `Request
 {
     "CollaboratorModuleId": "guid-from-probably-human-resources-module",
     "CollaboratorSector": 1,// This is a ENUM
-    "Email": "client-email",
-    "Password": "client-password",
+    "Email": "collaborator-email",
+    "Password": "collaborator-password",
 }
 ```
 
