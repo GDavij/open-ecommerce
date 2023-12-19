@@ -24,40 +24,40 @@ This includes the Product Details and tags, those being Lists, but not images(sp
 
 ```JSON with comments
 {
-    brandId: "Guid id of the brand",
-    name: "Name of the product to create",
-    description: "Description of the product to create or null",
-    sku: "Sku or null",
-    ean: "ean",
-    upc: "upc or null",
-    price: 123456.99,
-    stockUnitCount: 2,
-    tagsIds: [
+    "brandId": "Guid id of the brand",
+    "name": "Name of the product to create",
+    "description": "Description of the product to create or null",
+    "sku": "Sku or null",
+    "ean": "ean",
+    "upc": "upc or null",
+    "price": 123456.99,
+    "stockUnitCount": 2,
+    "tagsIds": [
         "Tag1 id",
         "tag 2 id"
     ],
-    measurements: [
+    "measurements": [
         {
-            name: "measurement name(description)",
-            value: "value of the measurement",
-            showOrder: 1,// Represents the order to show when in the Ui(for sort reasons)
-            MeasureUnitId: "Measure Unit Id or null"
+            "name": "measurement name(description)",
+            "value": "value of the measurement",
+            "showOrder": 1,// Represents the order to show when in the Ui(for sort reasons)
+            "MeasureUnitId": "Measure Unit Id or null"
         }
     ],
-    technicalDetails: [
+    "technicalDetails": [
         {
-            name: "technical detail name(description)",
-            value: "value of the technical detail",
-            showOrder: 1,// Represents the order to show when in the Ui(for sort reasons)
-            MeasureUnitId: "Measure Unit Id or null"
+            "name": "technical detail name(description)",
+            "value": "value of the technical detail",
+            "showOrder": 1,// Represents the order to show when in the Ui(for sort reasons)
+            "MeasureUnitId": "Measure Unit Id or null"
         }
     ]
-    otherDetails: [
+    "otherDetails": [
         {
-            name: "other detail name(description)",
-            value: "value of the other detail",
-            showOrder: 1,// Represents the order to show when in the Ui(for sort reasons)
-            MeasureUnitId: "Measure Unit Id or null"
+            "name": "other detail name(description)",
+            "value": "value of the other detail",
+            "showOrder": 1,// Represents the order to show when in the Ui(for sort reasons)
+            "MeasureUnitId": "Measure Unit Id or null"
         }
     ]
 }
@@ -67,7 +67,7 @@ This includes the Product Details and tags, those being Lists, but not images(sp
 
 ```JSON with Comments
 {
-    Resource: "Path for the frontend to navigate(redirect, etc...) and see the product"// probably like "https:// {domain}/{baseUrl}/products/{productId}.{topLevelDomain}"
+    "Resource": "Path for the frontend to navigate(redirect, etc...) and see the product"// probably like "https:// {domain}/{baseUrl}/products/{productId}.{topLevelDomain}"
 }
 ```
 
