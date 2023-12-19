@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.Shared.Domain.Models;
 using Core.Modules.Shared.Domain.ResultObjects;
 using Core.Modules.UserAccess.Application.Services;

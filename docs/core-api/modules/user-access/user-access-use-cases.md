@@ -31,7 +31,7 @@ This use case has the objective to Receive a Client `Email` and `Password` proce
 
 ```JSON with Comments
 {
-    "token": "JWT Token"// It Is a Encoded JWT Token
+    "token": "JWT Token"//It Is a Encoded JWT Token
 }
 ```
 

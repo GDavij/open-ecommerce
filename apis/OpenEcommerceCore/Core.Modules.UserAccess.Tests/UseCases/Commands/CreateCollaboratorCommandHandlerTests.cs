@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Modules.Shared.Domain.BusinessHierarchy;
+using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.UserAccess.Application.Services;
 using Core.Modules.UserAccess.Application.UseCases.Commands.CreateCollaborator;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;

@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.UserAccess.Domain.Contracts.Services;
 using FluentAssertions;
 using NSubstitute;

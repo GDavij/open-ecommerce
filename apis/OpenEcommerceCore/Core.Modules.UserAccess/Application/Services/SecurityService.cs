@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Unicode;
+using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.UserAccess.Domain.Contracts.Services;
 using Core.Modules.UserAccess.Domain.Models;
 using JWT.Algorithms;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.Shared.Domain.IntegrationEvents.StockEvents.Product.ProductCreated;
 using Core.Modules.Stock.Application.Http.Commands.CreateProduct;
 using Core.Modules.Stock.Application.IntegrationEvents.Product.Events.ProductCreated;
@@ -19,7 +20,7 @@ using MockQueryable.NSubstitute;
 using NSubstitute;
 using Xunit;
 
-namespace Core.Modules.Stock.Tests.UseCases.Http.Commands;
+namespace Core.Modules.Stock.Tests.UseCases.Http.Commands.CreateProduct;
 
 public class CreateProductCommandHandlerTests
 {
@@ -27,13 +28,14 @@ public class CreateProductCommandHandlerTests
     private readonly IStockDateTimeProvider _stockDateTimeProvider;
     private readonly ICreateProductCommandHandler _commandHandler;
     private readonly IPublishEndpoint _publishEndpoint;
-    
+    private readonly IAppConfigService _configService;
     public CreateProductCommandHandlerTests()
     {
         _context = Substitute.For<IStockContext>();
         _stockDateTimeProvider = Substitute.For<IStockDateTimeProvider>();
         _publishEndpoint = Substitute.For<IPublishEndpoint>();
-        _commandHandler = new CreateProductCommandHandler(_context, _stockDateTimeProvider, _publishEndpoint);
+        _configService = Substitute.For<IAppConfigService>();
+        _commandHandler = new CreateProductCommandHandler(_context, _stockDateTimeProvider, _publishEndpoint, _configService);
     }
     
     [Theory]
@@ -97,6 +99,9 @@ public class CreateProductCommandHandlerTests
             sku = "brand-1-m1";
             upc = "123456789123";
         }
+
+        _configService.GetEnvironmentVariable("StockModule:AdministrativeDashboardBaseUrl")
+            .Returns("https://localhost:3000/dashboard");
         
         CreateProductCommand command = new CreateProductCommand
         {
@@ -157,7 +162,7 @@ public class CreateProductCommandHandlerTests
             .Returns(Task.CompletedTask);
         
         //Act
-        await _commandHandler.Handle(command, default);
+        var result = await _commandHandler.Handle(command, default);
 
         //Assert
         _context.Products
@@ -171,6 +176,15 @@ public class CreateProductCommandHandlerTests
         await _publishEndpoint
             .Received(1)
             .Publish(Arg.Is<ProductCreatedIntegrationEvent>(ev => ev.Product == createdProduct.MapToProductDto()));
+
+        result
+            .Should()
+            .NotBe(null);
+        
+        string administrativeFrontendUrl = _configService.GetEnvironmentVariable("StockModule:AdministrativeDashboardBaseUrl");
+        result.Resource
+            .Should()
+            .Be($"{administrativeFrontendUrl}/products/{createdProduct.Id}");
         
         createdProduct.Name
             .Should()
@@ -994,6 +1008,180 @@ public class CreateProductCommandHandlerTests
         exception.Which.Message
             .Should()
             .Be($"Invalid Measure Unit was sent with Id: {invalidMeasureId}");
+    }
+
+    [Theory]
+    [InlineData(InvalidProductDetailToTest.Measures)]
+    [InlineData(InvalidProductDetailToTest.Technicals)]
+    [InlineData(InvalidProductDetailToTest.Others)]
+    internal async Task ShouldNotCreateProductWithAnyProductDetailsWithRepeatedShowOrderInProductDetailLists(InvalidProductDetailToTest invalidProductDetailToTest)
+    {
+         //Mock Databases 
+        DbSet<Product> mockProductDbSet = new List<Product>()
+            .AsQueryable()
+            .BuildMockDbSet();
+         
+        var brand1 = Brand.Create("brand-1", "sells-computers");
+        DbSet<Brand> mockBrandDbSet = new List<Brand>
+            {
+                brand1,
+                Brand.Create("brand-2", "sells-computers")
+            }
+            .AsQueryable()
+            .BuildMockDbSet();
+
+        var tag1 = ProductTag.Create("processor-2x");
+        var tag2 = ProductTag.Create("linear-algebra-processor");
+
+        DbSet<ProductTag> mockProductTagDbSet = new List<ProductTag>
+            {
+                tag1,
+                tag2
+            }
+            .AsQueryable()
+            .BuildMockDbSet();
+
+
+        var pixelMeasureUnit = MeasureUnit.Create("Pixels", "Pixel", "px");
+        var megabytesMeasureUnit = MeasureUnit.Create("MegaBytes", "MegaByte", "MB");
+        DbSet<MeasureUnit> mockMeasureUnitDbSet = new List<MeasureUnit>
+            {
+                pixelMeasureUnit,
+                megabytesMeasureUnit
+            }
+            .AsQueryable()
+            .BuildMockDbSet();
+
+        _context.Products
+            .ReturnsForAnyArgs(mockProductDbSet);
+
+        _context.Brands
+            .ReturnsForAnyArgs(mockBrandDbSet);
+
+        _context.ProductTags
+            .ReturnsForAnyArgs(mockProductTagDbSet);
+
+        _context.MeasureUnits
+            .ReturnsForAnyArgs(mockMeasureUnitDbSet);
+        
+
+        _configService.GetEnvironmentVariable("StockModule:AdministrativeDashboardBaseUrl")
+            .Returns("https://localhost:3000/dashboard");
+
+
+        var measurements = new List<ProductDetailRequestPayload>();
+        var technicalDetails = new List<ProductDetailRequestPayload>();
+        var otherDetails = new List<ProductDetailRequestPayload>();
+
+        switch (invalidProductDetailToTest)
+        {
+            case InvalidProductDetailToTest.Measures:
+                measurements.AddRange(new List<ProductDetailRequestPayload>
+                {
+                    new ProductDetailRequestPayload
+                    {
+                        Name = "Width",
+                        Value = "1920",
+                        ShowOrder = 1,
+                        MeasureUnitId = pixelMeasureUnit.Id
+                    },
+                    new ProductDetailRequestPayload
+                    {
+                        Name = "Height",
+                        Value = "1080",
+                        ShowOrder = 1,
+                        MeasureUnitId = pixelMeasureUnit.Id
+                    }
+                });
+                break;
+            
+            case InvalidProductDetailToTest.Technicals:
+                technicalDetails.AddRange(new List<ProductDetailRequestPayload>
+                {
+                    new ProductDetailRequestPayload
+                    {
+                        Name = "DDR5 Support",
+                        Value = "Yes",
+                        MeasureUnitId = null,
+                        ShowOrder = 1
+                    },
+                    new ProductDetailRequestPayload
+                    {
+                        Name = "Architecture",
+                        Value = "ARM64",
+                        ShowOrder = 1,
+                        MeasureUnitId = null
+                    }
+                });
+                break;
+            
+            case InvalidProductDetailToTest.Others:
+                otherDetails.AddRange(new List<ProductDetailRequestPayload>
+                {
+                    new ProductDetailRequestPayload
+                    {
+                        Name = "Has brand-1 AI services",
+                        Value = "Yes",
+                        ShowOrder = 1,
+                        MeasureUnitId = null
+                    },
+                    new ProductDetailRequestPayload
+                    {
+                        Name = "Has brand-1 realtime X86 translate support to ARM",
+                        Value = "Yes",
+                        ShowOrder = 1,
+                        MeasureUnitId = null
+                    }
+                });
+                break;
+        }
+        
+        CreateProductCommand command = new CreateProductCommand
+        {
+            Name = "computer-m1",
+            Description = "computer-with-high-resolution-based-on-bsd",
+            Ean = "1234567891234",
+            Price = 2100m,
+            StockUnitCount = 10,
+            BrandId = brand1.Id,
+            TagsIds = new List<Guid>
+            {
+                tag1.Id,
+                tag2.Id
+            },
+            Measurements = measurements,
+            TechinicalDetails = technicalDetails,
+            OtherDetails = otherDetails
+        };
+
+        Func<Task> action = async () => { await _commandHandler.Handle(command, default); };
+        
+        //Act
+        var exception = await FluentActions.Invoking(action)
+            .Should()
+            .ThrowAsync<ShowOrderRepeatedException>();
+        
+        //Assert 
+        switch (invalidProductDetailToTest)
+        {
+            case InvalidProductDetailToTest.Measures:
+                exception.Which.Message
+                    .Should()
+                    .Be($"Encountered repeated value at list {ShowOrderRepeatedEncountered.Measures}");
+                break;
+            
+            case InvalidProductDetailToTest.Technicals:
+                exception.Which.Message
+                    .Should()
+                    .Be($"Encountered repeated value at list {ShowOrderRepeatedEncountered.TechnicalDetails}");
+                break;
+            
+            case InvalidProductDetailToTest.Others:
+                exception.Which.Message
+                    .Should()
+                    .Be($"Encountered repeated value at list {ShowOrderRepeatedEncountered.OtherDetails}");
+                break;
+        }
     }
     
     internal enum InvalidProductDetailToTest

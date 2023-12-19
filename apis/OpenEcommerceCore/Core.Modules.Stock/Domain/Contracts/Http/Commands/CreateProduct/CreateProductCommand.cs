@@ -2,7 +2,7 @@ using MediatR;
 
 namespace Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateProduct;
 
-public record CreateProductCommand : IRequest
+public record CreateProductCommand : IRequest<CreateProductCommandResponse>
 {
     public Guid BrandId { get; init; }
     public string Name { get; init; }

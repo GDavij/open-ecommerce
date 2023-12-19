@@ -1,4 +1,5 @@
 using System;
+using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.UserAccess.Domain.Contracts.Providers;
 using Core.Modules.UserAccess.Domain.Contracts.Services;
 using Core.Modules.UserAccess.Domain.Models;

@@ -1,4 +1,3 @@
-using System.Data;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateProduct;
 using FluentValidation;
 
@@ -14,6 +13,7 @@ internal class CreateProductCommandValidator : AbstractValidator<CreateProductCo
 
         RuleFor(c => c.Name)
             .NotEmpty().WithMessage("Name must not be empty")
+            .MinimumLength(1).WithMessage("Name must not have less than 1 character")
             .MaximumLength(255).WithMessage("Name must not have more than 255 characters");
 
         RuleFor(c => c.Description)
@@ -32,10 +32,12 @@ internal class CreateProductCommandValidator : AbstractValidator<CreateProductCo
 
         RuleFor(c => c.Price)
             .NotEmpty().WithMessage("Price must not be empty")
+            .GreaterThanOrEqualTo(0).WithMessage("Price must be greater or equal to zero ")
             .PrecisionScale(16,2, false).WithMessage("Precision of Price must not be higher than 16 and scale not higher than 2 - (Trailing zeros are considered in precision)");
 
         RuleFor(c => c.StockUnitCount)
-            .NotEmpty().WithMessage("Stock Unit Count must not be empty");
+            .NotEmpty().WithMessage("Stock Unit Count must not be empty")
+            .GreaterThanOrEqualTo(0).WithMessage("Stock Unit must be greater or equal to zero");
 
         RuleFor(c => c.TagsIds)
             .NotNull().WithMessage("Tags Ids must not be null");
@@ -60,8 +62,51 @@ internal class CreateProductCommandValidator : AbstractValidator<CreateProductCo
             measure.RuleFor(m => m.ShowOrder)
                 .NotEmpty().WithMessage("Measure Show Order must not be empty")
                 .GreaterThan(0).WithMessage("Measure Show Order must be greater than 0");
-            
+
             measure.RuleFor(m => m.MeasureUnitId)
+                .NotEmpty().When(m => m.MeasureUnitId is not null).WithMessage("Measure Unit Should not be empty");
+        });
+        
+        RuleFor(c => c.TechinicalDetails)
+            .NotNull().WithMessage("Technical Details must not be null");
+
+        RuleForEach(c => c.TechinicalDetails).ChildRules(technicalDetail =>
+        {
+            technicalDetail.RuleFor(t => t.Name)
+                .NotEmpty().WithMessage("Technical Detail Name must not be empty")
+                .MaximumLength(255).WithMessage("Technical Detail Name must have a maximum of 255 characters");
+
+            technicalDetail.RuleFor(t => t.Value)
+                .NotEmpty().WithMessage("Technical Detail Value must not be empty")
+                .MaximumLength(255).WithMessage("Technical Detail Value must have a maximum of 255 characters");
+
+            technicalDetail.RuleFor(t => t.ShowOrder)
+                .NotEmpty().WithMessage("Technical Detail Show Order must not be empty")
+                .GreaterThan(0).WithMessage("Technical Detail Show Order must be greater than 0");
+
+            technicalDetail.RuleFor(t => t.MeasureUnitId)
+                .NotEmpty().When(t => t.MeasureUnitId is not null).WithMessage("Technical Detail Unit Should not be empty");
+        });
+        
+        RuleFor(c => c.OtherDetails)
+            .NotNull().WithMessage("Other Details must not be null");
+
+        RuleForEach(c => c.OtherDetails).ChildRules(otherDetail =>
+        {
+            otherDetail.RuleFor(o => o.Name)
+                .NotEmpty().WithMessage("Other Detail Name must not be empty")
+                .MaximumLength(255).WithMessage("Other Detail Name must have a maximum of 255 characters");
+
+            otherDetail.RuleFor(m => m.Value)
+                .NotEmpty().WithMessage("Other Detail Value must not be empty")
+                .MaximumLength(255).WithMessage("Other Detail Value must have a maximum of 255 characters");
+
+            otherDetail.RuleFor(o => o.ShowOrder)
+                .NotEmpty().WithMessage("Other Detail Show Order must not be empty")
+                .GreaterThan(0).WithMessage("Other Detail Show Order must be greater than 0");
+            
+            otherDetail.RuleFor(o => o.MeasureUnitId)
+                .NotEmpty().When(o => o.MeasureUnitId is not null).WithMessage("Other Detail Unit Should not be empty");
         });
     }
 }

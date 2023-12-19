@@ -1,6 +1,8 @@
 # Jetbrains IDE
 .idea
+OpenEcommerceCore.sln.DotSettings.user
 
 # Binaries and Objects - C#
 **/bin/**
 **/obj/**
+

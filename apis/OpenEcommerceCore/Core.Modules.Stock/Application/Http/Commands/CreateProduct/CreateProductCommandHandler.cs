@@ -1,3 +1,4 @@
+using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.Shared.Domain.IntegrationEvents.StockEvents.Product.ProductCreated;
 using Core.Modules.Stock.Application.IntegrationEvents.Product.Events.ProductCreated;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
@@ -15,15 +16,21 @@ internal class CreateProductCommandHandler : ICreateProductCommandHandler
 {
     private readonly IStockContext _context;
     private readonly IStockDateTimeProvider _stockDateTimeProvider;
+    private readonly IAppConfigService _configService;
     private readonly IPublishEndpoint _publishEndpoint;
-    public CreateProductCommandHandler(IStockContext context, IStockDateTimeProvider stockDateTimeProvider, IPublishEndpoint publishEndpoint)
+    public CreateProductCommandHandler(
+        IStockContext context,
+        IStockDateTimeProvider stockDateTimeProvider,
+        IPublishEndpoint publishEndpoint,
+        IAppConfigService configService)
     {
         _context = context;
         _stockDateTimeProvider = stockDateTimeProvider;
         _publishEndpoint = publishEndpoint;
+        _configService = configService;
     }
 
-    public async Task Handle(Domain.Contracts.Http.Commands.CreateProduct.CreateProductCommand request, CancellationToken cancellationToken)
+    public async Task<CreateProductCommandResponse> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         // If Possible Move Validation Logic to the validation middleware of command
         if (!(await _context.Brands.AnyAsync(b => b.Id == request.BrandId, cancellationToken)))
@@ -46,6 +53,33 @@ internal class CreateProductCommandHandler : ICreateProductCommandHandler
             await _context.Products.AnyAsync(p => p.SKU == request.Sku, cancellationToken))
         {
             throw new ExistentSkuCodeException(request.Sku);
+        }
+
+        bool existsRepeatedShowOrderInMeasurements = request.Measurements
+            .GroupBy(m => m.ShowOrder)
+            .Count(m => m.Count() > 1) > 0;
+
+        if (existsRepeatedShowOrderInMeasurements)
+        {
+            throw new ShowOrderRepeatedException(ShowOrderRepeatedEncountered.Measures);
+        }
+        
+        bool existsRepeatedShowOrderInTechnicalDetails = request.TechinicalDetails
+            .GroupBy(t => t.ShowOrder)
+            .Count(t => t.Count() > 1) > 0;
+
+        if (existsRepeatedShowOrderInTechnicalDetails)
+        {
+            throw new ShowOrderRepeatedException(ShowOrderRepeatedEncountered.TechnicalDetails);
+        }
+        
+        bool existsRepeatedShowOrderInOtherDetails = request.OtherDetails
+            .GroupBy(o => o.ShowOrder)
+            .Count(o => o.Count() > 1) > 0;
+
+        if (existsRepeatedShowOrderInOtherDetails)
+        {
+            throw new ShowOrderRepeatedException(ShowOrderRepeatedEncountered.OtherDetails);
         }
         
         List<ProductTag> validTags = await _context.ProductTags
@@ -132,7 +166,9 @@ internal class CreateProductCommandHandler : ICreateProductCommandHandler
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        //TODO:  Implement Retry with Polly
-        await _publishEndpoint.Publish<ProductCreatedIntegrationEvent>(ProductCreatedIntegrationEvent.CreateEvent(product.MapToProductDto()));
+        //TODO:  Implement Retry with Polly and do publishing in other task for fast response
+        await _publishEndpoint.Publish(ProductCreatedIntegrationEvent.CreateEvent(product.MapToProductDto()));
+
+        return CreateProductCommandResponse.Respond($"products/{product.Id}", _configService);
     }
 }

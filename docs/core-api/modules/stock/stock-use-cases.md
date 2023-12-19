@@ -20,7 +20,56 @@ This includes the Product Details and tags, those being Lists, but not images(sp
 
 #### Payloads
 
-TODO: Request and Response.
+**Ideia of Request Payload** - JSON With Comments
+
+```JSON with comments
+{
+    brandId: "Guid id of the brand",
+    name: "Name of the product to create",
+    description: "Description of the product to create or null",
+    sku: "Sku or null",
+    ean: "ean",
+    upc: "upc or null",
+    price: 123456.99,
+    stockUnitCount: 2,
+    tagsIds: [
+        "Tag1 id",
+        "tag 2 id"
+    ],
+    measurements: [
+        {
+            name: "measurement name(description)",
+            value: "value of the measurement",
+            showOrder: 1,// Represents the order to show when in the Ui(for sort reasons)
+            MeasureUnitId: "Measure Unit Id or null"
+        }
+    ],
+    technicalDetails: [
+        {
+            name: "technical detail name(description)",
+            value: "value of the technical detail",
+            showOrder: 1,// Represents the order to show when in the Ui(for sort reasons)
+            MeasureUnitId: "Measure Unit Id or null"
+        }
+    ]
+    otherDetails: [
+        {
+            name: "other detail name(description)",
+            value: "value of the other detail",
+            showOrder: 1,// Represents the order to show when in the Ui(for sort reasons)
+            MeasureUnitId: "Measure Unit Id or null"
+        }
+    ]
+}
+```
+
+**Ideia of Response Payload** - Json With Comments
+
+```JSON with Comments
+{
+    Resource: "Path for the frontend to navigate(redirect, etc...) and see the product"// probably like "https:// {domain}/{baseUrl}/products/{productId}.{topLevelDomain}"
+}
+```
 
 #### Test Cases
 
@@ -31,10 +80,21 @@ TODO: Request and Response.
 [X] - Should not create Product with same SKU of a existent Product.  
 [X] - Should not create Product with a any Tag that does not exist in the system.  
 [X] - Should not create Product with any ProductDetails(Measure, Technical, Other) that has a not existent measure.
+[X] - Should not create product with any ProductDetails(Measure, Technical, Other) with repeated show order in product detail lists
+
+##### Command Validation Test Cases
+
+[x] - Should Accept valid command.  
+[X] - Should Negate invalid command with null values (consider Lists as null)  
+[X] - Should Negate invalid command with null values (consider inner List values as null)  
+[X] - Should Negate invalid command with empty values  
+[X] - Should Negate invalid command with less than min values  
+[X] - Should Negate invalid command with more than max values
+[X] - Should Accept Command with Empty Lists for ProductDetails and Tags
 
 #### Integration Events
 
-[] - Product Created Integration Event -> (Important to Sales Module)
+[X] - Product Created Integration Event(Without Retry with Polly) -> (Important to Sales Module)
 
 ### Add Image to a Product
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.UserAccess.Application.Services;
 using Core.Modules.UserAccess.Application.UseCases.Commands.CreateClientSession;
 using Core.Modules.UserAccess.Domain.Contracts.Providers;
