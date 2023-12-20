@@ -106,11 +106,35 @@ This use case has the objective to receive a `multipart-formdata` with a blob of
 
 #### Payloads
 
-TODO: Request Response
+**Idea of Request** - multipart-form-data(represented in docs as JSON)
+
+```JSON
+{
+    "productId": "ProductId",//Comes from route parameters
+    "description": "Image Description",
+    "imageFile": BLOB
+}
+```
+
+**Idea of Response** - JSON
+
+```JSON
+{
+    "Resource": "Path for the frontend to navigate(redirect, etc...) and see the product"// probably like "https:// {domain}/{baseUrl}/products/{productId}.{topLevelDomain}"
+}
+```
+
+#### Test Cases
+
+TODO
+
+##### Command Validator Test Cases
+
+TODO
 
 #### Integration Events
 
-- Add Image To Product Integration Event -> (Important to Sales, since it add the image to then to)
+[X] - Add Image To Product Integration Event(Without Retry with Polly) -> (Important to Sales, since it add the image to then to)
 
 ### Remove Image of a product
 

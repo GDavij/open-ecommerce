@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Application\IntegrationEvents\Product\Events\" />
       <Folder Include="Domain\Entities\Bases\" />
       <Folder Include="Domain\Models\" />
     </ItemGroup>
@@ -32,11 +31,13 @@
     </ItemGroup>
     
     <ItemGroup>
+      <PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
       <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
       <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.2" />
       <PackageReference Include="MediatR" Version="12.2.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.25" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.25" />
+      <PackageReference Include="Microsoft.Extensions.Azure" Version="1.7.1" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.22" />
     </ItemGroup>
     

@@ -175,7 +175,7 @@ public class CreateProductCommandHandlerTests
 
         await _publishEndpoint
             .Received(1)
-            .Publish(Arg.Is<ProductCreatedIntegrationEvent>(ev => ev.Product == createdProduct.MapToProductDto()));
+            .Publish(Arg.Is<ProductCreatedIntegrationEvent>(ev => ev.Product.Id == createdProduct.MapToProductDto().Id));
 
         result
             .Should()

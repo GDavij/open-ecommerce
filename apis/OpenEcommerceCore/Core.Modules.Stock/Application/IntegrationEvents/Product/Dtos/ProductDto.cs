@@ -6,9 +6,6 @@ public record ProductDto
     public BrandDto Brand { get; init; }
     public string Name { get; init; }
     public string? Description { get; init; }
-    public string? SKU { get; init; }
-    public string EAN { get; init; }
-    public string? UPC { get; init; }
     public decimal Price { get; init; }
     public int StockUnitCount { get; init; }
     public DateTime CreatedAt { get; init; }
@@ -28,9 +25,6 @@ public record ProductDto
         BrandDto brand,
         string name,
         string? description,
-        string? sku,
-        string ean,
-        string? upc,
         decimal price,
         int stockUnitCount,
         DateTime createdAt,
@@ -47,9 +41,6 @@ public record ProductDto
             Brand = brand,
             Name = name,
             Description = description,
-            SKU = sku,
-            EAN = ean,
-            UPC = upc,
             Price = price,
             StockUnitCount = stockUnitCount,
             CreatedAt = createdAt,

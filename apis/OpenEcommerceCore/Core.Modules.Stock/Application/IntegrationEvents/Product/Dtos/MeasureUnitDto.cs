@@ -13,7 +13,7 @@ public record MeasureUnitDto
     public static MeasureUnitDto Create(
         Guid id,
         string name,
-        string shortName,
+        string? shortName,
         string symbol)
     {
         return new MeasureUnitDto
