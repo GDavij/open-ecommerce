@@ -21,13 +21,18 @@ internal class AddImageToProductCommandValidator
         RuleFor(c => c.ImageFile)
             .NotEmpty().WithMessage("Image File must not be empty");
 
-        RuleFor(c => c.ImageFile.ContentType)
-            .NotEmpty().WithMessage("Image Content Type must not be empty")
-            .Must(ct => AllowedMimeContentTypes.MimeTypes.Contains(ct)).WithMessage("Invalid image MIMETYPE was found");
+        RuleFor(c => c.ImageFile).ChildRules(i =>
+        {
+            i.RuleFor(i => i.ContentType)
+                .NotEmpty().WithMessage("Image Content Type must not be empty")
+                .Must(ct => AllowedMimeContentTypes.MimeTypes.Contains(ct))
+                .WithMessage("Invalid image MIMETYPE was found");
 
-        var twoMegabytes = MemoryMeasure.Megabytes * 2;
-        RuleFor(c => c.ImageFile.Length)
-            .NotEmpty().WithMessage("Image Length must not be empty")
-            .LessThanOrEqualTo(twoMegabytes).WithMessage($"Image largest than {twoMegabytes} bytes, image file size outside of limit");
+            var twoMegabytes = MemoryMeasure.Megabytes * 2;
+            i.RuleFor(i => i.Length)
+                .NotEmpty().WithMessage("Image Length must not be empty")
+                .LessThanOrEqualTo(twoMegabytes).WithMessage($"Image largest than {twoMegabytes} bytes, image file size outside of limit")
+                .GreaterThan(0).WithMessage("Image file size has 0 bytes or any negative invalid byte");
+        });
     }
 }

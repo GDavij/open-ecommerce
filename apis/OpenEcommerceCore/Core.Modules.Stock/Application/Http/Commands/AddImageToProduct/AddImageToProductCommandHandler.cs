@@ -53,10 +53,10 @@ internal class AddImageToProductCommandHandler : IAddImageToProductCommandHandle
 
         _dbContext.ProductImages.Add(productImage);
 
-        // Add Retry for context
+        // Add Retry for Db Context
         await _dbContext.SaveChangesAsync();
 
-        // Add Retry With Polly
+        // Add Retry With Polly - Eventual Consistency Warranty
         await _publishEndpoint.Publish(AddedImageToProductIntegrationEvent.CreateEvent(productImage.MapToProductImageDto()));
 
         return AddImageToProductCommandResponse.Respond($"products/{existentProduct.Id}", _appConfigService);

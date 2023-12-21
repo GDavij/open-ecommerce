@@ -126,11 +126,16 @@ This use case has the objective to receive a `multipart-formdata` with a blob of
 
 #### Test Cases
 
-TODO
+[X] - Should Add a Image into a already existent product
+[X] - Should Not Add a Image into a not existent product
 
 ##### Command Validator Test Cases
 
-TODO
+[X] - Should Accept Valid Command
+[X] - Should Negate Command with empty values
+[X] - Should Negate Command with values lower than minimal limit
+[X] - Should Negate Command with values higher than max limit
+[X] - Should Negate Command With invalid MIMETYPE
 
 #### Integration Events
 
