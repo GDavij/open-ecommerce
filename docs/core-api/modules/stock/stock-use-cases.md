@@ -120,22 +120,22 @@ This use case has the objective to receive a `multipart-formdata` with a blob of
 
 ```JSON
 {
-    "Resource": "Path for the frontend to navigate(redirect, etc...) and see the product"// probably like "https:// {domain}/{baseUrl}/products/{productId}.{topLevelDomain}"
+    "Resource": "Path for the frontend to navigate(redirect, etc...) and see the product"/* probably like "https:// {domain}/{baseUrl}/products/{productId}.{topLevelDomain}"*/
 }
 ```
 
 #### Test Cases
 
-[X] - Should Add a Image into a already existent product
+[X] - Should Add a Image into a already existent product  
 [X] - Should Not Add a Image into a not existent product
 
 ##### Command Validator Test Cases
 
-[X] - Should Accept Valid Command
-[X] - Should Negate Command with empty values
-[X] - Should Negate Command with values lower than minimal limit
-[X] - Should Negate Command with values higher than max limit
-[X] - Should Negate Command With invalid MIMETYPE
+[X] - Should Accept Valid Command  
+[X] - Should Negate Command with empty values  
+[X] - Should Negate Command with values lower than minimal limit  
+[X] - Should Negate Command with values higher than max limit  
+[X] - Should Negate Command With invalid MIMETYPE  
 
 #### Integration Events
 
