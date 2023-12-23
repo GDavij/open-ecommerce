@@ -141,11 +141,11 @@ This use case has the objective to receive a `multipart-formdata` with a blob of
 
 [X] - Add Image To Product Integration Event(Without Retry with Polly) -> (Important to Sales, since it add the image to then to)
 
-### Remove Image of a product
+### Remove Image from product
 
 #### Objective
 
-This use case has the objective to receive a Id of a image and if valid(exists, is appended to a product) it will remove the link to that image from the product and notify sales module that this image need to be removed from storage and sales product entity.
+This use case has the objective to receive a Id of a image and if valid(exists, is appended to a product) it will remove the link to that image from the product and notify sales module that this image need to be removed from storage(Azure blob storage) and sales Product entity.
 
 ### Payloads
 
@@ -161,13 +161,23 @@ This use case has the objective to receive a Id of a image and if valid(exists, 
 
 ```JSON with comments
 {
-    "success": true // shows  true if remove link from product and notify module otherwise false.
+    "success": true // shows true if remove link from product and notify module otherwise false.
 }
 ```
 
+#### Test Cases
+
+[X] - Should Remove Image reference and notify other modules successfully
+[X] - Should Not Remove Image when image is not existent
+
+##### Command Validator Test Cases
+
+[X] - Should Accept Valid Command
+[X] - Should Negate Invalid Command with empty values
+
 #### Integration Events
 
-- Remove Image From Product Integration Event -> (Important to Sales, since it will delete the image globally and remove it's reference to their module)
+- Removed Image From Product Integration Event -> (Important to Sales, since it will delete the image globally and remove it's reference to their module)
 
 ### Create Brand
 
