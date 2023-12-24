@@ -85,7 +85,7 @@ TODO: Should Validate Name Equality and Throw exception
 [X] - Should not create Product with same UPC of a existent Product.  
 [X] - Should not create Product with same SKU of a existent Product.  
 [X] - Should not create Product with a any Tag that does not exist in the system.  
-[X] - Should not create Product with any ProductDetails(Measure, Technical, Other) that has a not existent measure.
+[X] - Should not create Product with any ProductDetails(Measure, Technical, Other) that has a not existent measure.  
 [X] - Should not create product with any ProductDetails(Measure, Technical, Other) with repeated show order in product detail lists
 
 ##### Command Validation Test Cases
@@ -95,7 +95,7 @@ TODO: Should Validate Name Equality and Throw exception
 [X] - Should Negate invalid command with null values (consider inner List values as null)  
 [X] - Should Negate invalid command with empty values  
 [X] - Should Negate invalid command with less than min values  
-[X] - Should Negate invalid command with more than max values
+[X] - Should Negate invalid command with more than max values  
 [X] - Should Accept Command with Empty Lists for ProductDetails and Tags
 
 #### Integration Events
@@ -105,8 +105,6 @@ TODO: Should Validate Name Equality and Throw exception
 ### Add Image to a Product
 
 #### Objective
-
-TODO: Confirm the correct data type used!!!!
 
 This use case has the objective to receive a `multipart-formdata` with a blob of a image and a product id, and if everything valid it will create the image in a cloud storage and link it to the product.
 
@@ -173,12 +171,12 @@ This use case has the objective to receive a Id of a image and if valid(exists, 
 
 #### Test Cases
 
-[X] - Should Remove Image reference and notify other modules successfully
+[X] - Should Remove Image reference and notify other modules successfully  
 [X] - Should Not Remove Image when image is not existent
 
 ##### Command Validator Test Cases
 
-[X] - Should Accept Valid Command
+[X] - Should Accept Valid Command  
 [X] - Should Negate Invalid Command with empty values
 
 #### Integration Events
@@ -212,15 +210,14 @@ This use case has the objective to receive data about a brand and if valid, will
 
 #### Test Cases
 
-[X] - Should Create a Brand for valid command
-[X] - Should not Create Brand for already existent brand(brand that has same name)
+[X] - Should Create a Brand for valid command  
+[X] - Should not Create Brand for already existent brand(brand that has same name)  
 
 ##### Command Validator Test Cases
 
-[X] - Should Accept Valid Command
-[X] - Should Negate Command with Empty Values
+[X] - Should Accept Valid Command  
+[X] - Should Negate Command with Empty Values  
 [X] - Should Negate Command with values higher than maximum limit
-
 
 #### Integration Events
 
