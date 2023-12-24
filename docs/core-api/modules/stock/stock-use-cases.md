@@ -296,34 +296,6 @@ TODO: Request and Response
 
 - Deleted Brand Integration Event
 
-### Update Supplier
-
-#### Objective
-
-The objective of this use case is to receive a Supplier Id and it's updated data, validate and if valid it will update the supplier and notify other modules that "Share" this entity to update in their modules too.
-
-#### Payloads
-
-TODO: Request and Response
-
-#### Integration Events
-
-- Supplier Updated
-
-### Delete Supplier
-
-#### Objective
-
-The objective of this use case is to receive a Supplier Id and if valid, it will delete the supplier and related data from the module and notify the other modules to delete it and remove all related data.
-
-#### Payloads
-
-TODO: Request and Response
-
-#### Integration Events
-
-- Delete Supplier
-
 ### Update Measure Unit
 
 #### Objective
