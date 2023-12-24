@@ -1,6 +1,6 @@
 namespace Core.Modules.Stock.Domain.Contracts.Http.Commands.RemoveImageFromProduct;
 
-internal class RemoveImageFromProductCommandResponse
+internal record RemoveImageFromProductCommandResponse
 {
     public bool Success { get; init; }
     

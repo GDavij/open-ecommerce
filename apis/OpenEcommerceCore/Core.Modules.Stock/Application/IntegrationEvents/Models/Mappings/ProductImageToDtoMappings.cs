@@ -3,7 +3,7 @@ using Core.Modules.Stock.Domain.Entities.Product;
 
 namespace Core.Modules.Stock.Application.IntegrationEvents.Product.Events.AddedImageToProductIntegrationEvent;
 
-internal static class  AddedImageToProductDtoMappings
+internal static class ProductImageToDtoMappings
 {
     public static ProductImageDto MapToProductImageDto(this ProductImage image)
     {

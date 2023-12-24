@@ -6,6 +6,10 @@ This Documentation aims to document all Use Cases for Stock Module
 
 **ADVICE: None of Integration Events are implemented for these use cases yet**
 
+## INDEX of use cases
+
+TODO
+
 ## Direct Endpoint Call
 
 This are the use cases that is received via direct endpoint call (HTTP/HTTPS - JSON)
@@ -17,6 +21,8 @@ This are the use cases that is received via direct endpoint call (HTTP/HTTPS - J
 This use case has the objective to receive data about the product entity and if valid, will create a product into the system
 
 This includes the Product Details and tags, those being Lists, but not images(specific endpoint for blobs).
+
+TODO: Should Validate Name Equality and Throw exception
 
 #### Payloads
 
@@ -177,7 +183,7 @@ This use case has the objective to receive a Id of a image and if valid(exists, 
 
 #### Integration Events
 
-- Removed Image From Product Integration Event -> (Important to Sales, since it will delete the image globally and remove it's reference to their module)
+[X] - Removed Image From Product Integration Event(Without Retry with Polly) -> (Important to Sales, since it will delete the image globally and remove it's reference to their module)
 
 ### Create Brand
 
@@ -187,25 +193,38 @@ This use case has the objective to receive data about a brand and if valid, will
 
 #### Payloads
 
-Todo: Request and Response
+**Ideia of Request Payload** - JSON
+
+```JSON
+{
+    "name": "brand-name",
+    "description": "brand-description"// Or null
+}
+```
+
+**Ideia of Response Payload** - JSON with comments
+
+```JSON with comments
+{
+    "Resource": "Path for the frontend to navigate(redirect, etc...) and see the brand"/* probably like "https:// {domain}/{baseUrl}/brands/{productId}.{topLevelDomain}"*/
+}
+```
+
+#### Test Cases
+
+[X] - Should Create a Brand for valid command
+[X] - Should not Create Brand for already existent brand(brand that has same name)
+
+##### Command Validator Test Cases
+
+[X] - Should Accept Valid Command
+[X] - Should Negate Command with Empty Values
+[X] - Should Negate Command with values higher than maximum limit
+
 
 #### Integration Events
 
-- Brand Created Integration Event -> (Important to Sales Module)
-
-### Create Supplier
-
-#### Objective
-
-This use case has the objective to receive data about a supplier and if valid it will create a supplier into the system
-
-#### Payloads
-
-TODO: Request and Response
-
-#### Integration Events
-
-- Supplier Created Integration Events -> (Important to Finance Module)
+[X] - Brand Created Integration Event(Without Retry with Polly) -> (Important to Sales Module)
 
 ### Create Measure Unit
 
