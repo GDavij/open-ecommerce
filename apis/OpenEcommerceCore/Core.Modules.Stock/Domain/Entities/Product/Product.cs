@@ -26,7 +26,7 @@ internal class Product
     public List<ProductTag> Tags { get; set; } = new List<ProductTag>();
 
     public List<ProductImage> Images { get; set; } = new List<ProductImage>();
-    // TODO: Apply Polymorphism
+    // TODO: Apply Polymorphism in List<MeasurementDetail>, List<TechnicalDetail>, List<OtherDetail> 
     public List<MeasurementDetail> Measurements { get; set; } = new List<MeasurementDetail>();
     public List<TechnicalDetail> TechnicalDetails { get; set; } = new List<TechnicalDetail>();
     public List<OtherDetail> OtherDetails { get; set; } = new List<OtherDetail>();

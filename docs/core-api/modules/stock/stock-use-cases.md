@@ -233,9 +233,20 @@ This use case has the objective to receive data about a measure and if valid it 
 
 TODO: Request and Response
 
+#### Test Cases
+
+[] - Should Create Measure Unit For Valid Command
+[] - Should Not Create Measure Unit For Invalid Command With Same Name Or Shortname As Existent Measure Unit
+
+##### Command Validator Test Cases
+
+[] - Should Accept Valid Command
+[] - Should Negate Invalid Command With Empty Values
+[] - Should Negate Invalid Command with Values Higher Than Maximum Limit
+
 #### Integration Events
 
-- Measure Unit Created
+[] - Measure Unit Created
 
 ### Update Product
 

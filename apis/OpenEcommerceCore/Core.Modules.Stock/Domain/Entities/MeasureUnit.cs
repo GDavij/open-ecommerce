@@ -12,7 +12,7 @@ internal class MeasureUnit
 
     public static MeasureUnit Create(
         string name,
-        string shortName,
+        string? shortName,
         string symbol)
     {
         return new MeasureUnit
