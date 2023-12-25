@@ -75,7 +75,7 @@ public class CreateBrandCommandHandlerTests
 
         await _dbContext
             .Received(1)
-            .SaveChangesAsync(Arg.Any<CancellationToken>());
+            .SaveChangesAsync(default);
         
         await _publishEndpoint
             .Received(1)
