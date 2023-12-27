@@ -67,10 +67,10 @@ internal class CreateProductCommandValidator : AbstractValidator<CreateProductCo
                 .NotEmpty().When(m => m.MeasureUnitId is not null).WithMessage("Measure Unit Should not be empty");
         });
         
-        RuleFor(c => c.TechinicalDetails)
+        RuleFor(c => c.TechnicalDetails)
             .NotNull().WithMessage("Technical Details must not be null");
 
-        RuleForEach(c => c.TechinicalDetails).ChildRules(technicalDetail =>
+        RuleForEach(c => c.TechnicalDetails).ChildRules(technicalDetail =>
         {
             technicalDetail.RuleFor(t => t.Name)
                 .NotEmpty().WithMessage("Technical Detail Name must not be empty")

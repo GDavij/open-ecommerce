@@ -43,16 +43,16 @@ public class CreateProductCommandValidatorTests
                 ProductTag.Create("processor-2x").Id,
                 ProductTag.Create("linear-algebra-processor").Id
             },
-            Measurements = new List<ProductDetailRequestPayload>
+            Measurements = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Width",
                     Value = "1920",
                     ShowOrder = 1,
                     MeasureUnitId = pixelMeasureUnit.Id
                 },
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Height",
                     Value = "1080",
@@ -60,9 +60,9 @@ public class CreateProductCommandValidatorTests
                     MeasureUnitId = megabytesMeasureUnit.Id
                 }
             },
-            TechinicalDetails = new List<ProductDetailRequestPayload>
+            TechnicalDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Resolution",
                     Value = "8K",
@@ -70,9 +70,9 @@ public class CreateProductCommandValidatorTests
                     MeasureUnitId = null
                 }
             },
-            OtherDetails = new List<ProductDetailRequestPayload>
+            OtherDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Has Support to brand-1 Ai TPU runner system",
                     Value = "False",
@@ -111,7 +111,7 @@ public class CreateProductCommandValidatorTests
             BrandId = Brand.Create("brand-1", "sells-computers").Id, // Will not be parseable as null
             TagsIds = null,
             Measurements = null,
-            TechinicalDetails = null,
+            TechnicalDetails = null,
             OtherDetails = null
         };
 
@@ -149,16 +149,16 @@ public class CreateProductCommandValidatorTests
             {
                 ProductTag.Create("processor-2x").Id, // Cannot parse null to Guid
             },
-            Measurements = new List<ProductDetailRequestPayload>
+            Measurements = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = null,
                     Value = null,
                     ShowOrder = 1,
                     MeasureUnitId = null
                 },
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = null,
                     Value = null,
@@ -166,9 +166,9 @@ public class CreateProductCommandValidatorTests
                     MeasureUnitId = null
                 }
             },
-            TechinicalDetails = new List<ProductDetailRequestPayload>
+            TechnicalDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = null,
                     Value = null,
@@ -176,9 +176,9 @@ public class CreateProductCommandValidatorTests
                     MeasureUnitId = null
                 }
             },
-            OtherDetails = new List<ProductDetailRequestPayload>
+            OtherDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = null,
                     Value = null,
@@ -219,16 +219,16 @@ public class CreateProductCommandValidatorTests
                 Guid.Empty,
                 Guid.Empty
             },
-            Measurements = new List<ProductDetailRequestPayload>
+            Measurements = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = String.Empty,
                     Value = String.Empty,
                     ShowOrder = default,
                     MeasureUnitId = Guid.Empty
                 },
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = String.Empty,
                     Value = String.Empty,
@@ -236,9 +236,9 @@ public class CreateProductCommandValidatorTests
                     MeasureUnitId = Guid.Empty
                 }
             },
-            TechinicalDetails = new List<ProductDetailRequestPayload>
+            TechnicalDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = String.Empty,
                     Value = String.Empty,
@@ -246,9 +246,9 @@ public class CreateProductCommandValidatorTests
                     MeasureUnitId = Guid.Empty
                 }
             },
-            OtherDetails = new List<ProductDetailRequestPayload>
+            OtherDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = String.Empty,
                     Value = String.Empty,
@@ -293,16 +293,16 @@ public class CreateProductCommandValidatorTests
                 ProductTag.Create("processor-2x").Id,
                 ProductTag.Create("linear-algebra-processor").Id
             },
-            Measurements = new List<ProductDetailRequestPayload>
+            Measurements = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Width",
                     Value = "1920",
                     ShowOrder = -1,
                     MeasureUnitId = pixelMeasureUnit.Id
                 },
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Height",
                     Value = "1080",
@@ -310,9 +310,9 @@ public class CreateProductCommandValidatorTests
                     MeasureUnitId = megabytesMeasureUnit.Id
                 }
             },
-            TechinicalDetails = new List<ProductDetailRequestPayload>
+            TechnicalDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Resolution",
                     Value = "8K",
@@ -320,9 +320,9 @@ public class CreateProductCommandValidatorTests
                     MeasureUnitId = null
                 }
             },
-            OtherDetails = new List<ProductDetailRequestPayload>
+            OtherDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Has Support to brand-1 Ai TPU runner system",
                     Value = "False",
@@ -367,16 +367,16 @@ public class CreateProductCommandValidatorTests
                 ProductTag.Create("processor-2x").Id,
                 ProductTag.Create("linear-algebra-processor").Id
             },
-            Measurements = new List<ProductDetailRequestPayload>
+            Measurements = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = new string('*', 256),
                     Value = new string('*', 256),
                     ShowOrder = int.MaxValue,
                     MeasureUnitId = pixelMeasureUnit.Id
                 },
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = new string('*', 256),
                     Value = new string('*', 256),
@@ -384,9 +384,9 @@ public class CreateProductCommandValidatorTests
                     MeasureUnitId = megabytesMeasureUnit.Id
                 }
             },
-            TechinicalDetails = new List<ProductDetailRequestPayload>
+            TechnicalDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = new string('*', 256),
                     Value = new string('*', 256),
@@ -394,9 +394,9 @@ public class CreateProductCommandValidatorTests
                     MeasureUnitId = null
                 }
             },
-            OtherDetails = new List<ProductDetailRequestPayload>
+            OtherDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = new string('*', 256),
                     Value = new string('*', 256),
@@ -435,9 +435,9 @@ public class CreateProductCommandValidatorTests
             StockUnitCount = 10,
             BrandId = Brand.Create("brand-1", "sells-computers").Id,
             TagsIds = new List<Guid>(),
-            Measurements = new List<ProductDetailRequestPayload>(),
-            TechinicalDetails = new List<ProductDetailRequestPayload>(),
-            OtherDetails = new List<ProductDetailRequestPayload>()
+            Measurements = new List<ProductDetailCreateRequestPayload>(),
+            TechnicalDetails = new List<ProductDetailCreateRequestPayload>(),
+            OtherDetails = new List<ProductDetailCreateRequestPayload>()
         };
 
         //Act

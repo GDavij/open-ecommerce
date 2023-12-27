@@ -13,12 +13,12 @@ public record CreateProductCommand : IRequest<CreateProductCommandResponse>
     public decimal Price { get; init; }
     public int StockUnitCount { get; init; }
     public List<Guid> TagsIds { get; init; }
-    public List<ProductDetailRequestPayload> Measurements { get; init; }
-    public List<ProductDetailRequestPayload> TechinicalDetails { get; init; }
-    public List<ProductDetailRequestPayload> OtherDetails { get; init; }
+    public List<ProductDetailCreateRequestPayload> Measurements { get; init; }
+    public List<ProductDetailCreateRequestPayload> TechnicalDetails { get; init; }
+    public List<ProductDetailCreateRequestPayload> OtherDetails { get; init; }
 }
 
-public record ProductDetailRequestPayload
+public record ProductDetailCreateRequestPayload
 {
     public int ShowOrder { get; init; }
     public string Name { get; init; }

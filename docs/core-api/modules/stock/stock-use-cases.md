@@ -272,6 +272,14 @@ This use case has the objective to receive a product id, and if valid it will no
 
 TODO: Requests and Responses
 
+#### Test Cases
+
+TODO
+
+##### Command Validator Test Cases
+
+TODO
+
 #### Integration Events
 
 - Delete Product Integration Event -> (Important to Sales module, notify about the delete procedure to execute(remove from sales module))

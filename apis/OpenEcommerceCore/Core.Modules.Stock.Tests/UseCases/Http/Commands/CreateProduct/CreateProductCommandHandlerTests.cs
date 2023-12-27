@@ -118,16 +118,16 @@ public class CreateProductCommandHandlerTests
                 tag1.Id,
                 tag2.Id
             },
-            Measurements = new List<ProductDetailRequestPayload>
+            Measurements = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Width",
                     Value = "1920",
                     ShowOrder = 1,
                     MeasureUnitId = pixelMeasureUnit.Id
                 },
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Height",
                     Value = "1080",
@@ -135,18 +135,18 @@ public class CreateProductCommandHandlerTests
                     MeasureUnitId = megabytesMeasureUnit.Id
                 }
             },
-            TechinicalDetails = new List<ProductDetailRequestPayload>
+            TechnicalDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Resolution",
                     Value = "8K",
                     ShowOrder = 1,
                 }
             },
-            OtherDetails = new List<ProductDetailRequestPayload>
+            OtherDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Has Support to brand-1 Ai TPU runner system",
                     Value = "False",
@@ -271,16 +271,16 @@ public class CreateProductCommandHandlerTests
                 tag1.Id,
                 tag2.Id
             },
-            Measurements = new List<ProductDetailRequestPayload>
+            Measurements = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Width",
                     Value = "1920",
                     ShowOrder = 1,
                     MeasureUnitId = pixelMeasureUnit.Id
                 },
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Height",
                     Value = "1080",
@@ -288,18 +288,18 @@ public class CreateProductCommandHandlerTests
                     MeasureUnitId = megabytesMeasureUnit.Id
                 }
             },
-            TechinicalDetails = new List<ProductDetailRequestPayload>
+            TechnicalDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Resolution",
                     Value = "8K",
                     ShowOrder = 1,
                 }
             },
-            OtherDetails = new List<ProductDetailRequestPayload>
+            OtherDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Has Support to brand-1 Ai TPU runner system",
                     Value = "False",
@@ -405,16 +405,16 @@ public class CreateProductCommandHandlerTests
                 tag1.Id,
                 tag2.Id
             },
-            Measurements = new List<ProductDetailRequestPayload>
+            Measurements = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Width",
                     Value = "1920",
                     ShowOrder = 1,
                     MeasureUnitId = pixelMeasureUnit.Id
                 },
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Height",
                     Value = "1080",
@@ -422,18 +422,18 @@ public class CreateProductCommandHandlerTests
                     MeasureUnitId = megabytesMeasureUnit.Id
                 }
             },
-            TechinicalDetails = new List<ProductDetailRequestPayload>
+            TechnicalDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Resolution",
                     Value = "8K",
                     ShowOrder = 1,
                 }
             },
-            OtherDetails = new List<ProductDetailRequestPayload>
+            OtherDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Has Support to brand-1 Ai TPU runner system",
                     Value = "False",
@@ -541,16 +541,16 @@ public class CreateProductCommandHandlerTests
                 tag1.Id,
                 tag2.Id
             },
-            Measurements = new List<ProductDetailRequestPayload>
+            Measurements = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Width",
                     Value = "1920",
                     ShowOrder = 1,
                     MeasureUnitId = pixelMeasureUnit.Id
                 },
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Height",
                     Value = "1080",
@@ -558,18 +558,18 @@ public class CreateProductCommandHandlerTests
                     MeasureUnitId = megabytesMeasureUnit.Id
                 }
             },
-            TechinicalDetails = new List<ProductDetailRequestPayload>
+            TechnicalDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Resolution",
                     Value = "8K",
                     ShowOrder = 1,
                 }
             },
-            OtherDetails = new List<ProductDetailRequestPayload>
+            OtherDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Has Support to brand-1 Ai TPU runner system",
                     Value = "False",
@@ -677,16 +677,16 @@ public class CreateProductCommandHandlerTests
                 tag1.Id,
                 tag2.Id
             },
-            Measurements = new List<ProductDetailRequestPayload>
+            Measurements = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Width",
                     Value = "1920",
                     ShowOrder = 1,
                     MeasureUnitId = pixelMeasureUnit.Id
                 },
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Height",
                     Value = "1080",
@@ -694,18 +694,18 @@ public class CreateProductCommandHandlerTests
                     MeasureUnitId = megabytesMeasureUnit.Id
                 }
             },
-            TechinicalDetails = new List<ProductDetailRequestPayload>
+            TechnicalDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Resolution",
                     Value = "8K",
                     ShowOrder = 1,
                 }
             },
-            OtherDetails = new List<ProductDetailRequestPayload>
+            OtherDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Has Support to brand-1 Ai TPU runner system",
                     Value = "False",
@@ -800,16 +800,16 @@ public class CreateProductCommandHandlerTests
                 tag2.Id,
                 invalidTagId
             },
-            Measurements = new List<ProductDetailRequestPayload>
+            Measurements = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Width",
                     Value = "1920",
                     ShowOrder = 1,
                     MeasureUnitId = pixelMeasureUnit.Id
                 },
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Height",
                     Value = "1080",
@@ -817,18 +817,18 @@ public class CreateProductCommandHandlerTests
                     MeasureUnitId = megabytesMeasureUnit.Id
                 }
             },
-            TechinicalDetails = new List<ProductDetailRequestPayload>
+            TechnicalDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Resolution",
                     Value = "8K",
                     ShowOrder = 1,
                 }
             },
-            OtherDetails = new List<ProductDetailRequestPayload>
+            OtherDetails = new List<ProductDetailCreateRequestPayload>
             {
-                new ProductDetailRequestPayload
+                new ProductDetailCreateRequestPayload
                 {
                     Name = "Has Support to brand-1 Ai TPU runner system",
                     Value = "False",
@@ -905,16 +905,16 @@ public class CreateProductCommandHandlerTests
         _context.MeasureUnits
             .ReturnsForAnyArgs(mockMeasureUnitDbSet);
 
-        var measureDetails = new List<ProductDetailRequestPayload>
+        var measureDetails = new List<ProductDetailCreateRequestPayload>
         {
-            new ProductDetailRequestPayload
+            new ProductDetailCreateRequestPayload
             {
                 Name = "Some Measure Detail",
                 Value = "Value",
                 ShowOrder = 1,
                 MeasureUnitId = pixelMeasureUnit.Id
             },
-            new ProductDetailRequestPayload
+            new ProductDetailCreateRequestPayload
             {
                 Name = "Some Measure Details",
                 Value = "Value",
@@ -923,9 +923,9 @@ public class CreateProductCommandHandlerTests
             }
         };
 
-        var technicalDetails = new List<ProductDetailRequestPayload>
+        var technicalDetails = new List<ProductDetailCreateRequestPayload>
         {
-            new ProductDetailRequestPayload
+            new ProductDetailCreateRequestPayload
             {
                 Name = "Technical Detail",
                 Value = "A Value",
@@ -933,9 +933,9 @@ public class CreateProductCommandHandlerTests
             }
         };
 
-        var otherDetails = new List<ProductDetailRequestPayload>
+        var otherDetails = new List<ProductDetailCreateRequestPayload>
         {
-            new ProductDetailRequestPayload
+            new ProductDetailCreateRequestPayload
             {
                 Name = "Some Other Details",
                 Value = "A Value",
@@ -947,7 +947,7 @@ public class CreateProductCommandHandlerTests
         switch (productDetailToTestValidation)
         {
             case InvalidProductDetailToTest.Measures:
-               measureDetails.Add(new ProductDetailRequestPayload
+               measureDetails.Add(new ProductDetailCreateRequestPayload
                {
                    Name = "Some Invalid Measure Detail Measure Unit",
                    Value = "Some Invalid Value",
@@ -957,7 +957,7 @@ public class CreateProductCommandHandlerTests
                break;
             
             case InvalidProductDetailToTest.Technicals:
-                technicalDetails.Add(new ProductDetailRequestPayload
+                technicalDetails.Add(new ProductDetailCreateRequestPayload
                 {
                     Name = "Some Invalid Technical Detail Measure Unit",
                     Value = "Some Invalid Value",
@@ -967,7 +967,7 @@ public class CreateProductCommandHandlerTests
                 break;
             
             case InvalidProductDetailToTest.Others:
-                otherDetails.Add(new ProductDetailRequestPayload
+                otherDetails.Add(new ProductDetailCreateRequestPayload
                 {
                     Name = "Some Invalid Other Detail Measure Unit",
                     Value = "Some Invalid Value",
@@ -993,7 +993,7 @@ public class CreateProductCommandHandlerTests
                 tag2.Id,
             },
             Measurements = measureDetails,
-            TechinicalDetails = technicalDetails,
+            TechnicalDetails = technicalDetails,
             OtherDetails = otherDetails
         };
 
@@ -1069,23 +1069,23 @@ public class CreateProductCommandHandlerTests
             .Returns("https://localhost:3000/dashboard");
 
 
-        var measurements = new List<ProductDetailRequestPayload>();
-        var technicalDetails = new List<ProductDetailRequestPayload>();
-        var otherDetails = new List<ProductDetailRequestPayload>();
+        var measurements = new List<ProductDetailCreateRequestPayload>();
+        var technicalDetails = new List<ProductDetailCreateRequestPayload>();
+        var otherDetails = new List<ProductDetailCreateRequestPayload>();
 
         switch (invalidProductDetailToTest)
         {
             case InvalidProductDetailToTest.Measures:
-                measurements.AddRange(new List<ProductDetailRequestPayload>
+                measurements.AddRange(new List<ProductDetailCreateRequestPayload>
                 {
-                    new ProductDetailRequestPayload
+                    new ProductDetailCreateRequestPayload
                     {
                         Name = "Width",
                         Value = "1920",
                         ShowOrder = 1,
                         MeasureUnitId = pixelMeasureUnit.Id
                     },
-                    new ProductDetailRequestPayload
+                    new ProductDetailCreateRequestPayload
                     {
                         Name = "Height",
                         Value = "1080",
@@ -1096,16 +1096,16 @@ public class CreateProductCommandHandlerTests
                 break;
             
             case InvalidProductDetailToTest.Technicals:
-                technicalDetails.AddRange(new List<ProductDetailRequestPayload>
+                technicalDetails.AddRange(new List<ProductDetailCreateRequestPayload>
                 {
-                    new ProductDetailRequestPayload
+                    new ProductDetailCreateRequestPayload
                     {
                         Name = "DDR5 Support",
                         Value = "Yes",
                         MeasureUnitId = null,
                         ShowOrder = 1
                     },
-                    new ProductDetailRequestPayload
+                    new ProductDetailCreateRequestPayload
                     {
                         Name = "Architecture",
                         Value = "ARM64",
@@ -1116,16 +1116,16 @@ public class CreateProductCommandHandlerTests
                 break;
             
             case InvalidProductDetailToTest.Others:
-                otherDetails.AddRange(new List<ProductDetailRequestPayload>
+                otherDetails.AddRange(new List<ProductDetailCreateRequestPayload>
                 {
-                    new ProductDetailRequestPayload
+                    new ProductDetailCreateRequestPayload
                     {
                         Name = "Has brand-1 AI services",
                         Value = "Yes",
                         ShowOrder = 1,
                         MeasureUnitId = null
                     },
-                    new ProductDetailRequestPayload
+                    new ProductDetailCreateRequestPayload
                     {
                         Name = "Has brand-1 realtime X86 translate support to ARM",
                         Value = "Yes",
@@ -1150,7 +1150,7 @@ public class CreateProductCommandHandlerTests
                 tag2.Id
             },
             Measurements = measurements,
-            TechinicalDetails = technicalDetails,
+            TechnicalDetails = technicalDetails,
             OtherDetails = otherDetails
         };
 

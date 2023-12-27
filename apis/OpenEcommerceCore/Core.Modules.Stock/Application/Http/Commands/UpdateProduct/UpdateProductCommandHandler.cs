@@ -1,56 +1,75 @@
 using Core.Modules.Shared.Domain.Contracts.Services;
-using Core.Modules.Shared.Domain.IntegrationEvents.StockEvents.Product.ProductCreated;
-using Core.Modules.Stock.Application.IntegrationEvents.Product.Events.ProductCreated;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
-using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateProduct;
-using Core.Modules.Stock.Domain.Contracts.Providers;
+using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateProduct;
 using Core.Modules.Stock.Domain.Entities.Product;
-using Core.Modules.Stock.Domain.Entities.Product.ProductDetails;
 using Core.Modules.Stock.Domain.Exceptions.Product;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.Modules.Stock.Application.Http.Commands.CreateProduct;
+namespace Core.Modules.Stock.Application.Http.Commands.UpdateProduct;
 
-internal class CreateProductCommandHandler : ICreateProductCommandHandler
+internal class UpdateProductCommandHandler : IUpdateProductCommandHandler
 {
     private readonly IStockContext _dbContext;
-    private readonly IStockDateTimeProvider _stockDateTimeProvider;
-    private readonly IAppConfigService _configService;
     private readonly IPublishEndpoint _publishEndpoint;
-    public CreateProductCommandHandler(
+    private readonly IAppConfigService _configService;
+
+    public UpdateProductCommandHandler(
         IStockContext dbContext,
-        IStockDateTimeProvider stockDateTimeProvider,
         IPublishEndpoint publishEndpoint,
         IAppConfigService configService)
     {
         _dbContext = dbContext;
-        _stockDateTimeProvider = stockDateTimeProvider;
         _publishEndpoint = publishEndpoint;
         _configService = configService;
     }
-
-    public async Task<CreateProductCommandResponse> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+    
+    public async Task<UpdateProductCommandResponse> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
-        // If Possible Move Validation Logic to the validation middleware of command
+        var existentProduct = await _dbContext.Products
+            .FirstOrDefaultAsync(p => p.Id == request.ProductId);
+
+        if(existentProduct is null)
+        {
+            throw new InvalidProductException(request.ProductId);
+        }
+        
         if (!(await _dbContext.Brands.AnyAsync(b => b.Id == request.BrandId, cancellationToken)))
         {
             throw new InvalidBrandException(request.BrandId);
         }
-
-        if (await _dbContext.Products.AnyAsync(p => p.EAN == request.Ean, cancellationToken))
+        
+        //Is Product Name Valid(Not Existent and different from existent one to update)
+        if (await _dbContext.Products.AnyAsync(p =>
+                    p.Name == request.Name &&
+                    p.Id != request.ProductId,
+                cancellationToken))
+        {
+            throw new ExistentProductNameException(request.Name);
+        }
+        
+        if (await _dbContext.Products.AnyAsync(p => 
+                p.EAN == request.Ean &&
+                p.Id != request.ProductId,
+                cancellationToken))
         {
             throw new ExistentEanCodeException(request.Ean);
         }
 
         if (request.Upc is not null && 
-            await _dbContext.Products.AnyAsync(p => p.UPC == request.Upc, cancellationToken))
+            await _dbContext.Products.AnyAsync(p => 
+                p.UPC == request.Upc &&
+                p.Id != request.ProductId,
+                cancellationToken))
         {
             throw new ExistentUpcCodeException(request.Upc);
         }
-
+        
         if (request.Sku is not null && 
-            await _dbContext.Products.AnyAsync(p => p.SKU == request.Sku, cancellationToken))
+            await _dbContext.Products.AnyAsync(p =>
+                p.SKU == request.Sku && 
+                p.Id != request.ProductId,
+                cancellationToken))
         {
             throw new ExistentSkuCodeException(request.Sku);
         }
@@ -118,56 +137,6 @@ internal class CreateProductCommandHandler : ICreateProductCommandHandler
             throw new InvalidMeasureUnitException(firstInvalidMeasureUnitId);
         }
         
-        var brand = await _dbContext.Brands
-            .FirstAsync(b => b.Id == request.BrandId, cancellationToken);
         
-        var product = Product.Create(
-            brand: brand,
-            name: request.Name,
-            description: request.Description,
-            sku: request.Sku,
-            ean: request.Ean,
-            upc: request.Upc,
-            price: request.Price,
-            stockUnitCount: request.StockUnitCount,
-            stockDateTimeProvider: _stockDateTimeProvider);
-
-        product.Tags = validTags;
-        
-        product.Measurements = request.Measurements
-            .Select(m => MeasurementDetail.Create(
-                product: product,
-                showOrder: m.ShowOrder,
-                name: m.Name,
-                value: m.Value,
-                measureUnit: validMeasureUnits.FirstOrDefault(v => v.Id == m.MeasureUnitId)))
-            .ToList();
-        
-        product.TechnicalDetails = request.TechnicalDetails
-            .Select(t => TechnicalDetail.Create(
-                product: product,
-                showOrder: t.ShowOrder,
-                name: t.Name,
-                value: t.Value,
-                measureUnit: validMeasureUnits.FirstOrDefault(v => v.Id == t.MeasureUnitId)))
-            .ToList();
-        
-        product.OtherDetails = request.OtherDetails
-            .Select(o => OtherDetail.Create(
-                product: product,
-                showOrder: o.ShowOrder,
-                name: o.Name,
-                value: o.Value,
-                measureUnit: validMeasureUnits.FirstOrDefault(v => v.Id == o.MeasureUnitId)))
-            .ToList();
-        
-        _dbContext.Products.Add(product);
-
-        await _dbContext.SaveChangesAsync(cancellationToken);
-
-        //TODO:  Implement Retry with Polly and do publishing in other task for fast response
-        await _publishEndpoint.Publish(ProductCreatedIntegrationEvent.CreateEvent(product.MapToProductDto()));
-
-        return CreateProductCommandResponse.Respond($"products/{product.Id}", _configService);
     }
 }
