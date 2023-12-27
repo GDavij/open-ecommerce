@@ -37,6 +37,12 @@ internal class CreateProductCommandHandler : ICreateProductCommandHandler
         {
             throw new InvalidBrandException(request.BrandId);
         }
+        
+        //Is Product Name Valid
+        if (await _dbContext.Products.AnyAsync(p => p.Name == request.Name, cancellationToken))
+        {
+            throw new ExistentProductNameException(request.Name);
+        }
 
         if (await _dbContext.Products.AnyAsync(p => p.EAN == request.Ean, cancellationToken))
         {

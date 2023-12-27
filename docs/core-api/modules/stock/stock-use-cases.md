@@ -81,6 +81,7 @@ TODO: Should Validate Name Equality and Throw exception
 
 [X] - Should create Product with valid information.  
 [X] - Should not create Product with not existent brand.  
+[] - Should not create product with same Name of a existent product.
 [X] - Should not create Product with same EAN of a existent Product.  
 [X] - Should not create Product with same UPC of a existent Product.  
 [X] - Should not create Product with same SKU of a existent Product.  
