@@ -1,7 +1,12 @@
+using System.Diagnostics.Metrics;
 using Core.Modules.Shared.Domain.Contracts.Services;
+using Core.Modules.Stock.Application.IntegrationEvents.Product.Events;
+using Core.Modules.Stock.Application.IntegrationEvents.Product.Events.ProductCreated;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateProduct;
+using Core.Modules.Stock.Domain.Contracts.Providers;
 using Core.Modules.Stock.Domain.Entities.Product;
+using Core.Modules.Stock.Domain.Entities.Product.ProductDetails;
 using Core.Modules.Stock.Domain.Exceptions.Product;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -13,32 +18,36 @@ internal class UpdateProductCommandHandler : IUpdateProductCommandHandler
     private readonly IStockContext _dbContext;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IAppConfigService _configService;
+    private readonly IStockDateTimeProvider _dateTimeProvider;
 
     public UpdateProductCommandHandler(
         IStockContext dbContext,
         IPublishEndpoint publishEndpoint,
-        IAppConfigService configService)
+        IAppConfigService configService,
+        IStockDateTimeProvider dateTimeProvider)
     {
         _dbContext = dbContext;
         _publishEndpoint = publishEndpoint;
         _configService = configService;
+        _dateTimeProvider = dateTimeProvider;
     }
-    
+
     public async Task<UpdateProductCommandResponse> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
         var existentProduct = await _dbContext.Products
             .FirstOrDefaultAsync(p => p.Id == request.ProductId);
 
-        if(existentProduct is null)
+        if (existentProduct is null)
         {
             throw new InvalidProductException(request.ProductId);
         }
-        
-        if (!(await _dbContext.Brands.AnyAsync(b => b.Id == request.BrandId, cancellationToken)))
+
+        var brandToUpdate = await _dbContext.Brands.FirstOrDefaultAsync(b => b.Id == request.BrandId, cancellationToken);
+        if (brandToUpdate is null)
         {
             throw new InvalidBrandException(request.BrandId);
         }
-        
+
         //Is Product Name Valid(Not Existent and different from existent one to update)
         if (await _dbContext.Products.AnyAsync(p =>
                     p.Name == request.Name &&
@@ -47,8 +56,8 @@ internal class UpdateProductCommandHandler : IUpdateProductCommandHandler
         {
             throw new ExistentProductNameException(request.Name);
         }
-        
-        if (await _dbContext.Products.AnyAsync(p => 
+
+        if (await _dbContext.Products.AnyAsync(p =>
                 p.EAN == request.Ean &&
                 p.Id != request.ProductId,
                 cancellationToken))
@@ -56,18 +65,18 @@ internal class UpdateProductCommandHandler : IUpdateProductCommandHandler
             throw new ExistentEanCodeException(request.Ean);
         }
 
-        if (request.Upc is not null && 
-            await _dbContext.Products.AnyAsync(p => 
+        if (request.Upc is not null &&
+            await _dbContext.Products.AnyAsync(p =>
                 p.UPC == request.Upc &&
                 p.Id != request.ProductId,
                 cancellationToken))
         {
             throw new ExistentUpcCodeException(request.Upc);
         }
-        
-        if (request.Sku is not null && 
+
+        if (request.Sku is not null &&
             await _dbContext.Products.AnyAsync(p =>
-                p.SKU == request.Sku && 
+                p.SKU == request.Sku &&
                 p.Id != request.ProductId,
                 cancellationToken))
         {
@@ -82,7 +91,7 @@ internal class UpdateProductCommandHandler : IUpdateProductCommandHandler
         {
             throw new ShowOrderRepeatedException(ShowOrderRepeatedEncountered.Measures);
         }
-        
+
         bool existsRepeatedShowOrderInTechnicalDetails = request.TechnicalDetails
             .GroupBy(t => t.ShowOrder)
             .Count(t => t.Count() > 1) > 0;
@@ -91,7 +100,7 @@ internal class UpdateProductCommandHandler : IUpdateProductCommandHandler
         {
             throw new ShowOrderRepeatedException(ShowOrderRepeatedEncountered.TechnicalDetails);
         }
-        
+
         bool existsRepeatedShowOrderInOtherDetails = request.OtherDetails
             .GroupBy(o => o.ShowOrder)
             .Count(o => o.Count() > 1) > 0;
@@ -100,7 +109,7 @@ internal class UpdateProductCommandHandler : IUpdateProductCommandHandler
         {
             throw new ShowOrderRepeatedException(ShowOrderRepeatedEncountered.OtherDetails);
         }
-        
+
         List<ProductTag> validTags = await _dbContext.ProductTags
             .Where(pt => request.TagsIds.Contains(pt.Id))
             .ToListAsync(cancellationToken);
@@ -126,17 +135,58 @@ internal class UpdateProductCommandHandler : IUpdateProductCommandHandler
         var validMeasureUnits = await _dbContext.MeasureUnits
             .Where(m => measureUnitIds.Contains(m.Id))
             .ToListAsync(cancellationToken);
- 
+
         if (validMeasureUnits.Count < measureUnitIds.Count)
         {
             var validMeasureUnitIds = validMeasureUnits.Select(v => v.Id);
 
             Guid firstInvalidMeasureUnitId = measureUnitIds
                 .First(m => !validMeasureUnitIds.Contains(m));
-            
+
             throw new InvalidMeasureUnitException(firstInvalidMeasureUnitId);
         }
-        
-        
+
+        existentProduct.Brand = brandToUpdate;
+        existentProduct.Name = request.Name;
+        existentProduct.Description = request.Description;
+        existentProduct.SKU = request.Sku;
+        existentProduct.EAN = request.Ean;
+        existentProduct.UPC = request.Upc;
+        existentProduct.Price = request.Price;
+        existentProduct.StockUnitCount = request.StockUnitCount;
+        existentProduct.Tags = validTags;
+
+        existentProduct.Measurements = request.Measurements.Select(m => MeasurementDetail.Create(
+            product: existentProduct,
+            showOrder: m.ShowOrder,
+            name: m.Name,
+            value: m.Value,
+            measureUnit: validMeasureUnits.FirstOrDefault(vm => vm.Id == m.MeasureUnitId)
+            )).ToList();
+
+        existentProduct.TechnicalDetails = request.TechnicalDetails.Select(t => TechnicalDetail.Create(
+            product: existentProduct,
+            showOrder: t.ShowOrder,
+            name: t.Name,
+            value: t.Value,
+            measureUnit: validMeasureUnits.FirstOrDefault(vm => vm.Id == t.MeasureUnitId)
+        )).ToList();
+
+        existentProduct.OtherDetails = request.OtherDetails.Select(o => OtherDetail.Create(
+            product: existentProduct,
+            showOrder: o.ShowOrder,
+            name: o.Name,
+            value: o.Value,
+            measureUnit: validMeasureUnits.FirstOrDefault(vm => vm.Id == o.MeasureUnitId)
+        )).ToList();
+
+        existentProduct.LastUpdate = _dateTimeProvider.UtcNow;
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        //TODO: Add Retry With Polly
+        await _publishEndpoint.Publish(ProductUpdatedIntegrationEvent.CreateEvent(existentProduct.MapToProductDto()));
+
+        return UpdateProductCommandResponse.Respond($"products/{existentProduct.Id}", _configService);
     }
 }

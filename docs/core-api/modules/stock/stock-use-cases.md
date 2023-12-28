@@ -81,7 +81,7 @@ TODO: Should Validate Name Equality and Throw exception
 
 [X] - Should create Product with valid information.  
 [X] - Should not create Product with not existent brand.  
-[] - Should not create product with same Name of a existent product.
+[] - Should not create product with same Name of a existent product. -> TODO: Test is now in business rule
 [X] - Should not create Product with same EAN of a existent Product.  
 [X] - Should not create Product with same UPC of a existent Product.  
 [X] - Should not create Product with same SKU of a existent Product.  
@@ -258,6 +258,24 @@ This use case has the objective to receive a product id, and their updated data,
 #### Payloads
 
 TODO: Request and Response
+
+#### Test Cases
+
+[X] - Should Update Product for Valid Command with Different Values  
+[X] - Should Update Product for valid command with same Values as before Update  
+[X] - Should Not Update Product For Invalid Command with not existent Product Id  
+[X] - Should Not Update Product For Invalid Command with not existent Brand Id  
+[X] - Should Not Update Product For Invalid Command with Name same as existent product name that is not the one to update  
+[X] - Should Not Update Product For Invalid Command with Ean same as existent product EAN that is not the one to update  
+[X] - Should Not Update Product For Invalid Command with UPC same as existent product UPC that is not the one to update  
+[X] - Should Not Update Product For Invalid Command with SKU same as existent product SKU that is not the one to update  
+[] - Should Not Update Product For Invalid Command with Repeated Order on Any Product Details(Measurements, Technical Details, Other Details)  
+[] - Should Not Update Product For Invalid Command with Any Invalid MeasureUnit in Any Product Details (Measurements, Technical Details, Other Details)  
+
+
+##### Command Validator Test Cases
+
+TODO
 
 #### Integration Events
 

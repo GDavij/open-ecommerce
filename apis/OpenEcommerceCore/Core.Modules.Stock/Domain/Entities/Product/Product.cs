@@ -10,7 +10,7 @@ namespace Core.Modules.Stock.Domain.Entities.Product;
 internal class Product
 {
     public Guid Id { get; init; }
-    public Brand Brand { get; init; }
+    public Brand Brand { get; set; }
     public string Name { get; set; }
     public string? Description { get; set; }
     public string? SKU { get; set; }

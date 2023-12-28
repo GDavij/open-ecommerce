@@ -1,43 +1,44 @@
-using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateProduct;
+using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateProduct;
 using FluentValidation;
 
-namespace Core.Modules.Stock.Application.Http.Commands.CreateProduct;
+namespace Core.Modules.Stock.Application.Http.Commands.UpdateProduct;
 
-// Create Validator for Command
-internal class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
+internal class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
 {
-    public CreateProductCommandValidator()
+    public UpdateProductCommandValidator()
     {
+        RuleFor(c => c.ProductId)
+            .NotEmpty().WithMessage("Product Id must not be empty");
+
         RuleFor(c => c.BrandId)
             .NotEmpty().WithMessage("Brand Id must not be empty");
 
         RuleFor(c => c.Name)
             .NotEmpty().WithMessage("Name must not be empty")
-            .MinimumLength(1).WithMessage("Name must not have less than 1 character")
-            .MaximumLength(255).WithMessage("Name must not have more than 255 characters");
+            .MaximumLength(255).WithMessage("Name must have a max of 255 characters");
 
         RuleFor(c => c.Description)
-            .MaximumLength(512).When(d => d.Description is not null).WithMessage("Description must have a maximum of 512 characters");
+            .MaximumLength(512).When(c => !string.IsNullOrEmpty(c.Description)).WithMessage("Description must have a maximum of 512 characters");
 
         RuleFor(c => c.Sku)
-            .MaximumLength(20).When(c => c.Sku is not null).WithMessage("SKU must have a maximum of 20 characters")
-            .MinimumLength(4).When(c => c.Sku is not null).WithMessage("Sku must have a minimum of 4 characters when not empty");
+            .MaximumLength(20).When(c => !string.IsNullOrEmpty(c.Sku)).WithMessage("SKU must have a maximum of 20 characters when not empty")
+            .MinimumLength(4).When(c => !string.IsNullOrEmpty(c.Sku)).WithMessage("SKU Must have a minimum of 4 characters when not empty");
 
         RuleFor(c => c.Ean)
             .NotEmpty().WithMessage("EAN-13 must not be empty")
             .Length(13).WithMessage("EAN-13 Code must have 13 digits");
 
         RuleFor(c => c.Upc)
-            .Length(12).When(c => c.Upc is not null).WithMessage("UPC-A must have a length of 12 when not empty");
+            .Length(12).When(c => !string.IsNullOrEmpty(c.Upc)).WithMessage("UPC-A must have a length of 12 when not empty");
 
         RuleFor(c => c.Price)
             .NotEmpty().WithMessage("Price must not be empty")
-            .GreaterThanOrEqualTo(0).WithMessage("Price must be greater or equal to zero ")
-            .PrecisionScale(16,2, false).WithMessage("Precision of Price must not be higher than 16 and scale not higher than 2 - (Trailing zeros are considered in precision)");
+            .GreaterThanOrEqualTo(0).WithMessage("Price must be greater or equal to zero")
+            .PrecisionScale(16, 2, false).WithMessage("Precision of Price must not be higher than 16 and scale not higher than 2 - (Trailing zeros are considered in precision)");
 
         RuleFor(c => c.StockUnitCount)
             .NotEmpty().WithMessage("Stock Unit Count must not be empty")
-            .GreaterThanOrEqualTo(0).WithMessage("Stock Unit must be greater or equal to zero");
+            .GreaterThanOrEqualTo(0).WithMessage("Stock Unit Count must be greater than or equal to 0");
 
         RuleFor(c => c.TagsIds)
             .NotNull().WithMessage("Tags Ids must not be null");
