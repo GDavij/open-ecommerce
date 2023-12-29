@@ -931,4 +931,352 @@ public class UpdateProductCommandHandlerTests
             .Received(0)
             .Publish(Arg.Any<ProductUpdatedIntegrationEvent>());
     }
+
+    [Theory]
+    [InlineData(ProductDetailsToTestCaseTo.Measurements)]
+    [InlineData(ProductDetailsToTestCaseTo.TechnicalDetails)]
+    [InlineData(ProductDetailsToTestCaseTo.OtherDetails)]
+    internal async Task ShouldNotUpdateProductForInvalidCommandWithRepeatedOrderOnAnyProductDetails(ProductDetailsToTestCaseTo testCase)
+    {
+        //Arrange
+        var brand1 = Brand.Create("brand-1-old-logo", "sells computers");
+        
+        DbSet<Brand> brandDbSet = new List<Brand>
+            {
+                brand1
+            }
+            .AsQueryable()
+            .BuildMockDbSet();
+
+        _dbContext.Brands
+            .Returns(brandDbSet);
+
+        DbSet<MeasureUnit> measureUnitDbSet = new List<MeasureUnit>()
+            .AsQueryable()
+            .BuildMockDbSet();
+
+        _dbContext.MeasureUnits
+            .Returns(measureUnitDbSet);
+
+        DbSet<ProductTag> productTagDbSet = new List<ProductTag>()
+            .AsQueryable()
+            .BuildMockDbSet();
+
+        _dbContext.ProductTags
+            .Returns(productTagDbSet);
+        
+        var existentProduct = Product.Create(
+            brand: brand1,
+            name: "Computer-think black version",
+            description: "A Fast  computer",
+            sku: "cmpt-think-b",
+            ean: "a123dfg567abc",
+            upc: "123def567abc",
+            price: 1999.99m,
+            stockUnitCount: 99,
+            stockDateTimeProvider: _dateTimeProvider
+        );
+        
+        DbSet<Product> productDbSet = new List<Product>
+            {
+                existentProduct,
+            }
+            .AsQueryable()
+            .BuildMockDbSet();
+
+        _dbContext.Products
+            .Returns(productDbSet);
+
+        var validCommand = new UpdateProductCommand
+        {
+            ProductId = existentProduct.Id,
+            BrandId = brand1.Id,
+            Name = "computer-m1",
+            Description = "Computer-think black version with AI built-in",
+            Ean = existentProduct.EAN,
+            Upc = existentProduct.UPC,
+            Sku = existentProduct.SKU,
+            Price = 2999.99m,
+            StockUnitCount = 100,
+            TagsIds = new List<Guid>(),
+            Measurements = new List<ProductDetailUpdateRequestPayload>(),
+            TechnicalDetails = new List<ProductDetailUpdateRequestPayload>(),
+            OtherDetails = new List<ProductDetailUpdateRequestPayload>()
+        };
+
+        UpdateProductCommand invalidCommand;
+        if (testCase == ProductDetailsToTestCaseTo.Measurements)
+        {
+            invalidCommand = validCommand with
+            {
+                Measurements = new List<ProductDetailUpdateRequestPayload>
+                {
+                    new ProductDetailUpdateRequestPayload
+                    {
+                        Name = "abc",
+                        Value = "abc",
+                        ShowOrder = 1,
+                        MeasureUnitId = null
+                    },
+                    new ProductDetailUpdateRequestPayload
+                    {
+                        Name = "bcd",
+                        Value = "bca",
+                        ShowOrder = 1,
+                        MeasureUnitId = null
+                    }
+                }
+            };
+        } else if (testCase == ProductDetailsToTestCaseTo.TechnicalDetails)
+        {
+            invalidCommand = validCommand with
+            {
+                TechnicalDetails = new List<ProductDetailUpdateRequestPayload>
+                {
+                    new ProductDetailUpdateRequestPayload
+                    {
+                        Name = "abc",
+                        Value = "abc",
+                        ShowOrder = 1,
+                        MeasureUnitId = null
+                    },
+                    new ProductDetailUpdateRequestPayload
+                    {
+                        Name = "bcd",
+                        Value = "bca",
+                        ShowOrder = 1,
+                        MeasureUnitId = null
+                    }
+                }
+            };
+        }
+        else
+        {
+            invalidCommand = validCommand with
+            {
+                OtherDetails = new List<ProductDetailUpdateRequestPayload>
+                {
+                    new ProductDetailUpdateRequestPayload
+                    {
+                        Name = "abc",
+                        Value = "abc",
+                        ShowOrder = 1,
+                        MeasureUnitId = null
+                    },
+                    new ProductDetailUpdateRequestPayload
+                    {
+                        Name = "bcd",
+                        Value = "bca",
+                        ShowOrder = 1,
+                        MeasureUnitId = null
+                    }
+                }
+            };
+        }
+
+        Func<Task> action = async () =>  await _commandHandler.Handle(invalidCommand, default); 
+        
+        //Act
+        var exception = await FluentActions.Invoking(action)
+            .Should()
+            .ThrowAsync<ShowOrderRepeatedException>();
+        
+        //Assert
+        var expectedShowOrderRepeated = testCase switch
+        {
+            ProductDetailsToTestCaseTo.Measurements => ShowOrderRepeatedEncountered.Measures,
+            ProductDetailsToTestCaseTo.TechnicalDetails => ShowOrderRepeatedEncountered.TechnicalDetails,
+            ProductDetailsToTestCaseTo.OtherDetails => ShowOrderRepeatedEncountered.OtherDetails
+        };
+        
+        exception.Which.Message
+            .Should()
+            .Be($"Encountered repeated value at list {expectedShowOrderRepeated}");
+
+        await _dbContext
+            .Received(0)
+            .SaveChangesAsync(default);
+
+        await _publishEndpoint
+            .Received(0)
+            .Publish(Arg.Any<ProductUpdatedIntegrationEvent>());
+    }
+    
+    [Theory]
+    [InlineData(ProductDetailsToTestCaseTo.Measurements)]
+    [InlineData(ProductDetailsToTestCaseTo.TechnicalDetails)]
+    [InlineData(ProductDetailsToTestCaseTo.OtherDetails)]
+    internal async Task ShouldNotUpdateProductForInvalidCommandWithAnyInvalidMeasureUnitInAnyProductDetails(ProductDetailsToTestCaseTo testCase)
+    {
+             //Arrange
+        var brand1 = Brand.Create("brand-1-old-logo", "sells computers");
+        
+        DbSet<Brand> brandDbSet = new List<Brand>
+            {
+                brand1
+            }
+            .AsQueryable()
+            .BuildMockDbSet();
+
+        _dbContext.Brands
+            .Returns(brandDbSet);
+
+        DbSet<MeasureUnit> measureUnitDbSet = new List<MeasureUnit>()
+            .AsQueryable()
+            .BuildMockDbSet();
+
+        _dbContext.MeasureUnits
+            .Returns(measureUnitDbSet);
+
+        DbSet<ProductTag> productTagDbSet = new List<ProductTag>()
+            .AsQueryable()
+            .BuildMockDbSet();
+
+        _dbContext.ProductTags
+            .Returns(productTagDbSet);
+        
+        var existentProduct = Product.Create(
+            brand: brand1,
+            name: "Computer-think black version",
+            description: "A Fast  computer",
+            sku: "cmpt-think-b",
+            ean: "a123dfg567abc",
+            upc: "123def567abc",
+            price: 1999.99m,
+            stockUnitCount: 99,
+            stockDateTimeProvider: _dateTimeProvider
+        );
+        
+        DbSet<Product> productDbSet = new List<Product>
+            {
+                existentProduct,
+            }
+            .AsQueryable()
+            .BuildMockDbSet();
+
+        _dbContext.Products
+            .Returns(productDbSet);
+
+        var validCommand = new UpdateProductCommand
+        {
+            ProductId = existentProduct.Id,
+            BrandId = brand1.Id,
+            Name = "computer-m1",
+            Description = "Computer-think black version with AI built-in",
+            Ean = existentProduct.EAN,
+            Upc = existentProduct.UPC,
+            Sku = existentProduct.SKU,
+            Price = 2999.99m,
+            StockUnitCount = 100,
+            TagsIds = new List<Guid>(),
+            Measurements = new List<ProductDetailUpdateRequestPayload>(),
+            TechnicalDetails = new List<ProductDetailUpdateRequestPayload>(),
+            OtherDetails = new List<ProductDetailUpdateRequestPayload>()
+        };
+
+        UpdateProductCommand invalidCommand;
+        Guid invalidMeasureUnitId = Guid.NewGuid();
+        if (testCase == ProductDetailsToTestCaseTo.Measurements)
+        {
+            invalidCommand = validCommand with
+            {
+                Measurements = new List<ProductDetailUpdateRequestPayload>
+                {
+                    new ProductDetailUpdateRequestPayload
+                    {
+                        Name = "abc",
+                        Value = "abc",
+                        ShowOrder = 1,
+                        MeasureUnitId = null
+                    },
+                    new ProductDetailUpdateRequestPayload
+                    {
+                        Name = "bcd",
+                        Value = "bca",
+                        ShowOrder = 2,
+                        MeasureUnitId = invalidMeasureUnitId
+                    }
+                }
+            };
+        } else if (testCase == ProductDetailsToTestCaseTo.TechnicalDetails)
+        {
+            invalidCommand = validCommand with
+            {
+                TechnicalDetails = new List<ProductDetailUpdateRequestPayload>
+                {
+                    new ProductDetailUpdateRequestPayload
+                    {
+                        Name = "abc",
+                        Value = "abc",
+                        ShowOrder = 1,
+                        MeasureUnitId = null
+                    },
+                    new ProductDetailUpdateRequestPayload
+                    {
+                        Name = "bcd",
+                        Value = "bca",
+                        ShowOrder = 2,
+                        MeasureUnitId = invalidMeasureUnitId
+                    }
+                }
+            };
+        }
+        else
+        {
+            invalidCommand = validCommand with
+            {
+                OtherDetails = new List<ProductDetailUpdateRequestPayload>
+                {
+                    new ProductDetailUpdateRequestPayload
+                    {
+                        Name = "abc",
+                        Value = "abc",
+                        ShowOrder = 1,
+                        MeasureUnitId = null
+                    },
+                    new ProductDetailUpdateRequestPayload
+                    {
+                        Name = "bcd",
+                        Value = "bca",
+                        ShowOrder = 3,
+                        MeasureUnitId = invalidMeasureUnitId
+                    }
+                }
+            };
+        }
+
+        Func<Task> action = async () =>  await _commandHandler.Handle(invalidCommand, default); 
+        
+        //Act
+        var exception = await FluentActions.Invoking(action)
+            .Should()
+            .ThrowAsync<InvalidMeasureUnitException>();
+        
+        //Assert
+        var expectedShowOrderRepeated = testCase switch
+        {
+            ProductDetailsToTestCaseTo.Measurements => ShowOrderRepeatedEncountered.Measures,
+            ProductDetailsToTestCaseTo.TechnicalDetails => ShowOrderRepeatedEncountered.TechnicalDetails,
+            ProductDetailsToTestCaseTo.OtherDetails => ShowOrderRepeatedEncountered.OtherDetails
+        };
+        
+        exception.Which.Message
+            .Should()
+            .Be($"Invalid Measure Unit was sent with Id: {invalidMeasureUnitId}");
+
+        await _dbContext
+            .Received(0)
+            .SaveChangesAsync(default);
+
+        await _publishEndpoint
+            .Received(0)
+            .Publish(Arg.Any<ProductUpdatedIntegrationEvent>());
+    }
+}
+
+internal enum ProductDetailsToTestCaseTo
+{
+        Measurements,
+        TechnicalDetails,
+        OtherDetails
 }

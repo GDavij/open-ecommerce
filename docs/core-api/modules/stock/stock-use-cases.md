@@ -269,8 +269,8 @@ TODO: Request and Response
 [X] - Should Not Update Product For Invalid Command with Ean same as existent product EAN that is not the one to update  
 [X] - Should Not Update Product For Invalid Command with UPC same as existent product UPC that is not the one to update  
 [X] - Should Not Update Product For Invalid Command with SKU same as existent product SKU that is not the one to update  
-[] - Should Not Update Product For Invalid Command with Repeated Order on Any Product Details(Measurements, Technical Details, Other Details)  
-[] - Should Not Update Product For Invalid Command with Any Invalid MeasureUnit in Any Product Details (Measurements, Technical Details, Other Details)  
+[X] - Should Not Update Product For Invalid Command with Repeated Order on Any Product Details(Measurements, Technical Details, Other Details)  
+[X] - Should Not Update Product For Invalid Command with Any Invalid MeasureUnit in Any Product Details (Measurements, Technical Details, Other Details)  
 
 
 ##### Command Validator Test Cases
