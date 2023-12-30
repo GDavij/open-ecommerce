@@ -275,7 +275,13 @@ TODO: Request and Response
 
 ##### Command Validator Test Cases
 
-TODO
+[X] - Should Accept Valid Command
+[X] - Should Accept Valid Command With Empty Lists For Product Details And Tags (Product Details: Measurements, Technical Details, Other Details )
+[X] - Should Negate Invalid Command with Empty Values
+[X] - Should Negate Invalid Command with Values Less Than Min Values
+[X] - Should Negate Invalid Command with Values Higher Than Max Values
+[X] - Should Negate Invalid Command with Null Values Considering List Values As Null
+[X] - Should Negate Invalid Command with Null Values Considering List as Null
 
 #### Integration Events
 
