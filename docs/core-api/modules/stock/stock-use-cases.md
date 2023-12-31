@@ -321,7 +321,7 @@ TODO: Requests and Responses
 
 #### Integration Events
 
-- Update Brand Integration Event -> (Important to Sales Module)
+[X] - Brand Updated Integration Event(Without Retry with Polly) -> (Important to Sales Module)
 
 ### Delete Brand
 
