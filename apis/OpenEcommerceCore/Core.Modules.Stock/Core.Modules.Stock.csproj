@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Domain\Contracts\Http\Commands\UpdateBrand\" />
       <Folder Include="Domain\Models\" />
     </ItemGroup>
 
