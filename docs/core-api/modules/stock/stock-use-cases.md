@@ -365,7 +365,7 @@ TODO: Request and Response
 
 - Measure Unit Deleted
 
-### Create Restock Order
+### Create Restock Order - DELAYED
 
 #### Objective
 
@@ -379,9 +379,9 @@ TODO: Request and Response
 
 #### Integration Events
 
-- RestockOrderCreated
+- RestockOrderCreated 
 
-### Delete Restock Order
+### Delete Restock Order - DELAYED
 
 #### Objective
 
@@ -393,9 +393,9 @@ TODO: Request and Response
 
 #### Integration Events
 
-- RestockOrderDeleted
+- RestockOrderDeleted 
 
-### Send Demand Message for Restock Order
+### Send Demand Message for Restock Order - DELAYED
 
 #### Objective
 
@@ -409,9 +409,9 @@ TODO: Request and Response
 
 #### Integration Events
 
-- Demand Message For Restock Order Sent
+- Demand Message For Restock Order Sent 
 
-### Delete Demand Message from Restock Order
+### Delete Demand Message from Restock Order - DELAYED
 
 #### Objective
 
@@ -441,6 +441,6 @@ TODO: Define Messaging Integration Events(Subjects)
 
 ### Delete Supplier (Finance) (React event endpoint)
 
-### Denied Restock Order (Finance) (React Event Endpoint)
+### Denied Restock Order (Finance) (React Event Endpoint) - DELAYED
 
-### Resolved Restock Order (Finance) (React Event Endpoint)
+### Resolved Restock Order (Finance) (React Event Endpoint) - DELAYED
