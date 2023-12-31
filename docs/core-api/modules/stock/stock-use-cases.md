@@ -285,7 +285,7 @@ TODO: Request and Response
 
 #### Integration Events
 
-- Product Updated Integration Event -> (Important to Sales Module)
+[X] - Product Updated Integration Event -> (Important to Sales Module)
 
 ### Delete Product
 
@@ -349,7 +349,7 @@ TODO: Request and Response
 
 #### Integration Events
 
-- Measure Unit Updated
+[X] - Measure Unit Updated(Without Retry)
 
 ### Delete Measure Unit
 
@@ -395,7 +395,7 @@ TODO: Request and Response
 
 - RestockOrderDeleted
 
-### Send Demand Message to Restock Order
+### Send Demand Message for Restock Order
 
 #### Objective
 

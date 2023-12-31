@@ -1,5 +1,4 @@
 using Core.Modules.Shared.Domain.Contracts.Services;
-using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateProduct;
 
 namespace Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateBrand;
 
