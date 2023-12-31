@@ -363,7 +363,7 @@ TODO: Request and Response
 
 #### Integration Events
 
-- Measure Unit Deleted
+[X] - Measure Unit Deleted
 
 ### Create Restock Order - DELAYED
 
