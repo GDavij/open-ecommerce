@@ -1,3 +1,4 @@
+using Core.Modules.Shared;
 using Core.Modules.Stock;
 using Core.Modules.UserAccess;
 
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.RegisterSharedModule();
 builder.Services.RegisterUserAccessModule();
 builder.Services.RegisterStockModule();
 
