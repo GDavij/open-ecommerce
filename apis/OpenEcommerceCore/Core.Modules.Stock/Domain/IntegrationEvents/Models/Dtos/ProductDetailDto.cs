@@ -1,4 +1,4 @@
-namespace Core.Modules.Stock.Application.IntegrationEvents.Product.Dtos;
+namespace Core.Modules.Stock.Domain.IntegrationEvents.Models.Dtos;
 
 public record ProductDetailDto
 {

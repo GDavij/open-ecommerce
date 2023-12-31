@@ -1,7 +1,6 @@
-using Core.Modules.Stock.Application.IntegrationEvents;
-using Core.Modules.Stock.Application.IntegrationEvents.Product.Dtos;
+using Core.Modules.Stock.Domain.IntegrationEvents.Models.Dtos;
 
-namespace Core.Modules.Shared.Domain.IntegrationEvents.StockEvents.Product.ProductCreated;
+namespace Core.Modules.Stock.Domain.IntegrationEvents.Product;
 
 public class ProductCreatedIntegrationEvent : BaseIntegrationEvent
 {

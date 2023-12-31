@@ -1,11 +1,12 @@
 using Azure.Storage.Blobs;
 using Core.Modules.Shared.Domain.Constants;
 using Core.Modules.Shared.Domain.Contracts.Services;
-using Core.Modules.Stock.Application.IntegrationEvents.Product.Events.AddedImageToProductIntegrationEvent;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.AddImageToProduct;
 using Core.Modules.Stock.Domain.Entities.Product;
 using Core.Modules.Stock.Domain.Exceptions.Product;
+using Core.Modules.Stock.Domain.IntegrationEvents.Models.Mappings;
+using Core.Modules.Stock.Domain.IntegrationEvents.Product;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 

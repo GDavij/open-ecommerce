@@ -4,26 +4,22 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Models;
 using Core.Modules.Shared.Domain.Constants;
 using Core.Modules.Shared.Domain.Contracts.Services;
-using Core.Modules.Shared.Domain.IntegrationEvents.StockEvents.Product.ProductCreated;
 using Core.Modules.Stock.Application.Http.Commands.AddImageToProduct;
-using Core.Modules.Stock.Application.IntegrationEvents.Product.Events.AddedImageToProductIntegrationEvent;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.AddImageToProduct;
 using Core.Modules.Stock.Domain.Contracts.Providers;
 using Core.Modules.Stock.Domain.Entities;
 using Core.Modules.Stock.Domain.Entities.Product;
 using Core.Modules.Stock.Domain.Exceptions.Product;
+using Core.Modules.Stock.Domain.IntegrationEvents.Product;
 using FluentAssertions;
 using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using MockQueryable.NSubstitute;
 using NSubstitute;
-using NSubstitute.ExceptionExtensions;
-using NSubstitute.ReceivedExtensions;
 using Xunit;
 
 namespace Core.Modules.Stock.Tests.UseCases.Http.Commands.AddImageToProduct;
@@ -46,7 +42,7 @@ public class AddImageToProductCommandHandlerTests
         _publishEndpoint = Substitute.For<IPublishEndpoint>();
         _blobServiceClient = Substitute.For<BlobServiceClient>();
         _blobContainerClient = Substitute.For<BlobContainerClient>();
-        
+
         _commandHandler = new AddImageToProductCommandHandler(_dbContext, _blobServiceClient, _publishEndpoint, _configService);
 
         _blobServiceClient.GetBlobContainerClient(AzureBlobStorageContainers.ProductImages)
@@ -71,7 +67,7 @@ public class AddImageToProductCommandHandlerTests
             stockDateTimeProvider: _dateTimeProvider
         );
 
-        DbSet<Product> mockedProductsDbContext = new List<Product> 
+        DbSet<Product> mockedProductsDbContext = new List<Product>
             {
                 databaseProduct
             }
@@ -95,25 +91,25 @@ public class AddImageToProductCommandHandlerTests
             Description = "Drill Photo",
             ImageFile = imageFile
         };
-        
+
         imageFile.ContentType
             .Returns("application/png");
-        
+
         _configService.GetEnvironmentVariable("StockModule:AdministrativeDashboardBaseUrl")
             .Returns("https://localhost:3000/dashboard");
-        
+
         var blobContainerMockGeneratedResourceUri = new Uri("https://opencommerce.microsoft.azure.net/blobs/container/filename.png");
-        
+
         _blobContainerClient.Uri
             .Returns(blobContainerMockGeneratedResourceUri);
 
         string blobFileName = null;
 
         await _blobContainerClient.UploadBlobAsync(Arg.Do<string>(s => blobFileName = s), Arg.Any<Stream>(), default);
-        
+
         //Act
         var result = await _commandHandler.Handle(command, default);
-        
+
         //Assert
         await _blobContainerClient
             .Received(1)
@@ -125,12 +121,12 @@ public class AddImageToProductCommandHandlerTests
 
         await _publishEndpoint
             .Received(1)
-            .Publish(Arg.Is<AddedImageToProductIntegrationEvent>(ev => 
+            .Publish(Arg.Is<AddedImageToProductIntegrationEvent>(ev =>
                 ev.ProductImage.Description == command.Description &&
                 ev.ProductImage.ProductId == command.ProductId));
-        
+
         string administrativeFrontendUrl = _configService.GetEnvironmentVariable("StockModule:AdministrativeDashboardBaseUrl");
-       
+
         result.Resource
             .Should()
             .Be($"{administrativeFrontendUrl}/products/{databaseProduct.Id}");
@@ -146,9 +142,9 @@ public class AddImageToProductCommandHandlerTests
 
         _dbContext.Products
             .Returns(mockedProductsDbContext);
-        
+
         var imageFile = Substitute.For<IFormFile>();
-        
+
         Guid notInvalidProductId = Guid.NewGuid();
         AddImageToProductCommand command = new AddImageToProductCommand
         {
@@ -156,12 +152,12 @@ public class AddImageToProductCommandHandlerTests
             Description = "Drill Photo",
             ImageFile = imageFile
         };
-        
+
         imageFile.ContentType
             .Returns("application/png");
 
         Func<Task> action = async () => { await _commandHandler.Handle(command, default); };
-        
+
         //Act
         var exception = await FluentActions.Invoking(action)
             .Should()
@@ -182,7 +178,7 @@ public class AddImageToProductCommandHandlerTests
 
         await _publishEndpoint
             .Received(0)
-            .Publish(Arg.Is<AddedImageToProductIntegrationEvent>(ev => 
+            .Publish(Arg.Is<AddedImageToProductIntegrationEvent>(ev =>
                 ev.ProductImage.Description == command.Description &&
                 ev.ProductImage.ProductId == command.ProductId));
     }

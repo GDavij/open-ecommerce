@@ -1,4 +1,4 @@
-namespace Core.Modules.Stock.Application.IntegrationEvents;
+namespace Core.Modules.Stock.Domain.IntegrationEvents;
 
 public abstract class BaseIntegrationEvent
 {

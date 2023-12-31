@@ -1,7 +1,7 @@
-using Core.Modules.Stock.Application.IntegrationEvents.Product.Dtos;
 using Core.Modules.Stock.Domain.Entities.Product;
+using Core.Modules.Stock.Domain.IntegrationEvents.Models.Dtos;
 
-namespace Core.Modules.Stock.Application.IntegrationEvents.Product.Events.AddedImageToProductIntegrationEvent;
+namespace Core.Modules.Stock.Domain.IntegrationEvents.Models.Mappings;
 
 internal static class ProductImageToDtoMappings
 {

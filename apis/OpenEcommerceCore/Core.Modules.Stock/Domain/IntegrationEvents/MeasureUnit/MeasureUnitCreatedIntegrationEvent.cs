@@ -1,6 +1,6 @@
-using Core.Modules.Stock.Application.IntegrationEvents.Product.Dtos;
+using Core.Modules.Stock.Domain.IntegrationEvents.Models.Dtos;
 
-namespace Core.Modules.Stock.Application.IntegrationEvents.MeasureUnit;
+namespace Core.Modules.Stock.Domain.IntegrationEvents.MeasureUnit;
 
 internal class MeasureUnitCreatedIntegrationEvent : BaseIntegrationEvent
 {

@@ -307,7 +307,7 @@ TODO
 
 #### Integration Events
 
-- Delete Product Integration Event -> (Important to Sales module, notify about the delete procedure to execute(remove from sales module))
+[X] - Product Deleted Integration Event -> (Important to Sales module, notify about the delete procedure to execute(remove from sales module))
 
 ### Update Brand
 

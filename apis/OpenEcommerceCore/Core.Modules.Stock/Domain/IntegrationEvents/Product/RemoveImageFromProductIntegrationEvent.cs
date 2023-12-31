@@ -1,8 +1,6 @@
-using Core.Modules.Stock.Domain.Contracts.Http.Commands.RemoveImageFromProduct;
+namespace Core.Modules.Stock.Domain.IntegrationEvents.Product;
 
-namespace Core.Modules.Stock.Application.IntegrationEvents.Product.Events.RemoveImageFromProductIntegrationEvent;
-
-public class RemoveImageFromProductIntegrationEvent
+public class RemoveImageFromProductIntegrationEvent : BaseIntegrationEvent
 {
     public Guid ProductId { get; init; }
     public Guid Id { get; init; }
