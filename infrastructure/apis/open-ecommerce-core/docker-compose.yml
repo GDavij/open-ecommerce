@@ -1,0 +1,17 @@
+services:
+  dev-api:
+    build: .
+    ports:
+      - "8081:5001"
+      - "8080:5000"
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - AZURE_STORAGE_CONNECTION_STRING
+
+  dev-postgres-db:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD

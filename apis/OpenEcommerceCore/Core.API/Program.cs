@@ -1,4 +1,5 @@
 using Core.Modules.Stock;
+using Core.Modules.UserAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.RegisterUserAccessModule();
 builder.Services.RegisterStockModule();
 
 var app = builder.Build();
@@ -18,6 +20,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+if (app.Environment.IsProduction())
+{
+    app.RunStockMigrations();
+    app.RunUserAccessMigrations();
 }
 
 app.UseHttpsRedirection();

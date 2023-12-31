@@ -1,6 +1,6 @@
 namespace Core.Modules.UserAccess.Domain.Contracts.Providers;
 
-public interface IDateTimeProvider
+public interface IUserAccessDateTimeProvider
 {
     DateTime UtcNow { get; }
     

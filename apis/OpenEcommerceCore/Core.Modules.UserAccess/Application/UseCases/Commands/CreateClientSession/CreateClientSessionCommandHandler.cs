@@ -15,13 +15,13 @@ internal class CreateClientSessionCommandHandler : ICreateClientSessionCommandHa
 {
     private readonly IUserAccessContext _dbContext;
     private readonly ISecurityService _securityService;
-    private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IUserAccessDateTimeProvider _userAccessDateTimeProvider;
     
-    public CreateClientSessionCommandHandler(IUserAccessContext dbContext, ISecurityService securityService, IDateTimeProvider dateTimeProvider)
+    public CreateClientSessionCommandHandler(IUserAccessContext dbContext, ISecurityService securityService, IUserAccessDateTimeProvider userAccessDateTimeProvider)
     {
         _dbContext = dbContext;
         _securityService = securityService;
-        _dateTimeProvider = dateTimeProvider;
+        _userAccessDateTimeProvider = userAccessDateTimeProvider;
     }
     
     public async Task<ValidationResult<CreateClientSessionResponse>> Handle(CreateClientSessionCommand request, CancellationToken cancellationToken)
@@ -45,7 +45,7 @@ internal class CreateClientSessionCommandHandler : ICreateClientSessionCommandHa
             existentClient.Id,
             existentClient.Password,
             ETokenType.Client,
-            TokenExpiration.OneDayFromNow(_dateTimeProvider));
+            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
 
         string encodedToken = _securityService.EncodeToken(token);
 

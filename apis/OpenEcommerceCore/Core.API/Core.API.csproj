@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Core.Modules.Stock\Core.Modules.Stock.csproj" />
+      <ProjectReference Include="..\Core.Modules.UserAccess\Core.Modules.UserAccess.csproj" />
     </ItemGroup>
 
     <ItemGroup>

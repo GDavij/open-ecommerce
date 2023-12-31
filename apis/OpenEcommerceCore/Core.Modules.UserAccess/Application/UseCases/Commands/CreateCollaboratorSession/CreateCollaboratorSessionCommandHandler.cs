@@ -16,16 +16,16 @@ internal class CreateCollaboratorSessionCommandHandler : ICreateCollaboratorSess
 {
     private readonly IUserAccessContext _dbContext;
     private readonly ISecurityService _securityService;
-    private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IUserAccessDateTimeProvider _userAccessDateTimeProvider;
 
     public CreateCollaboratorSessionCommandHandler(
         IUserAccessContext dbContext,
         ISecurityService securityService,
-        IDateTimeProvider dateTimeProvider)
+        IUserAccessDateTimeProvider userAccessDateTimeProvider)
     {
         _dbContext = dbContext;
         _securityService = securityService;
-        _dateTimeProvider = dateTimeProvider;
+        _userAccessDateTimeProvider = userAccessDateTimeProvider;
     }
     
     public async Task<ValidationResult<CreateCollaboratorSessionResponse>> Handle(CreateCollaboratorSessionCommand request, CancellationToken cancellationToken)
@@ -49,7 +49,7 @@ internal class CreateCollaboratorSessionCommandHandler : ICreateCollaboratorSess
             existentCollaborator.Id,
             existentCollaborator.Password,
             ETokenType.Collaborator,
-            TokenExpiration.OneDayFromNow(_dateTimeProvider));
+            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
 
         string encodedToken = _securityService.EncodeToken(token);
 

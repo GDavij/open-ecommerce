@@ -28,7 +28,7 @@ public class AuthenticateClientCommandHandlerTests
     private readonly IUserAccessContext _dbContext;
     private readonly ISecurityService _securityService;
     private readonly IAppConfigService _appConfigService;
-    private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IUserAccessDateTimeProvider _userAccessDateTimeProvider;
     private readonly IAuthenticateClientCommandHandler _command;
 
     public AuthenticateClientCommandHandlerTests()
@@ -36,8 +36,8 @@ public class AuthenticateClientCommandHandlerTests
         _dbContext = Substitute.For<IUserAccessContext>();
         _appConfigService = Substitute.For<IAppConfigService>();
         _securityService = new SecurityService(_appConfigService);
-        _dateTimeProvider = Substitute.For<IDateTimeProvider>();
-        _command = new AuthenticateClientCommandHandler(_securityService, _dbContext, _dateTimeProvider);
+        _userAccessDateTimeProvider = Substitute.For<IUserAccessDateTimeProvider>();
+        _command = new AuthenticateClientCommandHandler(_securityService, _dbContext, _userAccessDateTimeProvider);
     }
     
     [Fact]
@@ -83,7 +83,7 @@ public class AuthenticateClientCommandHandlerTests
        
         
         // Create a mock dateTime 
-        _dateTimeProvider.UtcNowOffset
+        _userAccessDateTimeProvider.UtcNowOffset
             .Returns(DateTimeOffset.UtcNow);
         
         // Create a Valid Token
@@ -91,7 +91,7 @@ public class AuthenticateClientCommandHandlerTests
             existentClient.Id,
             existentClient.Password,
             ETokenType.Client,
-            TokenExpiration.OneDayFromNow(_dateTimeProvider));
+            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
         
         var validEncodedToken = _securityService.EncodeToken(validToken);
 
@@ -165,7 +165,7 @@ public class AuthenticateClientCommandHandlerTests
         _dbContext.Clients.Returns(mockClientDbSet);
         
         // Mock DateTime
-        _dateTimeProvider.UtcNowOffset
+        _userAccessDateTimeProvider.UtcNowOffset
             .Returns(DateTimeOffset.UtcNow);
         
         // Create a Invalid Token
@@ -179,7 +179,7 @@ public class AuthenticateClientCommandHandlerTests
             existentClient.Id,
             clientWrongDerivedPassword,
             ETokenType.Client,
-            TokenExpiration.OneDayFromNow(_dateTimeProvider));
+            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
         
         var validEncodedToken = _securityService.EncodeToken(validToken);
 
@@ -248,7 +248,7 @@ public class AuthenticateClientCommandHandlerTests
         _dbContext.Clients.Returns(mockClientDbSet);
         
         // Mock DateTime
-        _dateTimeProvider.UtcNowOffset
+        _userAccessDateTimeProvider.UtcNowOffset
             .Returns(DateTimeOffset.UtcNow);
         
         // Create a Invalid Token
@@ -258,7 +258,7 @@ public class AuthenticateClientCommandHandlerTests
             clientWrongId,
             existentClient.Password,
             ETokenType.Client,
-            TokenExpiration.OneDayFromNow(_dateTimeProvider));
+            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
         
         var validEncodedToken = _securityService.EncodeToken(validToken);
 
@@ -273,7 +273,7 @@ public class AuthenticateClientCommandHandlerTests
         await consumerRequest.RespondAsync(Arg.Do<AuthenticationResult>(result => authenticationResult = result));
         
         // Mock DateTime
-        _dateTimeProvider.UtcNowOffset
+        _userAccessDateTimeProvider.UtcNowOffset
             .Returns(DateTimeOffset.UtcNow);
         
         // Act
@@ -372,7 +372,7 @@ public class AuthenticateClientCommandHandlerTests
         _dbContext.Clients.Returns(mockClientDbSet);
         
         // Mock DateTime
-        _dateTimeProvider.UtcNowOffset
+        _userAccessDateTimeProvider.UtcNowOffset
             .Returns(DateTimeOffset.UtcNow);
         
         // Create a Valid Token
@@ -380,7 +380,7 @@ public class AuthenticateClientCommandHandlerTests
             existentClient.Id,
             existentClient.Password,
             ETokenType.Client,
-            TokenExpiration.OneDayFromNow(_dateTimeProvider));
+            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
         
         var validEncodedToken = _securityService.EncodeToken(validToken);
 
@@ -396,7 +396,7 @@ public class AuthenticateClientCommandHandlerTests
         await consumerRequest.RespondAsync(Arg.Do<AuthenticationResult>(result => authenticationResult = result));
         
         // Mock DateTime - Expired Token Time
-        _dateTimeProvider.UtcNowOffset
+        _userAccessDateTimeProvider.UtcNowOffset
             .Returns(DateTimeOffset.UtcNow.AddDays(1));
         
         // Act

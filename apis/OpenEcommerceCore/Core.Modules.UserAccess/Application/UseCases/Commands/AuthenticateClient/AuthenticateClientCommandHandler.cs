@@ -14,13 +14,13 @@ internal class AuthenticateClientCommandHandler : IAuthenticateClientCommandHand
 {
     private readonly ISecurityService _securityService;
     private readonly IUserAccessContext _dbContext;
-    private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IUserAccessDateTimeProvider _userAccessDateTimeProvider;
 
-    public AuthenticateClientCommandHandler(ISecurityService securityService, IUserAccessContext dbContext, IDateTimeProvider dateTimeProvider)
+    public AuthenticateClientCommandHandler(ISecurityService securityService, IUserAccessContext dbContext, IUserAccessDateTimeProvider userAccessDateTimeProvider)
     {
         _securityService = securityService;
         _dbContext = dbContext;
-        _dateTimeProvider = dateTimeProvider;
+        _userAccessDateTimeProvider = userAccessDateTimeProvider;
     }
 
     public async Task Consume(ConsumeContext<AuthenticateClientCommand> context)
@@ -40,7 +40,7 @@ internal class AuthenticateClientCommandHandler : IAuthenticateClientCommandHand
             return;
         }
 
-        long tokenLastingTime = token.Exp - _dateTimeProvider.UtcNowOffset.ToUnixTimeSeconds();
+        long tokenLastingTime = token.Exp - _userAccessDateTimeProvider.UtcNowOffset.ToUnixTimeSeconds();
         if (tokenLastingTime <= 0)
         {
             await context.RespondAsync(AuthenticationResult.NotAuthenticated());

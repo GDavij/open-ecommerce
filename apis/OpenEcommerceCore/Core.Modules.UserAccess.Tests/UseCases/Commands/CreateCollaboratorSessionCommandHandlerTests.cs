@@ -28,15 +28,15 @@ public class CreateCollaboratorSessionCommandHandlerTests
     private readonly ISecurityService _securityService;
     private readonly IUserAccessContext _dbContext;
     private readonly ICreateCollaboratorSessionCommandHandler _command;
-    private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IUserAccessDateTimeProvider _userAccessDateTimeProvider;
     
     public CreateCollaboratorSessionCommandHandlerTests()
     {
         _appConfigService = Substitute.For<IAppConfigService>();
         _securityService = new SecurityService(_appConfigService);
         _dbContext = Substitute.For<IUserAccessContext>();
-        _dateTimeProvider = Substitute.For<IDateTimeProvider>();
-        _command = new CreateCollaboratorSessionCommandHandler(_dbContext, _securityService, _dateTimeProvider);
+        _userAccessDateTimeProvider = Substitute.For<IUserAccessDateTimeProvider>();
+        _command = new CreateCollaboratorSessionCommandHandler(_dbContext, _securityService, _userAccessDateTimeProvider);
     }
 
     [Fact]
@@ -87,7 +87,7 @@ public class CreateCollaboratorSessionCommandHandlerTests
         
         // Mock DateTime for Token Equality
         DateTimeOffset testEnvironmentDateTimeOffset = DateTimeOffset.UtcNow;
-        _dateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
+        _userAccessDateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
         
         // Act
         var result = await _command.Handle(request, cancellationToken);
@@ -97,7 +97,7 @@ public class CreateCollaboratorSessionCommandHandlerTests
             mockedDatabaseCollaborator.Id,
             mockedDatabaseCollaborator.Password,
             ETokenType.Collaborator,
-            TokenExpiration.OneDayFromNow(_dateTimeProvider));
+            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
 
         string expectedEncodedToken = _securityService.EncodeToken(expectedToken);
 
@@ -162,7 +162,7 @@ public class CreateCollaboratorSessionCommandHandlerTests
 
         // Mock DateTime for Token Equality
         DateTimeOffset testEnvironmentDateTimeOffset = DateTimeOffset.UtcNow;
-        _dateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
+        _userAccessDateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
 
         // Act
         var result = await _command.Handle(request, cancellationToken);
@@ -230,7 +230,7 @@ public class CreateCollaboratorSessionCommandHandlerTests
 
         // Mock DateTime for Token Equality
         DateTimeOffset testEnvironmentDateTimeOffset = DateTimeOffset.UtcNow;
-        _dateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
+        _userAccessDateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
 
         // Act
         var result = await _command.Handle(request, cancellationToken);
@@ -298,7 +298,7 @@ public class CreateCollaboratorSessionCommandHandlerTests
 
         // Mock DateTime for Token Equality
         DateTimeOffset testEnvironmentDateTimeOffset = DateTimeOffset.UtcNow;
-        _dateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
+        _userAccessDateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
 
         // Act
         var result = await _command.Handle(request, cancellationToken);

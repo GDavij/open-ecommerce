@@ -31,7 +31,7 @@ public class AuthenticateCollaboratorForSectorCommandHandlerTests
      private readonly IUserAccessContext _dbContext;
     private readonly ISecurityService _securityService;
     private readonly IAppConfigService _appConfigService;
-    private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IUserAccessDateTimeProvider _userAccessDateTimeProvider;
     private readonly IAuthenticateCollaboratorForSectorCommandHandler _command;
 
     public AuthenticateCollaboratorForSectorCommandHandlerTests()
@@ -39,8 +39,8 @@ public class AuthenticateCollaboratorForSectorCommandHandlerTests
         _dbContext = Substitute.For<IUserAccessContext>();
         _appConfigService = Substitute.For<IAppConfigService>();
         _securityService = new SecurityService(_appConfigService);
-        _dateTimeProvider = Substitute.For<IDateTimeProvider>();
-        _command = new AuthenticateCollaboratorForSectorCommandHandler(_securityService, _dbContext, _dateTimeProvider);
+        _userAccessDateTimeProvider = Substitute.For<IUserAccessDateTimeProvider>();
+        _command = new AuthenticateCollaboratorForSectorCommandHandler(_securityService, _dbContext, _userAccessDateTimeProvider);
     }
 
     [Fact]
@@ -88,13 +88,13 @@ public class AuthenticateCollaboratorForSectorCommandHandlerTests
         
         // Mock DateTime for Token Equality
         DateTimeOffset testEnvironmentDateTimeOffset = DateTimeOffset.UtcNow;
-        _dateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
+        _userAccessDateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
         
         var validToken = Token.Create(
             databaseCollaborator.Id,
             databaseCollaborator.Password,
             ETokenType.Collaborator,
-            TokenExpiration.OneDayFromNow(_dateTimeProvider));
+            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
         
         var validEncodedToken = _securityService.EncodeToken(validToken);
 
@@ -171,7 +171,7 @@ public class AuthenticateCollaboratorForSectorCommandHandlerTests
         
         // Mock DateTime for Token Equality
         DateTimeOffset testEnvironmentDateTimeOffset = DateTimeOffset.UtcNow;
-        _dateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
+        _userAccessDateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
 
         var invalidRawPassword = "secret-invalid-password";
         byte[] invalidDerivedPassword = await _securityService.DerivePassword(
@@ -183,7 +183,7 @@ public class AuthenticateCollaboratorForSectorCommandHandlerTests
             databaseCollaborator.Id,
             invalidDerivedPassword,
             ETokenType.Collaborator,
-            TokenExpiration.OneDayFromNow(_dateTimeProvider));
+            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
         
         var validEncodedToken = _securityService.EncodeToken(validToken);
 
@@ -257,7 +257,7 @@ public class AuthenticateCollaboratorForSectorCommandHandlerTests
         
         // Mock DateTime for Token Equality
         DateTimeOffset testEnvironmentDateTimeOffset = DateTimeOffset.UtcNow;
-        _dateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
+        _userAccessDateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
 
 
         var invalidEncodedToken = "invalid-jwt";
@@ -332,7 +332,7 @@ public class AuthenticateCollaboratorForSectorCommandHandlerTests
         
         // Mock DateTime for Token Equality
         DateTimeOffset testEnvironmentDateTimeOffset = DateTimeOffset.UtcNow;
-        _dateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
+        _userAccessDateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
         
         Guid invalidCollaboratorId = Guid.NewGuid();
         
@@ -340,7 +340,7 @@ public class AuthenticateCollaboratorForSectorCommandHandlerTests
             invalidCollaboratorId,
             databaseCollaborator.Password,
             ETokenType.Collaborator,
-            TokenExpiration.OneDayFromNow(_dateTimeProvider));
+            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
 
         var invalidEncodedToken = _securityService.EncodeToken(token);
 

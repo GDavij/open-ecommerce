@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Core.Modules.Stock.Infrastructure.Contexts;
 
-internal class StockContext 
+internal class StockContext
     : DbContext, IStockContext
 {
     public DbSet<Brand> Brands { get; set; }
@@ -19,11 +19,11 @@ internal class StockContext
     public DbSet<Address> Addresses { get; set; }
     public DbSet<ProductTag> ProductTags { get; set; }
     public DbSet<ProductImage> ProductImages { get; set; }
-    
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-        
+
         var connectionString = Environment.GetEnvironmentVariable("STOCK_POSTGRES_DATABASE")!;
         optionsBuilder.UseNpgsql(connectionString);
     }
