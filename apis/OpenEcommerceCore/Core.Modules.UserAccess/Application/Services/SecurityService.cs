@@ -17,14 +17,14 @@ internal class SecurityService : ISecurityService
     {
         _appConfigService = appConfigService;
     }
-    
-    public Task<byte[]> DerivePassword(string password, byte[]  userSecurityKey, CancellationToken cancellationToken)
+
+    public Task<byte[]> DerivePassword(string password, byte[] userSecurityKey, CancellationToken cancellationToken)
     {
         // Refactor this Method
         return Task.Run(() =>
         {
 
-            string systemSecurityKeyEnvironmentVariableName = "user_access::DERIVATION_SECURITY_KEY";
+            string systemSecurityKeyEnvironmentVariableName = "USER_ACCESS_DERIVATION_SECURITY_KEY";
             string systemSecurityKey =
                 _appConfigService.GetEnvironmentVariable(systemSecurityKeyEnvironmentVariableName);
 
@@ -46,23 +46,23 @@ internal class SecurityService : ISecurityService
             return derivedPassword;
         }, cancellationToken);
     }
-    
+
 
     public byte[] GenerateSecurityKey()
     {
         var randomNumberGenerator = RandomNumberGenerator.Create();
-        
+
         const int securityKeySize = 512;
-        
+
         byte[] securityKey = new byte[securityKeySize];
-        
+
         randomNumberGenerator.GetBytes(securityKey, 0, securityKeySize);
         return securityKey;
     }
 
     public string EncodeToken(Token token)
     {
-        string secretValidationKey = _appConfigService.GetEnvironmentVariable("user_access::JWT_SECURITY_KEY");
+        string secretValidationKey = _appConfigService.GetEnvironmentVariable("USER_ACCESS_JWT_SECURITY_KEY");
 
         return JwtBuilder.Create()
             .WithAlgorithm(new HMACSHA512Algorithm())
@@ -72,7 +72,7 @@ internal class SecurityService : ISecurityService
 
     public bool TryParseEncodedToken(string encodedToken, out Token token)
     {
-        string secretValidationKey = _appConfigService.GetEnvironmentVariable("user_access::JWT_SECURITY_KEY");
+        string secretValidationKey = _appConfigService.GetEnvironmentVariable("USER_ACCESS_JWT_SECURITY_KEY");
 
         try
         {
@@ -80,7 +80,7 @@ internal class SecurityService : ISecurityService
                 .WithAlgorithm(new HMACSHA512Algorithm())
                 .WithSecret(secretValidationKey)
                 .Decode<Token>(encodedToken);
-            
+
             return true;
         }
         catch (Exception ex)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.Stock.Application.Http.Commands.CreateBrand;
+using Core.Modules.Stock.Domain.Constants;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateBrand;
 using Core.Modules.Stock.Domain.Entities;
@@ -26,7 +27,7 @@ public class CreateBrandCommandHandlerTests
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IStockContext _dbContext;
     private readonly ICreateBrandCommandHandler _commandHandler;
-    
+
 
     public CreateBrandCommandHandlerTests()
     {
@@ -37,7 +38,7 @@ public class CreateBrandCommandHandlerTests
         _commandHandler = new CreateBrandCommandHandler(_dbContext, _publishEndpoint, _configService);
 
         _adminDashboardBaseUrl = "https://localhost:8080/dashboard";
-        _configService.GetEnvironmentVariable("StockModule:AdministrativeDashboardBaseUrl")
+        _configService.GetEnvironmentVariable(StockModuleUrls.AdministrativeDashboardEnvironmentVariable)
             .Returns(_adminDashboardBaseUrl);
     }
 
@@ -65,7 +66,7 @@ public class CreateBrandCommandHandlerTests
 
         //Act
         var result = await _commandHandler.Handle(command, default);
-        
+
         //Assert
         result.Resource
             .Should()
@@ -74,10 +75,10 @@ public class CreateBrandCommandHandlerTests
         await _dbContext
             .Received(1)
             .SaveChangesAsync(default);
-        
+
         await _publishEndpoint
             .Received(1)
-            .Publish(Arg.Is<BrandCreatedIntegrationEvent>(ev => 
+            .Publish(Arg.Is<BrandCreatedIntegrationEvent>(ev =>
                 ev.Brand.Id == createdBrand.Id &&
                 ev.Brand.Name == createdBrand.Name &&
                 ev.Brand.Description == createdBrand.Description));
@@ -88,7 +89,7 @@ public class CreateBrandCommandHandlerTests
     {
         //Arrange
         var existentBrand = Brand.Create("brand-1", "sells computers");
-        
+
         DbSet<Brand> brandDbSet = new List<Brand>
             {
                 existentBrand
@@ -106,12 +107,12 @@ public class CreateBrandCommandHandlerTests
         };
 
         Func<Task> action = async () => { await _commandHandler.Handle(command, default); };
-        
+
         //Act
         var exception = await FluentActions.Invoking(action)
             .Should()
             .ThrowAsync<AlreadyExistentBrandException>();
-        
+
         //Assert
         exception.Which.Message
             .Should()

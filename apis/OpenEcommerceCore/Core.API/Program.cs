@@ -21,12 +21,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-if (app.Environment.IsProduction())
+else
 {
     app.RunStockMigrations();
     app.RunUserAccessMigrations();
 }
+
 
 app.UseHttpsRedirection();
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.Stock.Application.Http.Commands.CreateMeasureUnit;
+using Core.Modules.Stock.Domain.Constants;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateMeasureUnit;
 using Core.Modules.Stock.Domain.Entities;
@@ -29,16 +30,16 @@ public class CreateMeasureUnitCommandHandlerTests
     public CreateMeasureUnitCommandHandlerTests()
     {
         _adminDashboardBaseUrl = "https://localhost:8080/dashboard";
-        
+
         _configService = Substitute.For<IAppConfigService>();
-        _configService.GetEnvironmentVariable("StockModule:AdministrativeDashboardBaseUrl")
+        _configService.GetEnvironmentVariable(StockModuleUrls.AdministrativeDashboardEnvironmentVariable)
             .Returns(_adminDashboardBaseUrl);
 
         _publishEndpoint = Substitute.For<IPublishEndpoint>();
         _dbContext = Substitute.For<IStockContext>();
         _commandHandler = new CreateMeasureUnitCommandHandler(_dbContext, _publishEndpoint, _configService);
     }
-    
+
     [Fact]
     internal async Task ShouldCreateMeasureUnitForValidCommand()
     {
@@ -46,24 +47,24 @@ public class CreateMeasureUnitCommandHandlerTests
         DbSet<MeasureUnit> measureUnitDbSet = new List<MeasureUnit>()
             .AsQueryable()
             .BuildMockDbSet();
-        
+
         _dbContext.MeasureUnits
             .Returns(measureUnitDbSet);
 
         MeasureUnit createdMeasureUnit = null!;
 
         _dbContext.MeasureUnits.Add(Arg.Do<MeasureUnit>(m => createdMeasureUnit = m));
-        
+
         var command = new CreateMeasureUnitCommand
         {
             Name = "Megabyte",
             ShortName = null,
             Symbol = "MB"
         };
-        
+
         //Act
         var result = await _commandHandler.Handle(command, default);
-        
+
         //Assert
         result.Resource
             .Should()
@@ -111,7 +112,7 @@ public class CreateMeasureUnitCommandHandlerTests
         var exception = await FluentActions.Invoking(action)
             .Should()
             .ThrowAsync<AlreadyExistentMeasureUnitException>();
-        
+
         //Assert 
         exception.Which.Message
             .Should()
@@ -124,7 +125,7 @@ public class CreateMeasureUnitCommandHandlerTests
         await _publishEndpoint
             .Received(0)
             .Publish(Arg.Any<MeasureUnitCreatedIntegrationEvent>);
-        
+
         //Arrange - Found Existent Shortname
         command = new CreateMeasureUnitCommand
         {
@@ -134,12 +135,12 @@ public class CreateMeasureUnitCommandHandlerTests
         };
 
         action = async () => { await _commandHandler.Handle(command, default); };
-        
+
         //Act
         exception = await FluentActions.Invoking(action)
             .Should()
             .ThrowAsync<AlreadyExistentMeasureUnitException>();
-        
+
         //Assert
         exception.Which.Message
             .Should()

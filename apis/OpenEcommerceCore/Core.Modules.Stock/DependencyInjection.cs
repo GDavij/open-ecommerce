@@ -17,15 +17,13 @@ public static class DependencyInjection
 {
     public static IServiceCollection RegisterStockModule(this IServiceCollection services)
     {
-        services.AddScoped<IStockDateTimeProvider, StockDateTimeProvider>();
-        services.AddDbContext<IStockContext, StockContext>();
+        //MediatR
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
         });
 
-        services.AddScoped<ICreateProductCommandHandler, CreateProductCommandHandler>();
-
+        //Azure Storage Configuration
         services.AddAzureClients(cfg =>
         {
             cfg.UseCredential(new DefaultAzureCredential());
@@ -33,6 +31,12 @@ public static class DependencyInjection
             Uri blobClientStorageConnectionString = new Uri(Environment.GetEnvironmentVariable("BLOB_CLIENT_STORAGE_CONNECTION_STRING")!);
             cfg.AddBlobServiceClient(blobClientStorageConnectionString);
         });
+
+        //Db Contexts
+        services.AddDbContext<IStockContext, StockContext>();
+
+        //Providers
+        services.AddScoped<IStockDateTimeProvider, StockDateTimeProvider>();
 
         return services;
     }

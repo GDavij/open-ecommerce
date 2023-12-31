@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.Stock.Application.Http.Commands.UpdateProduct;
+using Core.Modules.Stock.Domain.Constants;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateProduct;
 using Core.Modules.Stock.Domain.Contracts.Providers;
@@ -34,14 +35,14 @@ public class UpdateProductCommandHandlerTests
     {
         _dateTimeProvider = Substitute.For<IStockDateTimeProvider>();
         _configService = Substitute.For<IAppConfigService>();
-        
+
         _adminDashboardBaseUrl = "https://localhost:8080/dashboard";
-        _configService.GetEnvironmentVariable("StockModule:AdministrativeDashboardBaseUrl")
+        _configService.GetEnvironmentVariable(StockModuleUrls.AdministrativeDashboardEnvironmentVariable)
             .Returns(_adminDashboardBaseUrl);
-        
+
         _publishEndpoint = Substitute.For<IPublishEndpoint>();
         _dbContext = Substitute.For<IStockContext>();
-        
+
         _commandHandler = new UpdateProductCommandHandler(_dbContext, _publishEndpoint, _configService, _dateTimeProvider);
     }
 
@@ -51,7 +52,7 @@ public class UpdateProductCommandHandlerTests
         //Arrange
         _dateTimeProvider.UtcNow
             .Returns(DateTime.UtcNow);
-        
+
         var oldBrand = Brand.Create("brand-1-old-logo", "sells computers");
         var newBrand = Brand.Create("brand-1-new-logo", "sells computers with AI");
 
@@ -91,7 +92,7 @@ public class UpdateProductCommandHandlerTests
 
         _dbContext.MeasureUnits
             .Returns(measureUnitDbSet);
-        
+
         existentProduct.Measurements = new List<MeasurementDetail>
         {
             MeasurementDetail.Create(
@@ -193,7 +194,7 @@ public class UpdateProductCommandHandlerTests
                 }
             }
         };
-        
+
         //Act
         var result = await _commandHandler.Handle(command, default);
 
@@ -213,14 +214,14 @@ public class UpdateProductCommandHandlerTests
                 ev.Product.Brand.Id == command.BrandId &&
                 ev.Product.Name == command.Name));
     }
-    
-     [Fact]
+
+    [Fact]
     internal async Task ShouldUpdateProductForValidCommandWithSameValuesAsBeforeUpdate()
     {
         //Arrange
         _dateTimeProvider.UtcNow
             .Returns(DateTime.UtcNow);
-        
+
         var brand1 = Brand.Create("brand-1-old-logo", "sells computers");
 
         DbSet<Brand> brandDbSet = new List<Brand>
@@ -235,7 +236,7 @@ public class UpdateProductCommandHandlerTests
 
         var grammeMeasureUnit = MeasureUnit.Create("Gramme", "Gram", "G");
         var megabytePerSecondMeasureUnit = MeasureUnit.Create("Megabytes Per Second", null, "MB/s");
-        
+
         DbSet<MeasureUnit> measureUnitDbSet = new List<MeasureUnit>
             {
                 grammeMeasureUnit,
@@ -243,11 +244,11 @@ public class UpdateProductCommandHandlerTests
             }
             .AsQueryable()
             .BuildMockDbSet();
-        
+
 
         _dbContext.MeasureUnits
             .Returns(measureUnitDbSet);
-        
+
         var computerTag = ProductTag.Create("Computer");
         var AiTag = ProductTag.Create("AI");
 
@@ -261,7 +262,7 @@ public class UpdateProductCommandHandlerTests
 
         _dbContext.ProductTags
             .Returns(productTagDbSet);
-        
+
         var existentProduct = Product.Create(
             brand: brand1,
             name: "Computer-think black version",
@@ -279,7 +280,7 @@ public class UpdateProductCommandHandlerTests
             computerTag,
             AiTag
         };
-        
+
         existentProduct.Measurements = new List<MeasurementDetail>
         {
             MeasurementDetail.Create(
@@ -356,7 +357,7 @@ public class UpdateProductCommandHandlerTests
                 MeasureUnitId = m.MeasureUnit?.Id
             }).ToList()
         };
-        
+
         //Act
         var result = await _commandHandler.Handle(command, default);
 
@@ -382,7 +383,7 @@ public class UpdateProductCommandHandlerTests
     {
         //Arrange
         var brand1 = Brand.Create("brand-1-old-logo", "sells computers");
-        
+
         var existentProduct = Product.Create(
             brand: brand1,
             name: "Computer-think black version",
@@ -433,12 +434,12 @@ public class UpdateProductCommandHandlerTests
         };
 
         Func<Task> action = async () => { await _commandHandler.Handle(invalidCommand, default); };
-        
+
         //Act
         var exception = await FluentActions.Invoking(action)
             .Should()
             .ThrowAsync<InvalidProductException>();
-        
+
         //Assert
         exception.Which.Message
             .Should()
@@ -458,7 +459,7 @@ public class UpdateProductCommandHandlerTests
     {
         //Arrange
         var brand1 = Brand.Create("brand-1-old-logo", "sells computers");
-        
+
         DbSet<Brand> brandDbSet = new List<Brand>
             {
                 brand1
@@ -468,7 +469,7 @@ public class UpdateProductCommandHandlerTests
 
         _dbContext.Brands
             .Returns(brandDbSet);
-        
+
         var existentProduct = Product.Create(
             brand: brand1,
             name: "Computer-think black version",
@@ -519,12 +520,12 @@ public class UpdateProductCommandHandlerTests
         };
 
         Func<Task> action = async () => { await _commandHandler.Handle(invalidCommand, default); };
-        
+
         //Act
         var exception = await FluentActions.Invoking(action)
             .Should()
             .ThrowAsync<InvalidBrandException>();
-        
+
         //Assert
         exception.Which.Message
             .Should()
@@ -544,7 +545,7 @@ public class UpdateProductCommandHandlerTests
     {
         //Arrange
         var brand1 = Brand.Create("brand-1-old-logo", "sells computers");
-        
+
         DbSet<Brand> brandDbSet = new List<Brand>
             {
                 brand1
@@ -554,7 +555,7 @@ public class UpdateProductCommandHandlerTests
 
         _dbContext.Brands
             .Returns(brandDbSet);
-        
+
         var existentProductToUpdate = Product.Create(
             brand: brand1,
             name: "Computer-think black version",
@@ -566,8 +567,8 @@ public class UpdateProductCommandHandlerTests
             stockUnitCount: 99,
             stockDateTimeProvider: _dateTimeProvider
         );
-        
-        var existentProductExpectToShowNameError =  Product.Create(
+
+        var existentProductExpectToShowNameError = Product.Create(
             brand: brand1,
             name: "computer-m2",
             description: "A computer with an excellent processor...",
@@ -617,12 +618,12 @@ public class UpdateProductCommandHandlerTests
         };
 
         Func<Task> action = async () => { await _commandHandler.Handle(invalidCommand, default); };
-        
+
         //Act
         var exception = await FluentActions.Invoking(action)
             .Should()
             .ThrowAsync<ExistentProductNameException>();
-        
+
         //Assert
         exception.Which.Message
             .Should()
@@ -636,13 +637,13 @@ public class UpdateProductCommandHandlerTests
             .Received(0)
             .Publish(Arg.Any<ProductUpdatedIntegrationEvent>());
     }
-    
+
     [Fact]
     internal async Task ShouldNotUpdateProductForInvalidCommandWithEanSameAsExistentProductEanThatIsNotTheOneToUpdate()
     {
         //Arrange
         var brand1 = Brand.Create("brand-1-old-logo", "sells computers");
-        
+
         DbSet<Brand> brandDbSet = new List<Brand>
             {
                 brand1
@@ -652,7 +653,7 @@ public class UpdateProductCommandHandlerTests
 
         _dbContext.Brands
             .Returns(brandDbSet);
-        
+
         var existentProductToUpdate = Product.Create(
             brand: brand1,
             name: "Computer-think black version",
@@ -664,8 +665,8 @@ public class UpdateProductCommandHandlerTests
             stockUnitCount: 99,
             stockDateTimeProvider: _dateTimeProvider
         );
-        
-        var existentProductExpectToShowEanError =  Product.Create(
+
+        var existentProductExpectToShowEanError = Product.Create(
             brand: brand1,
             name: "computer-m2",
             description: "A computer with an excellent processor...",
@@ -715,12 +716,12 @@ public class UpdateProductCommandHandlerTests
         };
 
         Func<Task> action = async () => { await _commandHandler.Handle(invalidCommand, default); };
-        
+
         //Act
         var exception = await FluentActions.Invoking(action)
             .Should()
             .ThrowAsync<ExistentEanCodeException>();
-        
+
         //Assert
         exception.Which.Message
             .Should()
@@ -734,13 +735,13 @@ public class UpdateProductCommandHandlerTests
             .Received(0)
             .Publish(Arg.Any<ProductUpdatedIntegrationEvent>());
     }
-    
+
     [Fact]
     internal async Task ShouldNotUpdateProductForInvalidCommandWithUpcSameAsExistentProductUpcThatIsNotTheOneToUpdate()
     {
         //Arrange
         var brand1 = Brand.Create("brand-1-old-logo", "sells computers");
-        
+
         DbSet<Brand> brandDbSet = new List<Brand>
             {
                 brand1
@@ -750,7 +751,7 @@ public class UpdateProductCommandHandlerTests
 
         _dbContext.Brands
             .Returns(brandDbSet);
-        
+
         var existentProductToUpdate = Product.Create(
             brand: brand1,
             name: "Computer-think black version",
@@ -762,8 +763,8 @@ public class UpdateProductCommandHandlerTests
             stockUnitCount: 99,
             stockDateTimeProvider: _dateTimeProvider
         );
-        
-        var existentProductExpectToShowUpcError =  Product.Create(
+
+        var existentProductExpectToShowUpcError = Product.Create(
             brand: brand1,
             name: "computer-m2",
             description: "A computer with an excellent processor...",
@@ -813,12 +814,12 @@ public class UpdateProductCommandHandlerTests
         };
 
         Func<Task> action = async () => { await _commandHandler.Handle(invalidCommand, default); };
-        
+
         //Act
         var exception = await FluentActions.Invoking(action)
             .Should()
             .ThrowAsync<ExistentUpcCodeException>();
-        
+
         //Assert
         exception.Which.Message
             .Should()
@@ -832,13 +833,13 @@ public class UpdateProductCommandHandlerTests
             .Received(0)
             .Publish(Arg.Any<ProductUpdatedIntegrationEvent>());
     }
-    
+
     [Fact]
     internal async Task ShouldNotUpdateProductForInvalidCommandWithSkuSameAsExistentProductSkuThatIsNotTheOneToUpdate()
     {
         //Arrange
         var brand1 = Brand.Create("brand-1-old-logo", "sells computers");
-        
+
         DbSet<Brand> brandDbSet = new List<Brand>
             {
                 brand1
@@ -848,7 +849,7 @@ public class UpdateProductCommandHandlerTests
 
         _dbContext.Brands
             .Returns(brandDbSet);
-        
+
         var existentProductToUpdate = Product.Create(
             brand: brand1,
             name: "Computer-think black version",
@@ -860,8 +861,8 @@ public class UpdateProductCommandHandlerTests
             stockUnitCount: 99,
             stockDateTimeProvider: _dateTimeProvider
         );
-        
-        var existentProductExpectToShowSkuError =  Product.Create(
+
+        var existentProductExpectToShowSkuError = Product.Create(
             brand: brand1,
             name: "computer-m2",
             description: "A computer with an excellent processor...",
@@ -911,12 +912,12 @@ public class UpdateProductCommandHandlerTests
         };
 
         Func<Task> action = async () => { await _commandHandler.Handle(invalidCommand, default); };
-        
+
         //Act
         var exception = await FluentActions.Invoking(action)
             .Should()
             .ThrowAsync<ExistentSkuCodeException>();
-        
+
         //Assert
         exception.Which.Message
             .Should()
@@ -939,7 +940,7 @@ public class UpdateProductCommandHandlerTests
     {
         //Arrange
         var brand1 = Brand.Create("brand-1-old-logo", "sells computers");
-        
+
         DbSet<Brand> brandDbSet = new List<Brand>
             {
                 brand1
@@ -963,7 +964,7 @@ public class UpdateProductCommandHandlerTests
 
         _dbContext.ProductTags
             .Returns(productTagDbSet);
-        
+
         var existentProduct = Product.Create(
             brand: brand1,
             name: "Computer-think black version",
@@ -975,7 +976,7 @@ public class UpdateProductCommandHandlerTests
             stockUnitCount: 99,
             stockDateTimeProvider: _dateTimeProvider
         );
-        
+
         DbSet<Product> productDbSet = new List<Product>
             {
                 existentProduct,
@@ -1026,7 +1027,8 @@ public class UpdateProductCommandHandlerTests
                     }
                 }
             };
-        } else if (testCase == ProductDetailsToTestCaseTo.TechnicalDetails)
+        }
+        else if (testCase == ProductDetailsToTestCaseTo.TechnicalDetails)
         {
             invalidCommand = validCommand with
             {
@@ -1073,13 +1075,13 @@ public class UpdateProductCommandHandlerTests
             };
         }
 
-        Func<Task> action = async () =>  await _commandHandler.Handle(invalidCommand, default); 
-        
+        Func<Task> action = async () => await _commandHandler.Handle(invalidCommand, default);
+
         //Act
         var exception = await FluentActions.Invoking(action)
             .Should()
             .ThrowAsync<ShowOrderRepeatedException>();
-        
+
         //Assert
         var expectedShowOrderRepeated = testCase switch
         {
@@ -1087,7 +1089,7 @@ public class UpdateProductCommandHandlerTests
             ProductDetailsToTestCaseTo.TechnicalDetails => ShowOrderRepeatedEncountered.TechnicalDetails,
             ProductDetailsToTestCaseTo.OtherDetails => ShowOrderRepeatedEncountered.OtherDetails
         };
-        
+
         exception.Which.Message
             .Should()
             .Be($"Encountered repeated value at list {expectedShowOrderRepeated}");
@@ -1100,16 +1102,16 @@ public class UpdateProductCommandHandlerTests
             .Received(0)
             .Publish(Arg.Any<ProductUpdatedIntegrationEvent>());
     }
-    
+
     [Theory]
     [InlineData(ProductDetailsToTestCaseTo.Measurements)]
     [InlineData(ProductDetailsToTestCaseTo.TechnicalDetails)]
     [InlineData(ProductDetailsToTestCaseTo.OtherDetails)]
     internal async Task ShouldNotUpdateProductForInvalidCommandWithAnyInvalidMeasureUnitInAnyProductDetails(ProductDetailsToTestCaseTo testCase)
     {
-             //Arrange
+        //Arrange
         var brand1 = Brand.Create("brand-1-old-logo", "sells computers");
-        
+
         DbSet<Brand> brandDbSet = new List<Brand>
             {
                 brand1
@@ -1133,7 +1135,7 @@ public class UpdateProductCommandHandlerTests
 
         _dbContext.ProductTags
             .Returns(productTagDbSet);
-        
+
         var existentProduct = Product.Create(
             brand: brand1,
             name: "Computer-think black version",
@@ -1145,7 +1147,7 @@ public class UpdateProductCommandHandlerTests
             stockUnitCount: 99,
             stockDateTimeProvider: _dateTimeProvider
         );
-        
+
         DbSet<Product> productDbSet = new List<Product>
             {
                 existentProduct,
@@ -1197,7 +1199,8 @@ public class UpdateProductCommandHandlerTests
                     }
                 }
             };
-        } else if (testCase == ProductDetailsToTestCaseTo.TechnicalDetails)
+        }
+        else if (testCase == ProductDetailsToTestCaseTo.TechnicalDetails)
         {
             invalidCommand = validCommand with
             {
@@ -1244,13 +1247,13 @@ public class UpdateProductCommandHandlerTests
             };
         }
 
-        Func<Task> action = async () =>  await _commandHandler.Handle(invalidCommand, default); 
-        
+        Func<Task> action = async () => await _commandHandler.Handle(invalidCommand, default);
+
         //Act
         var exception = await FluentActions.Invoking(action)
             .Should()
             .ThrowAsync<InvalidMeasureUnitException>();
-        
+
         //Assert
         var expectedShowOrderRepeated = testCase switch
         {
@@ -1258,7 +1261,7 @@ public class UpdateProductCommandHandlerTests
             ProductDetailsToTestCaseTo.TechnicalDetails => ShowOrderRepeatedEncountered.TechnicalDetails,
             ProductDetailsToTestCaseTo.OtherDetails => ShowOrderRepeatedEncountered.OtherDetails
         };
-        
+
         exception.Which.Message
             .Should()
             .Be($"Invalid Measure Unit was sent with Id: {invalidMeasureUnitId}");
@@ -1275,7 +1278,7 @@ public class UpdateProductCommandHandlerTests
 
 internal enum ProductDetailsToTestCaseTo
 {
-        Measurements,
-        TechnicalDetails,
-        OtherDetails
+    Measurements,
+    TechnicalDetails,
+    OtherDetails
 }

@@ -7,6 +7,7 @@ using Azure.Storage.Blobs;
 using Core.Modules.Shared.Domain.Constants;
 using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.Stock.Application.Http.Commands.AddImageToProduct;
+using Core.Modules.Stock.Domain.Constants;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.AddImageToProduct;
 using Core.Modules.Stock.Domain.Contracts.Providers;
@@ -95,7 +96,7 @@ public class AddImageToProductCommandHandlerTests
         imageFile.ContentType
             .Returns("application/png");
 
-        _configService.GetEnvironmentVariable("StockModule:AdministrativeDashboardBaseUrl")
+        _configService.GetEnvironmentVariable(StockModuleUrls.AdministrativeDashboardEnvironmentVariable)
             .Returns("https://localhost:3000/dashboard");
 
         var blobContainerMockGeneratedResourceUri = new Uri("https://opencommerce.microsoft.azure.net/blobs/container/filename.png");
@@ -125,7 +126,7 @@ public class AddImageToProductCommandHandlerTests
                 ev.ProductImage.Description == command.Description &&
                 ev.ProductImage.ProductId == command.ProductId));
 
-        string administrativeFrontendUrl = _configService.GetEnvironmentVariable("StockModule:AdministrativeDashboardBaseUrl");
+        string administrativeFrontendUrl = _configService.GetEnvironmentVariable(StockModuleUrls.AdministrativeDashboardEnvironmentVariable);
 
         result.Resource
             .Should()
