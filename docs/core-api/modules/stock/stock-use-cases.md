@@ -335,7 +335,7 @@ TODO: Request and Response
 
 #### Integration Events
 
-- Deleted Brand Integration Event
+[X] - Brand Deleted Integration Event(Without Retry with Polly)
 
 ### Update Measure Unit
 
