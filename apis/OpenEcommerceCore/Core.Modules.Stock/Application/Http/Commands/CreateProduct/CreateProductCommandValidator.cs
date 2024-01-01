@@ -32,11 +32,10 @@ public class CreateProductCommandValidator : AbstractValidator<CreateProductComm
 
         RuleFor(c => c.Price)
             .NotEmpty().WithMessage("Price must not be empty")
-            .GreaterThanOrEqualTo(0).WithMessage("Price must be greater or equal to zero ")
+            .GreaterThan(0).WithMessage("Price must be greater than 0")
             .PrecisionScale(16, 2, false).WithMessage("Precision of Price must not be higher than 16 and scale not higher than 2 - (Trailing zeros are considered in precision)");
 
         RuleFor(c => c.StockUnitCount)
-            .NotEmpty().WithMessage("Stock Unit Count must not be empty")
             .GreaterThanOrEqualTo(0).WithMessage("Stock Unit must be greater or equal to zero");
 
         RuleFor(c => c.TagsIds)
