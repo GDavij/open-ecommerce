@@ -3,6 +3,6 @@ using MassTransit;
 
 namespace Core.Modules.UserAccess.Domain.Contracts.UseCases.Commands;
 
-internal interface ICreateClientCommandHandler 
+public interface ICreateClientCommandHandler 
     : IConsumer<CreateClientCommand>
 { }

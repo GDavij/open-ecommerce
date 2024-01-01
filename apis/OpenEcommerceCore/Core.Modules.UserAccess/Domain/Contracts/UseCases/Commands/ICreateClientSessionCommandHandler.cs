@@ -4,6 +4,6 @@ using MediatR;
 
 namespace Core.Modules.UserAccess.Domain.Contracts.UseCases.Commands;
 
-internal interface ICreateClientSessionCommandHandler 
+public interface ICreateClientSessionCommandHandler 
     : IRequestHandler<CreateClientSessionCommand, ValidationResult<CreateClientSessionResponse>>
 { }

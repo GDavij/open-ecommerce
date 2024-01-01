@@ -3,6 +3,6 @@ using MassTransit;
 
 namespace Core.Modules.UserAccess.Domain.Contracts.UseCases.Commands;
 
-internal interface ICreateCollaboratorCommandHandler 
+public interface ICreateCollaboratorCommandHandler
     : IConsumer<CreateCollaboratorCommand>
 { }

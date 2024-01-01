@@ -3,4 +3,4 @@ apis/OpenEcommerceCore/OpenEcommerceCore.sln.DotSettings.user
 
 
 # Secret Enviroment Variables for Docker
-infrastructure/**/.env
+apis/**/.env

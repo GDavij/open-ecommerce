@@ -10,7 +10,7 @@ internal sealed class Client
     public DateTime CreatedAt { get; init; }
     public DateTime LastLogin { get; set; }
     public bool Deleted { get; set; }
-    
+
     private Client(
         Guid id,
         Guid clientModuleId,

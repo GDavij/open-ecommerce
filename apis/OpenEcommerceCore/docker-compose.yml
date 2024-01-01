@@ -1,19 +1,21 @@
 services:
   dev-api:
     build: .
+    depends_on:
+      - dev-postgres-db
+      - azurite-emulator
     ports:
       - "8081:5001"
       - "8080:5000"
     environment:
       - POSTGRES_USER
       - POSTGRES_PASSWORD
-      - AZURE_STORAGE_CONNECTION_STRING
+      - BLOB_CLIENT_STORAGE_CONNECTION_STRING
       - STOCK_POSTGRES_DATABASE
       - USER_ACCESS_POSTGRES_DATABASE
       - USER_ACCESS_DERIVATION_SECURITY_KEY
       - USER_ACCESS_JWT_SECURITY_KEY
       - STOCK_MODULE_ADMINISTRATIVE_DASHBOARD_URL
-      - AZURE_STORAGE_CONNECTION_STRING
 
   dev-postgres-db:
     image: postgres:16

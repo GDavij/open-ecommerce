@@ -17,6 +17,7 @@
       </PackageReference>
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.22" />
+      <PackageReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
 
     <ItemGroup>
@@ -34,9 +35,4 @@
         <InternalsVisibleTo Include="$(AssemblyName).Tests" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Reference Include="Microsoft.AspNetCore">
-        <HintPath>..\..\..\..\..\..\..\..\..\usr\lib64\dotnet\shared\Microsoft.AspNetCore.App\6.0.25\Microsoft.AspNetCore.dll</HintPath>
-      </Reference>
-    </ItemGroup>
 </Project>

@@ -28,7 +28,7 @@ public class CreateClientSessionCommandHandlerTests
     private readonly IUserAccessContext _dbContext;
     private readonly ICreateClientSessionCommandHandler _command;
     private readonly IUserAccessDateTimeProvider _userAccessDateTimeProvider;
-    
+
     public CreateClientSessionCommandHandlerTests()
     {
         _appConfigService = Substitute.For<IAppConfigService>();
@@ -37,7 +37,7 @@ public class CreateClientSessionCommandHandlerTests
         _userAccessDateTimeProvider = Substitute.For<IUserAccessDateTimeProvider>();
         _command = new CreateClientSessionCommandHandler(_dbContext, _securityService, _userAccessDateTimeProvider);
     }
-    
+
     [Fact]
     internal async Task ShouldCreateClientSession()
     {
@@ -46,15 +46,15 @@ public class CreateClientSessionCommandHandlerTests
 
         // Mock AppSettings Variables
         string systemSecurityKeyEnvironmentVariableName = "user_access::DERIVATION_SECURITY_KEY";
-        
+
         _appConfigService.GetEnvironmentVariable(systemSecurityKeyEnvironmentVariableName)
             .Returns("unit-tests-system-security-key");
-        
+
         string secretValidationKeyEnvironmentVariableName = "user_access::JWT_SECURITY_KEY";
 
         _appConfigService.GetEnvironmentVariable(secretValidationKeyEnvironmentVariableName)
             .Returns("unit-tests-jwt-security-key");
-        
+
         string clientEmail = "dev@unittests.com";
         string rawClientPassword = "secure-unit-test-password";
 
@@ -72,7 +72,7 @@ public class CreateClientSessionCommandHandlerTests
             clientSecurityKey);
 
         CreateClientSessionCommand request = new CreateClientSessionCommand(clientEmail, rawClientPassword);
-        
+
         // Mock Database Return 
         IQueryable<Client> mockClientQueryable = new List<Client>
         {
@@ -81,11 +81,11 @@ public class CreateClientSessionCommandHandlerTests
 
         var mockClientDbSet = mockClientQueryable.BuildMockDbSet();
         _dbContext.Clients.Returns(mockClientDbSet);
-        
+
         // Mock DateTime for Token Equality
         DateTimeOffset testEnvironmentDateTimeOffset = DateTimeOffset.UtcNow;
         _userAccessDateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
-        
+
         // Act
         var validationResult = await _command.Handle(request, cancellationToken);
 
@@ -105,13 +105,13 @@ public class CreateClientSessionCommandHandlerTests
         validationResult.Code
             .Should()
             .Be(HttpStatusCode.OK);
-        
+
         validationResult.Result!
             .Token
             .Should()
             .Be(expectedEncodedToken);
     }
-    
+
     [Fact]
     internal async Task ShouldNotCreateClientSessionWithWrongPassword()
     {
@@ -120,15 +120,15 @@ public class CreateClientSessionCommandHandlerTests
 
         // Mock AppSettings Variables
         string systemSecurityKeyEnvironmentVariableName = "user_access::DERIVATION_SECURITY_KEY";
-        
+
         _appConfigService.GetEnvironmentVariable(systemSecurityKeyEnvironmentVariableName)
             .Returns("unit-tests-system-security-key");
-        
+
         string secretValidationKeyEnvironmentVariableName = "user_access::JWT_SECURITY_KEY";
 
         _appConfigService.GetEnvironmentVariable(secretValidationKeyEnvironmentVariableName)
             .Returns("unit-tests-jwt-security-key");
-        
+
         string clientEmail = "dev@unittests.com";
         string rawClientPassword = "secure-unit-test-password";
 
@@ -147,7 +147,7 @@ public class CreateClientSessionCommandHandlerTests
 
         string wrongRawClientPassword = "secure-wrong-unit-test-password";
         CreateClientSessionCommand request = new CreateClientSessionCommand(clientEmail, wrongRawClientPassword);
-        
+
         // Mock Database Return 
         IQueryable<Client> mockClientQueryable = new List<Client>
         {
@@ -156,11 +156,11 @@ public class CreateClientSessionCommandHandlerTests
 
         var mockClientDbSet = mockClientQueryable.BuildMockDbSet();
         _dbContext.Clients.Returns(mockClientDbSet);
-        
+
         // Mock DateTime for Token Equality
         DateTimeOffset testEnvironmentDateTimeOffset = DateTimeOffset.UtcNow;
         _userAccessDateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
-        
+
         // Act
         var validationResult = await _command.Handle(request, cancellationToken);
 
@@ -177,8 +177,8 @@ public class CreateClientSessionCommandHandlerTests
             .Should()
             .BeNull();
     }
-     
-     [Fact]
+
+    [Fact]
     internal async Task ShouldNotCreateClientSessionWithNotExistentEmail()
     {
         // Arrange
@@ -186,15 +186,15 @@ public class CreateClientSessionCommandHandlerTests
 
         // Mock AppSettings Variables
         string systemSecurityKeyEnvironmentVariableName = "user_access::DERIVATION_SECURITY_KEY";
-        
+
         _appConfigService.GetEnvironmentVariable(systemSecurityKeyEnvironmentVariableName)
             .Returns("unit-tests-system-security-key");
-        
+
         string secretValidationKeyEnvironmentVariableName = "user_access::JWT_SECURITY_KEY";
 
         _appConfigService.GetEnvironmentVariable(secretValidationKeyEnvironmentVariableName)
             .Returns("unit-tests-jwt-security-key");
-        
+
         string clientEmail = "dev@unittests.com";
         string rawClientPassword = "secure-unit-test-password";
 
@@ -213,7 +213,7 @@ public class CreateClientSessionCommandHandlerTests
 
         string wrongClientEmail = "dev@unittests.com.br";
         CreateClientSessionCommand request = new CreateClientSessionCommand(wrongClientEmail, rawClientPassword);
-        
+
         // Mock Database Return 
         IQueryable<Client> mockClientQueryable = new List<Client>
         {
@@ -222,12 +222,12 @@ public class CreateClientSessionCommandHandlerTests
 
         var mockClientDbSet = mockClientQueryable.BuildMockDbSet();
         _dbContext.Clients.Returns(mockClientDbSet);
-        
-        
+
+
         // Mock DateTime for Token Equality
         DateTimeOffset testEnvironmentDateTimeOffset = DateTimeOffset.UtcNow;
         _userAccessDateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
-        
+
         // Act
         var validationResult = await _command.Handle(request, cancellationToken);
 
@@ -239,13 +239,13 @@ public class CreateClientSessionCommandHandlerTests
         validationResult.Code
             .Should()
             .Be(HttpStatusCode.NotFound);
-        
+
         validationResult.Result
             .Should()
             .BeNull();
-    } 
-     
-    [Fact] 
+    }
+
+    [Fact]
     internal async Task ShouldNotCreateClientSessionForDeletedClient()
     {
         // Arrange
@@ -253,15 +253,15 @@ public class CreateClientSessionCommandHandlerTests
 
         // Mock AppSettings Variables
         string systemSecurityKeyEnvironmentVariableName = "user_access::DERIVATION_SECURITY_KEY";
-        
+
         _appConfigService.GetEnvironmentVariable(systemSecurityKeyEnvironmentVariableName)
             .Returns("unit-tests-system-security-key");
-        
+
         string secretValidationKeyEnvironmentVariableName = "user_access::JWT_SECURITY_KEY";
 
         _appConfigService.GetEnvironmentVariable(secretValidationKeyEnvironmentVariableName)
             .Returns("unit-tests-jwt-security-key");
-        
+
         string clientEmail = "dev@unittests.com";
         string rawClientPassword = "secure-unit-test-password";
 
@@ -279,7 +279,7 @@ public class CreateClientSessionCommandHandlerTests
             clientSecurityKey);
 
         CreateClientSessionCommand request = new CreateClientSessionCommand(clientEmail, rawClientPassword);
-        
+
         // Mock Database Return 
         IQueryable<Client> mockClientQueryable = new List<Client>
         {
@@ -288,12 +288,12 @@ public class CreateClientSessionCommandHandlerTests
 
         var mockClientDbSet = mockClientQueryable.BuildMockDbSet();
         _dbContext.Clients.Returns(mockClientDbSet);
-        
-        
+
+
         // Mock DateTime for Token Equality
         DateTimeOffset testEnvironmentDateTimeOffset = DateTimeOffset.UtcNow;
         _userAccessDateTimeProvider.UtcNowOffset.Returns(testEnvironmentDateTimeOffset);
-        
+
         // Act
         var validationResult = await _command.Handle(request, cancellationToken);
 

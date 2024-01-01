@@ -4,7 +4,7 @@ using FluentValidation;
 namespace Core.Modules.Stock.Application.Http.Commands.CreateProduct;
 
 // Create Validator for Command
-internal class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
+public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
 {
     public CreateProductCommandValidator()
     {
@@ -33,7 +33,7 @@ internal class CreateProductCommandValidator : AbstractValidator<CreateProductCo
         RuleFor(c => c.Price)
             .NotEmpty().WithMessage("Price must not be empty")
             .GreaterThanOrEqualTo(0).WithMessage("Price must be greater or equal to zero ")
-            .PrecisionScale(16,2, false).WithMessage("Precision of Price must not be higher than 16 and scale not higher than 2 - (Trailing zeros are considered in precision)");
+            .PrecisionScale(16, 2, false).WithMessage("Precision of Price must not be higher than 16 and scale not higher than 2 - (Trailing zeros are considered in precision)");
 
         RuleFor(c => c.StockUnitCount)
             .NotEmpty().WithMessage("Stock Unit Count must not be empty")
@@ -66,7 +66,7 @@ internal class CreateProductCommandValidator : AbstractValidator<CreateProductCo
             measure.RuleFor(m => m.MeasureUnitId)
                 .NotEmpty().When(m => m.MeasureUnitId is not null).WithMessage("Measure Unit Should not be empty");
         });
-        
+
         RuleFor(c => c.TechnicalDetails)
             .NotNull().WithMessage("Technical Details must not be null");
 
@@ -87,7 +87,7 @@ internal class CreateProductCommandValidator : AbstractValidator<CreateProductCo
             technicalDetail.RuleFor(t => t.MeasureUnitId)
                 .NotEmpty().When(t => t.MeasureUnitId is not null).WithMessage("Technical Detail Unit Should not be empty");
         });
-        
+
         RuleFor(c => c.OtherDetails)
             .NotNull().WithMessage("Other Details must not be null");
 
@@ -104,7 +104,7 @@ internal class CreateProductCommandValidator : AbstractValidator<CreateProductCo
             otherDetail.RuleFor(o => o.ShowOrder)
                 .NotEmpty().WithMessage("Other Detail Show Order must not be empty")
                 .GreaterThan(0).WithMessage("Other Detail Show Order must be greater than 0");
-            
+
             otherDetail.RuleFor(o => o.MeasureUnitId)
                 .NotEmpty().When(o => o.MeasureUnitId is not null).WithMessage("Other Detail Unit Should not be empty");
         });
