@@ -14,7 +14,7 @@ internal class UserAccessContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-        
+
         var connectionString = Environment.GetEnvironmentVariable("USER_ACCESS_POSTGRES_DATABASE")!;
         optionsBuilder.UseNpgsql(connectionString);
     }
@@ -22,7 +22,7 @@ internal class UserAccessContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
+
         modelBuilder.ApplyConfiguration(new ClientMappings());
         modelBuilder.ApplyConfiguration(new CollaboratorMappings());
     }

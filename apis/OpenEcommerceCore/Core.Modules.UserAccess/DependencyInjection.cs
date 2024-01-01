@@ -45,7 +45,7 @@ public static class DependencyInjection
     public static WebApplication RunUserAccessMigrations(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<UserAccessContext>();
+        var context = scope.ServiceProvider.GetRequiredService<IUserAccessContext>();
         context.Database.Migrate();
 
         return app;

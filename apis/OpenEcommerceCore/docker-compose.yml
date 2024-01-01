@@ -1,31 +1,30 @@
 services:
   dev-api:
+    env_file:
+      - .env
+    container_name: Core-API-0
     build: .
     depends_on:
       - dev-postgres-db
       - azurite-emulator
     ports:
-      - "8081:5001"
-      - "8080:5000"
-    environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - BLOB_CLIENT_STORAGE_CONNECTION_STRING
-      - STOCK_POSTGRES_DATABASE
-      - USER_ACCESS_POSTGRES_DATABASE
-      - USER_ACCESS_DERIVATION_SECURITY_KEY
-      - USER_ACCESS_JWT_SECURITY_KEY
-      - STOCK_MODULE_ADMINISTRATIVE_DASHBOARD_URL
-
+      - "8080:80/tcp"
   dev-postgres-db:
+    container_name: Core-Postgres-0
     image: postgres:16
     ports:
       - "5432:5432"
-    environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
+    env_file:
+      - .env
+    volumes:
+      - /var/coreapi/postgres:/var/lib/postgresql/data:rw
 
   azurite-emulator:
+    container_name: Core-Azurite-0
     image: mcr.microsoft.com/azure-storage/azurite
     ports:
       - "10000:10000"
+    env_file:
+      - .env
+    volumes:
+      - /var/coreapi/azurite:/var/lib/azurite/data:rw

@@ -17,5 +17,6 @@ internal interface IStockContext
         DbSet<Address> Addresses { get; set; }
         DbSet<ProductTag> ProductTags { get; set; }
         DbSet<ProductImage> ProductImages { get; set; }
+        DatabaseFacade Database { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

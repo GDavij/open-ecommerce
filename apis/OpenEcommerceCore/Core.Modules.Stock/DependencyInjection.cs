@@ -39,7 +39,7 @@ public static class DependencyInjection
 
         //Providers
         services.AddScoped<IStockDateTimeProvider, StockDateTimeProvider>();
-        
+
         //Validators 
         services.AddScoped<AbstractValidator<CreateProductCommand>, CreateProductCommandValidator>();
 
@@ -49,7 +49,7 @@ public static class DependencyInjection
     public static WebApplication RunStockMigrations(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<StockContext>();
+        var context = scope.ServiceProvider.GetRequiredService<IStockContext>();
         context.Database.Migrate();
 
         return app;
