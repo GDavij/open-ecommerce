@@ -18,11 +18,9 @@ This are the use cases that is received via direct endpoint call (HTTP/HTTPS - J
 
 #### Objective
 
-This use case has the objective to receive data about the product entity and if valid, will create a product into the system
+    This use case has the objective to receive data about the product entity and if valid, will create a product into the system
 
-This includes the Product Details and tags, those being Lists, but not images(specific endpoint for blobs).
-
-TODO: Should Validate Name Equality and Throw exception
+    This includes the Product Details and tags, those being Lists, but not images(specific endpoint for blobs).
 
 #### Payloads
 
@@ -103,11 +101,127 @@ TODO: Should Validate Name Equality and Throw exception
 
 [X] - Product Created Integration Event(Without Retry with Polly) -> (Important to Sales Module)
 
+### Update Product
+
+#### Objective
+
+    This use case has the objective to receive a product id, and their updated data, it will validate, and if valid it will update the product data into the system.
+
+#### Payloads
+
+TODO: Request and Response
+
+#### Test Cases
+
+[X] - Should Update Product for Valid Command with Different Values  
+
+[X] - Should Update Product for valid command with same Values as before Update  
+
+[X] - Should Not Update Product For Invalid Command with not existent Product Id  
+
+[X] - Should Not Update Product For Invalid Command with not existent Brand Id  
+
+[X] - Should Not Update Product For Invalid Command with Name same as existent product name that is not the one to update  
+
+[X] - Should Not Update Product For Invalid Command with Ean same as existent product EAN that is not the one to update  
+
+[X] - Should Not Update Product For Invalid Command with UPC same as existent product UPC that is not the one to update  
+
+[X] - Should Not Update Product For Invalid Command with SKU same as existent product SKU that is not the one to update  
+
+[X] - Should Not Update Product For Invalid Command with Repeated Order on Any Product Details(Measurements, Technical Details, Other Details)  
+
+[X] - Should Not Update Product For Invalid Command with Any Invalid MeasureUnit in Any Product Details (Measurements, Technical Details, Other Details)  
+
+
+##### Command Validator Test Cases
+
+[X] - Should Accept Valid Command
+
+[X] - Should Accept Valid Command With Empty Lists For Product Details And Tags (Product Details: Measurements, Technical Details, Other Details )
+
+[X] - Should Negate Invalid Command with Empty Values
+
+[X] - Should Negate Invalid Command with Values Less Than Min Values
+
+[X] - Should Negate Invalid Command with Values Higher Than Max Values
+
+[X] - Should Negate Invalid Command with Null Values Considering List Values As Null
+
+[X] - Should Negate Invalid Command with Null Values Considering List as Null
+
+#### Integration Events
+
+[X] - Product Updated Integration Event -> (Important to Sales Module)
+
+### Get Product
+
+#### Objective
+
+    This Use has the objective to receive a product Id and if valid(existent) will return product data.
+
+#### Payloads
+
+TODO: Request Response
+
+#### Test Cases
+
+#### Query Validator Tests
+
+#### Integration Events
+
+No Events
+
+### Search Product
+ 
+#### Objective
+
+    This use case has the objective to receive a search term for a product and use a simple fuzzy search algorithm to return products that does match the search term or are similar to it.
+
+#### Payloads
+
+TODO: Request and Response
+
+#### Test Cases
+
+TODO: Tests
+
+#### Query Validator Tests
+
+TODO: Tests
+
+#### Integration Events
+
+No Events
+
+### Delete Product
+
+#### Objective
+
+    This use case has the objective to receive a product id, and if valid it will notify Sales module to delete this product from their database and delete all related data(images, etc...)
+
+#### Payloads
+
+TODO: Requests and Responses
+
+#### Test Cases
+
+TODO
+
+##### Command Validator Test Cases
+
+TODO
+
+#### Integration Events
+
+[X] - Product Deleted Integration Event -> (Important to Sales module, notify about the delete procedure to execute(remove from sales module))
+
+
 ### Add Image to a Product
 
 #### Objective
 
-This use case has the objective to receive a `multipart-formdata` with a blob of a image and a product id, and if everything valid it will create the image in a cloud storage and link it to the product.
+    This use case has the objective to receive a `multipart-formdata` with a blob of a image and a product id, and if everything valid it will create the image in a cloud storage and link it to the product.
 
 #### Payloads
 
@@ -132,14 +246,19 @@ This use case has the objective to receive a `multipart-formdata` with a blob of
 #### Test Cases
 
 [X] - Should Add a Image into a already existent product  
+
 [X] - Should Not Add a Image into a not existent product
 
 ##### Command Validator Test Cases
 
 [X] - Should Accept Valid Command  
+
 [X] - Should Negate Command with empty values  
+
 [X] - Should Negate Command with values lower than minimal limit  
+
 [X] - Should Negate Command with values higher than max limit  
+
 [X] - Should Negate Command With invalid MIMETYPE  
 
 #### Integration Events
@@ -150,7 +269,7 @@ This use case has the objective to receive a `multipart-formdata` with a blob of
 
 #### Objective
 
-This use case has the objective to receive a Id of a image and if valid(exists, is appended to a product) it will remove the link to that image from the product and notify sales module that this image need to be removed from storage(Azure blob storage) and sales Product entity.
+    This use case has the objective to receive a Id of a image and if valid(exists, is appended to a product) it will remove the link to that image from the product and notify sales module that this image need to be removed from storage(Azure blob storage) and sales Product entity.
 
 ### Payloads
 
@@ -188,7 +307,7 @@ This use case has the objective to receive a Id of a image and if valid(exists, 
 
 #### Objective
 
-This use case has the objective to receive data about a brand and if valid, will create the brand into the system
+    This use case has the objective to receive data about a brand and if valid, will create the brand into the system
 
 #### Payloads
 
@@ -212,48 +331,26 @@ This use case has the objective to receive data about a brand and if valid, will
 #### Test Cases
 
 [X] - Should Create a Brand for valid command  
+
 [X] - Should not Create Brand for already existent brand(brand that has same name)  
 
 ##### Command Validator Test Cases
 
 [X] - Should Accept Valid Command  
+
 [X] - Should Negate Command with Empty Values  
+
 [X] - Should Negate Command with values higher than maximum limit
 
 #### Integration Events
 
 [X] - Brand Created Integration Event(Without Retry with Polly) -> (Important to Sales Module)
 
-### Create Measure Unit
+### Get Brand
 
-#### Objective
+#### Objective 
 
-This use case has the objective to receive data about a measure and if valid it will add it globally to use in the system
-
-#### Payloads
-
-TODO: Request and Response
-
-#### Test Cases
-
-[X] - Should Create Measure Unit For Valid Command
-[X] - Should Not Create Measure Unit For Invalid Command With Same Name Or Shortname As Existent Measure Unit
-
-##### Command Validator Test Cases
-
-[X] - Should Accept Valid Command
-[X] - Should Negate Invalid Command With Empty Values
-[X] - Should Negate Invalid Command with Values Higher Than Maximum Limit
-
-#### Integration Events
-
-[X] - Measure Unit Created(Without Retry With Polly)
-
-### Update Product
-
-#### Objective
-
-This use case has the objective to receive a product id, and their updated data, it will validate, and if valid it will update the product data into the system.
+    This use case has the objective to receive a Brand Id and if valid(existent) it should return the brand found data.
 
 #### Payloads
 
@@ -261,59 +358,43 @@ TODO: Request and Response
 
 #### Test Cases
 
-[X] - Should Update Product for Valid Command with Different Values  
-[X] - Should Update Product for valid command with same Values as before Update  
-[X] - Should Not Update Product For Invalid Command with not existent Product Id  
-[X] - Should Not Update Product For Invalid Command with not existent Brand Id  
-[X] - Should Not Update Product For Invalid Command with Name same as existent product name that is not the one to update  
-[X] - Should Not Update Product For Invalid Command with Ean same as existent product EAN that is not the one to update  
-[X] - Should Not Update Product For Invalid Command with UPC same as existent product UPC that is not the one to update  
-[X] - Should Not Update Product For Invalid Command with SKU same as existent product SKU that is not the one to update  
-[X] - Should Not Update Product For Invalid Command with Repeated Order on Any Product Details(Measurements, Technical Details, Other Details)  
-[X] - Should Not Update Product For Invalid Command with Any Invalid MeasureUnit in Any Product Details (Measurements, Technical Details, Other Details)  
+TODO: Tests
 
+#### Command Validator Test Cases
 
-##### Command Validator Test Cases
-
-[X] - Should Accept Valid Command
-[X] - Should Accept Valid Command With Empty Lists For Product Details And Tags (Product Details: Measurements, Technical Details, Other Details )
-[X] - Should Negate Invalid Command with Empty Values
-[X] - Should Negate Invalid Command with Values Less Than Min Values
-[X] - Should Negate Invalid Command with Values Higher Than Max Values
-[X] - Should Negate Invalid Command with Null Values Considering List Values As Null
-[X] - Should Negate Invalid Command with Null Values Considering List as Null
+TODO: Tests
 
 #### Integration Events
 
-[X] - Product Updated Integration Event -> (Important to Sales Module)
+No Events
 
-### Delete Product
+### Search Brand
 
 #### Objective
 
-This use case has the objective to receive a product id, and if valid it will notify Sales module to delete this product from their database and delete all related data(images, etc...)
+    The objective of this use case is to receive a search term and it should search for any products that match or are similar to the search term, it must use a simple fuzzy search algorithm
 
 #### Payloads
 
-TODO: Requests and Responses
+TODO: Request and Response
 
 #### Test Cases
 
-TODO
+TODO: Tests
 
-##### Command Validator Test Cases
+#### Command Validator Test Cases
 
-TODO
+TODO: Tests
 
 #### Integration Events
 
-[X] - Product Deleted Integration Event -> (Important to Sales module, notify about the delete procedure to execute(remove from sales module))
+No Events
 
 ### Update Brand
 
 #### Objective
 
-The objective of this use case is to receive a brand id and the updated brand data, validate and if valid update the brand in the system.
+    The objective of this use case is to receive a brand id and the updated brand data, validate and if valid update the brand in the system.
 
 #### Payloads
 
@@ -327,7 +408,7 @@ TODO: Requests and Responses
 
 #### Objective
 
-The objective of this use case is to receive a brand id and if valid, it will delete the brand from the system and notify other modules that "share" the entity to delete to.
+    The objective of this use case is to receive a brand id and if valid, it will delete the brand from the system and notify other modules that "share" the entity to delete to.
 
 #### Payloads
 
@@ -337,11 +418,84 @@ TODO: Request and Response
 
 [X] - Brand Deleted Integration Event(Without Retry with Polly)
 
+
+### Create Measure Unit
+
+#### Objective
+
+    This use case has the objective to receive data about a measure and if valid it will add it globally to use in the system
+
+#### Payloads
+
+TODO: Request and Response
+
+#### Test Cases
+
+[X] - Should Create Measure Unit For Valid Command
+
+[X] - Should Not Create Measure Unit For Invalid Command With Same Name Or Shortname As Existent Measure Unit
+
+##### Command Validator Test Cases
+
+[X] - Should Accept Valid Command
+
+[X] - Should Negate Invalid Command With Empty Values
+
+[X] - Should Negate Invalid Command with Values Higher Than Maximum Limit
+
+#### Integration Events
+
+[X] - Measure Unit Created(Without Retry With Polly)
+
+### Get Measure Unit 
+
+#### Objective
+
+    This use case has the objective of receive a Brand Id and if valid(existent) it must return data about the product found.
+
+#### Payloads
+
+TODO: Request and Response
+
+#### Test Cases
+
+TODO: Tests
+
+#### Query Validator Tests
+
+TODO: Tests
+
+#### Integration Events 
+
+No Events
+
+### Search Measure Unit
+
+#### Objective 
+
+    This use case has the objective to receive a search term and it should find any Measure Unit that matches the term or similar to it, and then return the Measure Units Founded, it must use a simple fuzzy search algorithm.
+
+#### Payloads
+
+TODO: Request and Response
+
+#### Test Cases
+
+TODO: Tests
+
+#### Query Validator Tests
+
+TODO: Tests
+
+#### Integration Events
+
+No Events
+
 ### Update Measure Unit
 
 #### Objective
 
-The objective of this use case is to receive a measure unit Id and it's updated data, validate and if valid it will update it's data in the database and notify other modules to update the too.
+    The objective of this use case is to receive a measure unit Id and it's updated data, validate and if valid it will update it's data in the database and notify other modules to update the too.
 
 #### Payloads
 
@@ -355,7 +509,7 @@ TODO: Request and Response
 
 #### Objective
 
-The objective of this use case is to receive a measure unit Id and if valid it will remove the uses of the measure, delete the measure from the database, and notify other modules to remove and delete the measure.
+    The objective of this use case is to receive a measure unit Id and if valid it will remove the uses of the measure, delete the measure from the database, and notify other modules to remove and delete the measure.
 
 #### Payloads
 
@@ -369,7 +523,7 @@ TODO: Request and Response
 
 #### Objective
 
-This use case has the objective to receive data about a product that need to be restocked validate, and if valid, create a request that will needed to be validate by the buying's collaborator in
+    This use case has the objective to receive data about a product that need to be restocked validate, and if valid, create a request that will needed to be validate by the buying's collaborator in
 No Integration Events for this use case, no "shared" entities between contexts
 the sales module.
 
@@ -385,7 +539,7 @@ TODO: Request and Response
 
 #### Objective
 
-This use case has the objective to receive a restock order Id, and if valid it will delete the Restock Order, and notify Finance module to delete the restock order on it's context.
+    This use case has the objective to receive a restock order Id, and if valid it will delete the Restock Order, and notify Finance module to delete the restock order on it's context.
 
 #### Payloads
 
@@ -399,9 +553,9 @@ TODO: Request and Response
 
 #### Objective
 
-This use case has the objective to receive a restock order id and a message data, and if valid will create a message attached to this use case.
+    This use case has the objective to receive a restock order id and a message data, and if valid will create a message attached to this use case.
 
-This is used for internal communication to respond to possible doubts between module agents(collaborators).
+    This is used for internal communication to respond to possible doubts between module agents(collaborators).
 
 #### Payloads
 
@@ -415,7 +569,7 @@ TODO: Request and Response
 
 #### Objective
 
-This use case has the objective to receive a restock order Id, and a message Id, and if valid it will delete the message from the database and will notify other modules to delete the message to.
+    This use case has the objective to receive a restock order Id, and a message Id, and if valid it will delete the message from the database and will notify other modules to delete the message to.
 
 #### Payloads
 
