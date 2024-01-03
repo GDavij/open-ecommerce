@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace Core.Modules.Stock.Application.Http.Commands.DeleteMeasureUnit;
 
-internal class DeleteMeasureUnitValidator : AbstractValidator<DeleteMeasureUnitCommand>
+internal class DeleteMeasureUnitCommandValidator : AbstractValidator<DeleteMeasureUnitCommand>
 {
-    public DeleteMeasureUnitValidator()
+    public DeleteMeasureUnitCommandValidator()
     {
         RuleFor(c => c.Id)
             .NotEmpty().WithMessage("Id must not be empty");

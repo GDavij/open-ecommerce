@@ -1,6 +1,7 @@
 using Core.Modules.Shared;
 using Core.Modules.Stock;
 using Core.Modules.UserAccess;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Open Ecommerce Core Api",
+        Description = "Open Ecommerce Core API Swagger Docs"
+    });
+});
 
 builder.Services.RegisterSharedModule();
 builder.Services.RegisterUserAccessModule();
