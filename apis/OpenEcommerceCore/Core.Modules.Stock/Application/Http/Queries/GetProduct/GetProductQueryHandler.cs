@@ -17,6 +17,14 @@ internal class GetProductQueryHandler : IGetProductQueryHandler
     public async Task<GetProductQueryResponse> Handle(GetProductQuery request, CancellationToken cancellationToken)
     {
         var product = await _dbContext.Products
+            .Include(c => c.Brand)
+            .Include(c => c.Suppliers)
+            .Include(c => c.Tags)
+            .Include(c => c.Images)
+            .Include(c => c.Measurements)
+            .Include(c => c.TechnicalDetails)
+            .Include( c => c.OtherDetails)
+            .Include(c => c.ProductRestockDemands)
             .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
 
         if (product is null)

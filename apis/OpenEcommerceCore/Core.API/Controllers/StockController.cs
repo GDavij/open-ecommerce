@@ -27,13 +27,7 @@ public class StockController : ControllerBase
     {
         _mediator = mediator;
     }
-
-    /// <summary>
-    ///  Creates a new Product
-    /// </summary>
-    /// <returns>The Resource path for frontend to consume the newly created product</returns>
-    /// <param name="command">Create Product Request</param>
-    /// <returns></returns>
+    
     [HttpPost]
     [Route("products")]
     public async Task<IActionResult> CreateProduct([FromServices] AbstractValidator<CreateProductCommand> validator, [FromBody] CreateProductCommand command)

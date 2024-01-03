@@ -26,7 +26,7 @@ internal class CreateBrandCommandHandler : ICreateBrandCommandHandler
     public async Task<CreateBrandCommandResponse> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
     {
         var existentBrand = await _dbContext.Brands
-            .FirstOrDefaultAsync(b => b.Name.Equals(request.Name, StringComparison.InvariantCultureIgnoreCase), cancellationToken);
+            .FirstOrDefaultAsync(b => b.Name == request.Name, cancellationToken);
 
         if (existentBrand is not null)
         {
