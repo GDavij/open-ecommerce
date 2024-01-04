@@ -57,27 +57,27 @@ public static class DependencyInjection
 
         //Db Contexts
         services.AddDbContext<IStockContext, StockContext>();
-
+        
         //Providers
         services.AddScoped<IStockDateTimeProvider, StockDateTimeProvider>();
 
         //Validators 
         services.AddScoped<AbstractValidator<AddImageToProductCommand>, AddImageToProductCommandValidator>();
         services.AddScoped<AbstractValidator<RemoveImageFromProductCommand>, RemoveImageFromProductCommandValidator>();
-        
+
         services.AddScoped<AbstractValidator<CreateBrandCommand>, CreateBrandCommandValidator>();
         services.AddScoped<AbstractValidator<DeleteBrandCommand>, DeleteBrandCommandValidator>();
         services.AddScoped<AbstractValidator<UpdateBrandCommand>, UpdateBrandCommandValidator>();
-        
+
         services.AddScoped<AbstractValidator<CreateMeasureUnitCommand>, CreateMeasureUnitCommandValidator>();
         services.AddScoped<AbstractValidator<DeleteMeasureUnitCommand>, DeleteMeasureUnitCommandValidator>();
         services.AddScoped<AbstractValidator<UpdateMeasureUnitCommand>, UpdateMeasureUnitCommandValidator>();
-        
+
         services.AddScoped<AbstractValidator<CreateProductCommand>, CreateProductCommandValidator>();
         services.AddScoped<AbstractValidator<DeleteProductCommand>, DeleteProductCommandValidator>();
         services.AddScoped<AbstractValidator<UpdateProductCommand>, UpdateProductCommandValidator>();
         services.AddScoped<AbstractValidator<GetProductQuery>, GetProductQueryValidator>();
-        
+
         return services;
     }
 

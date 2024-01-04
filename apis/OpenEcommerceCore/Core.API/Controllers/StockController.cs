@@ -30,7 +30,7 @@ public class StockController : ControllerBase
     
     [HttpPost]
     [Route("products")]
-    public async Task<IActionResult> CreateProduct([FromServices] AbstractValidator<CreateProductCommand> validator, [FromBody] CreateProductCommand command)
+    public async Task<IActionResult> CreateProduct([FromServices] AbstractValidator<CreateProductCommand> validator, [FromBody] CreateProductCommand command, CancellationToken cancellationToken)
     {
         var validationResult = validator.Validate(command);
         if (!validationResult.IsValid)
@@ -38,13 +38,13 @@ public class StockController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        var resource = await _mediator.Send(command);
+        var resource = await _mediator.Send(command, cancellationToken);
         return Ok(resource);
     }
 
     [HttpGet]
     [Route("products/{id}")]
-    public async Task<IActionResult> GetProduct([FromServices] AbstractValidator<GetProductQuery> validator, [FromRoute] Guid id)
+    public async Task<IActionResult> GetProduct([FromServices] AbstractValidator<GetProductQuery> validator, [FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var command = new GetProductQuery
         {
@@ -57,13 +57,13 @@ public class StockController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        var product = await _mediator.Send(command);
+        var product = await _mediator.Send(command, cancellationToken);
         return Ok(product);
     }
 
     [HttpPut]
     [Route("products")]
-    public async Task<IActionResult> UpdateProduct([FromServices] AbstractValidator<UpdateProductCommand> validator, [FromBody] UpdateProductCommand command)
+    public async Task<IActionResult> UpdateProduct([FromServices] AbstractValidator<UpdateProductCommand> validator, [FromBody] UpdateProductCommand command, CancellationToken cancellationToken)
     {
         var validationResult = validator.Validate(command);
         if (!validationResult.IsValid)
@@ -71,13 +71,13 @@ public class StockController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        var resource = await _mediator.Send(command);
+        var resource = await _mediator.Send(command, cancellationToken);
         return Ok(resource);
     }
 
     [HttpDelete]
     [Route("products/{id}")]
-    public async Task<IActionResult> DeleteProduct([FromServices] AbstractValidator<DeleteProductCommand> validator, [FromRoute] Guid id)
+    public async Task<IActionResult> DeleteProduct([FromServices] AbstractValidator<DeleteProductCommand> validator, [FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var command = new DeleteProductCommand
         {
@@ -90,14 +90,14 @@ public class StockController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        await _mediator.Send(command);
+        await _mediator.Send(command, cancellationToken);
         
         return Ok();
     }
 
     [HttpPost]
     [Route("brands")]
-    public async Task<IActionResult> CreateBrand([FromServices] AbstractValidator<CreateBrandCommand> validator, [FromBody] CreateBrandCommand command)
+    public async Task<IActionResult> CreateBrand([FromServices] AbstractValidator<CreateBrandCommand> validator, [FromBody] CreateBrandCommand command, CancellationToken cancellationToken)
     {
         var validationResult = validator.Validate(command);
         if (!validationResult.IsValid)
@@ -105,15 +105,14 @@ public class StockController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        var resource = await _mediator.Send(command);
+        var resource = await _mediator.Send(command, cancellationToken);
 
         return Ok(resource);
     }
 
     [HttpPut]
     [Route("brands")]
-    public async Task<IActionResult> UpdateBrand([FromServices] AbstractValidator<UpdateBrandCommand> validator,
-        [FromBody] UpdateBrandCommand command)
+    public async Task<IActionResult> UpdateBrand([FromServices] AbstractValidator<UpdateBrandCommand> validator, [FromBody] UpdateBrandCommand command, CancellationToken cancellationToken)
     {
         var validationResult = validator.Validate(command);
         if (!validationResult.IsValid)
@@ -121,14 +120,14 @@ public class StockController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        var resource = await _mediator.Send(command);
+        var resource = await _mediator.Send(command, cancellationToken);
 
         return Ok(resource);
     }
 
     [HttpDelete]
     [Route("brands/{id}")]
-    public async Task<IActionResult> DeleteBrand([FromServices] AbstractValidator<DeleteBrandCommand> validator, [FromRoute] Guid id)
+    public async Task<IActionResult> DeleteBrand([FromServices] AbstractValidator<DeleteBrandCommand> validator, [FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var command = new DeleteBrandCommand
         {
@@ -148,7 +147,7 @@ public class StockController : ControllerBase
 
     [HttpPost]
     [Route("products/images")]
-    public async Task<IActionResult> AddImageToProduct([FromServices] AbstractValidator<AddImageToProductCommand> validator, [FromBody] AddImageToProductCommand command)
+    public async Task<IActionResult> AddImageToProduct([FromServices] AbstractValidator<AddImageToProductCommand> validator, [FromBody] AddImageToProductCommand command, CancellationToken cancellationToken)
     {
         var validationResult = validator.Validate(command);
         if (!validationResult.IsValid)
@@ -156,13 +155,13 @@ public class StockController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        var resource = await _mediator.Send(command);
+        var resource = await _mediator.Send(command, cancellationToken);
         return Ok(resource);
     }
 
     [HttpDelete]
     [Route("products/images/{id}")]
-    public async Task<IActionResult> RemoveImageFromProduct([FromServices] AbstractValidator<RemoveImageFromProductCommand> validator, [FromRoute] Guid id)
+    public async Task<IActionResult> RemoveImageFromProduct([FromServices] AbstractValidator<RemoveImageFromProductCommand> validator, [FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var command = new RemoveImageFromProductCommand
         {
@@ -175,13 +174,13 @@ public class StockController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        var response = await _mediator.Send(command);
+        var response = await _mediator.Send(command, cancellationToken);
         return Ok(response);
     }
 
     [HttpPost]
     [Route("measure-units")]
-    public async Task<IActionResult> CreateMeasureUnit([FromServices] AbstractValidator<CreateMeasureUnitCommand> validator, [FromBody] CreateMeasureUnitCommand command)
+    public async Task<IActionResult> CreateMeasureUnit([FromServices] AbstractValidator<CreateMeasureUnitCommand> validator, [FromBody] CreateMeasureUnitCommand command, CancellationToken cancellationToken)
     {
         var validationResult = validator.Validate(command);
         if (!validationResult.IsValid)
@@ -189,13 +188,13 @@ public class StockController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        var resource = await _mediator.Send(command);
+        var resource = await _mediator.Send(command, cancellationToken);
         return Ok(resource);
     }
 
     [HttpPut]
     [Route("measure-units")]
-    public async Task<IActionResult> UpdateMeasureUnit([FromServices] AbstractValidator<UpdateMeasureUnitCommand> validator, [FromBody] UpdateMeasureUnitCommand command)
+    public async Task<IActionResult> UpdateMeasureUnit([FromServices] AbstractValidator<UpdateMeasureUnitCommand> validator, [FromBody] UpdateMeasureUnitCommand command, CancellationToken cancellationToken)
     {
         var validationResult = validator.Validate(command);
         if (!validationResult.IsValid)
@@ -203,14 +202,13 @@ public class StockController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        var resource = await _mediator.Send(command);
+        var resource = await _mediator.Send(command, cancellationToken);
         return Ok(resource);
     }
 
     [HttpDelete]
     [Route("measure-units/{id}")]
-    public async Task<IActionResult> DeleteMeasureUnit(
-        [FromServices] AbstractValidator<DeleteMeasureUnitCommand> validator, [FromRoute] Guid id)
+    public async Task<IActionResult> DeleteMeasureUnit([FromServices] AbstractValidator<DeleteMeasureUnitCommand> validator, [FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var command = new DeleteMeasureUnitCommand
         {
@@ -223,7 +221,7 @@ public class StockController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        await _mediator.Send(command);
+        await _mediator.Send(command, cancellationToken);
      
         return Ok();
     }

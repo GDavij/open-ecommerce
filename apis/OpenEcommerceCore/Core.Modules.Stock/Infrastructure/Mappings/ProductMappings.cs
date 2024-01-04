@@ -16,7 +16,7 @@ internal class ProductMappings : IEntityTypeConfiguration<Product>
         builder.HasOne(p => p.Brand)
             .WithMany(b => b.Products)
             .IsRequired();
-        
+
         builder.Property(p => p.Name)
             .HasColumnName("Name")
             .HasMaxLength(255)
@@ -25,7 +25,7 @@ internal class ProductMappings : IEntityTypeConfiguration<Product>
         builder.Property(p => p.Description)
             .HasColumnName("Description")
             .HasMaxLength(512);
-        
+
 
         builder.Property(p => p.SKU)
             .HasColumnName("SKU")
@@ -48,7 +48,7 @@ internal class ProductMappings : IEntityTypeConfiguration<Product>
         builder.Property(p => p.StockUnitCount)
             .HasColumnName("StockUnitCount")
             .IsRequired();
-        
+
         builder.HasMany(p => p.Suppliers)
             .WithMany(s => s.Products);
 
@@ -60,11 +60,12 @@ internal class ProductMappings : IEntityTypeConfiguration<Product>
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(p => p.Measurements)
-            .WithOne(m => m.Product)
-            .IsRequired();
+            .WithOne()
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(p => p.TechnicalDetails)
-            .WithOne(t => t.Product)
+            .WithOne()
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
 
@@ -76,6 +77,9 @@ internal class ProductMappings : IEntityTypeConfiguration<Product>
         builder.HasMany(p => p.ProductRestockDemands)
             .WithOne(prd => prd.Product)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(p => p.Suppliers)
+            .WithMany(s => s.Products);
 
         builder.Property(p => p.CreatedAt)
             .HasColumnName("CreatedAt")

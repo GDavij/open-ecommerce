@@ -34,7 +34,15 @@ internal class UpdateProductCommandHandler : IUpdateProductCommandHandler
     public async Task<UpdateProductCommandResponse> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
         var existentProduct = await _dbContext.Products
-            .FirstOrDefaultAsync(p => p.Id == request.ProductId);
+            .Include(c => c.Brand)
+            .Include(c => c.Suppliers)
+            .Include(c => c.Tags)
+            .Include(c => c.Images)
+            .Include(c => c.Measurements)
+            .Include(c => c.TechnicalDetails)
+            .Include(c => c.OtherDetails)
+            .Include(c => c.ProductRestockDemands)
+            .FirstOrDefaultAsync(p => p.Id == request.ProductId, cancellationToken);
 
         if (existentProduct is null)
         {
@@ -57,8 +65,8 @@ internal class UpdateProductCommandHandler : IUpdateProductCommandHandler
         }
 
         if (await _dbContext.Products.AnyAsync(p =>
-                p.EAN == request.Ean &&
-                p.Id != request.ProductId,
+                    p.EAN == request.Ean &&
+                    p.Id != request.ProductId,
                 cancellationToken))
         {
             throw new ExistentEanCodeException(request.Ean);
@@ -66,8 +74,8 @@ internal class UpdateProductCommandHandler : IUpdateProductCommandHandler
 
         if (request.Upc is not null &&
             await _dbContext.Products.AnyAsync(p =>
-                p.UPC == request.Upc &&
-                p.Id != request.ProductId,
+                    p.UPC == request.Upc &&
+                    p.Id != request.ProductId,
                 cancellationToken))
         {
             throw new ExistentUpcCodeException(request.Upc);
@@ -75,8 +83,8 @@ internal class UpdateProductCommandHandler : IUpdateProductCommandHandler
 
         if (request.Sku is not null &&
             await _dbContext.Products.AnyAsync(p =>
-                p.SKU == request.Sku &&
-                p.Id != request.ProductId,
+                    p.SKU == request.Sku &&
+                    p.Id != request.ProductId,
                 cancellationToken))
         {
             throw new ExistentSkuCodeException(request.Sku);
@@ -155,13 +163,14 @@ internal class UpdateProductCommandHandler : IUpdateProductCommandHandler
         existentProduct.StockUnitCount = request.StockUnitCount;
         existentProduct.Tags = validTags;
 
+        
         existentProduct.Measurements = request.Measurements.Select(m => MeasurementDetail.Create(
             product: existentProduct,
             showOrder: m.ShowOrder,
             name: m.Name,
             value: m.Value,
             measureUnit: validMeasureUnits.FirstOrDefault(vm => vm.Id == m.MeasureUnitId)
-            )).ToList();
+        )).ToList();
 
         existentProduct.TechnicalDetails = request.TechnicalDetails.Select(t => TechnicalDetail.Create(
             product: existentProduct,
@@ -181,8 +190,7 @@ internal class UpdateProductCommandHandler : IUpdateProductCommandHandler
 
         existentProduct.LastUpdate = _dateTimeProvider.UtcNow;
 
-        await _dbContext.SaveChangesAsync(cancellationToken);
-
+        _dbContext.SaveChangesAsync();
         //TODO: Add Retry With Polly
         await _publishEndpoint.Publish(ProductUpdatedIntegrationEvent.CreateEvent(existentProduct.MapToProductDto()));
 
