@@ -153,6 +153,8 @@ internal class UpdateProductCommandHandler : IUpdateProductCommandHandler
             throw new InvalidMeasureUnitException(firstInvalidMeasureUnitId);
         }
 
+        using var transaction = await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+
         existentProduct.Brand = brandToUpdate;
         existentProduct.Name = request.Name;
         existentProduct.Description = request.Description;
@@ -162,35 +164,48 @@ internal class UpdateProductCommandHandler : IUpdateProductCommandHandler
         existentProduct.Price = request.Price;
         existentProduct.StockUnitCount = request.StockUnitCount;
         existentProduct.Tags = validTags;
+        existentProduct.LastUpdate = _dateTimeProvider.UtcNow;
 
-        
-        existentProduct.Measurements = request.Measurements.Select(m => MeasurementDetail.Create(
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        _dbContext.Products_MeasureDetails.RemoveRange(existentProduct.Measurements);
+
+        var measureDetailsToAdd = request.Measurements.Select(m => MeasurementDetail.Create(
             product: existentProduct,
             showOrder: m.ShowOrder,
             name: m.Name,
             value: m.Value,
-            measureUnit: validMeasureUnits.FirstOrDefault(vm => vm.Id == m.MeasureUnitId)
-        )).ToList();
+            measureUnit: validMeasureUnits.FirstOrDefault(vm => vm.Id == m.MeasureUnitId)));
 
-        existentProduct.TechnicalDetails = request.TechnicalDetails.Select(t => TechnicalDetail.Create(
+        _dbContext.Products_MeasureDetails.AddRange(measureDetailsToAdd);
+
+        _dbContext.Products_TechnicalDetails.RemoveRange(existentProduct.TechnicalDetails);
+
+        var technicalDetailsToAdd = request.TechnicalDetails.Select(t => TechnicalDetail.Create(
             product: existentProduct,
             showOrder: t.ShowOrder,
             name: t.Name,
             value: t.Value,
-            measureUnit: validMeasureUnits.FirstOrDefault(vm => vm.Id == t.MeasureUnitId)
-        )).ToList();
+            measureUnit: validMeasureUnits.FirstOrDefault(vm => vm.Id == t.MeasureUnitId)));
 
-        existentProduct.OtherDetails = request.OtherDetails.Select(o => OtherDetail.Create(
+        _dbContext.Products_TechnicalDetails.AddRange(technicalDetailsToAdd);
+
+
+        _dbContext.Products_OtherDetails.RemoveRange(existentProduct.OtherDetails);
+
+        var otherDetailsToAdd = request.OtherDetails.Select(o => OtherDetail.Create(
             product: existentProduct,
             showOrder: o.ShowOrder,
             name: o.Name,
             value: o.Value,
-            measureUnit: validMeasureUnits.FirstOrDefault(vm => vm.Id == o.MeasureUnitId)
-        )).ToList();
+            measureUnit: validMeasureUnits.FirstOrDefault(vm => vm.Id == o.MeasureUnitId)));
 
-        existentProduct.LastUpdate = _dateTimeProvider.UtcNow;
+        _dbContext.Products_OtherDetails.AddRange(otherDetailsToAdd);
 
-        _dbContext.SaveChangesAsync();
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        await transaction.CommitAsync(cancellationToken);
+
         //TODO: Add Retry With Polly
         await _publishEndpoint.Publish(ProductUpdatedIntegrationEvent.CreateEvent(existentProduct.MapToProductDto()));
 

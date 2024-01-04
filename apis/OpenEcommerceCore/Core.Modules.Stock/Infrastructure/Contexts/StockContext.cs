@@ -2,6 +2,7 @@ using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Entities;
 using Core.Modules.Stock.Domain.Entities.Product;
 using Core.Modules.Stock.Domain.Entities.Demands;
+using Core.Modules.Stock.Domain.Entities.Product.ProductDetails;
 using Core.Modules.Stock.Infrastructure.Mappings;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,9 @@ internal class StockContext
     public DbSet<Supplier> Suppliers { get; set; }
     public DbSet<MeasureUnit> MeasureUnits { get; set; }
     public DbSet<Product> Products { get; set; }
+    public DbSet<MeasurementDetail> Products_MeasureDetails { get; set; }
+    public DbSet<TechnicalDetail> Products_TechnicalDetails { get; set; }
+    public DbSet<OtherDetail> Products_OtherDetails { get; set; }
     public DbSet<ProductRestockDemand> ProductRestockOrders { get; set; }
     public DbSet<Address> Addresses { get; set; }
     public DbSet<ProductTag> ProductTags { get; set; }
@@ -38,6 +42,9 @@ internal class StockContext
         modelBuilder.ApplyConfiguration(new MeasureUnitMappings());
         modelBuilder.ApplyConfiguration(new ProductImageMappings());
         modelBuilder.ApplyConfiguration(new ProductMappings());
+        modelBuilder.ApplyConfiguration(new Product_MeasureDetailMappings());
+        modelBuilder.ApplyConfiguration(new Product_TechnicalDetailMappings());
+        modelBuilder.ApplyConfiguration(new Product_OtherDetailMappings());
         modelBuilder.ApplyConfiguration(new ProductRestockDemandMappings());
         modelBuilder.ApplyConfiguration(new ProductTagMappings());
         modelBuilder.ApplyConfiguration(new SupplierMappings());

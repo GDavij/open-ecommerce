@@ -1,5 +1,6 @@
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetProduct;
+using Core.Modules.Stock.Domain.Entities.Product.ProductDetails;
 using Core.Modules.Stock.Domain.Exceptions.Product;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,17 +14,15 @@ internal class GetProductQueryHandler : IGetProductQueryHandler
     {
         _dbContext = dbContext;
     }
-    
+
     public async Task<GetProductQueryResponse> Handle(GetProductQuery request, CancellationToken cancellationToken)
     {
         var product = await _dbContext.Products
+            .AsNoTracking()
             .Include(c => c.Brand)
             .Include(c => c.Suppliers)
             .Include(c => c.Tags)
             .Include(c => c.Images)
-            .Include(c => c.Measurements)
-            .Include(c => c.TechnicalDetails)
-            .Include( c => c.OtherDetails)
             .Include(c => c.ProductRestockDemands)
             .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
 
@@ -31,6 +30,25 @@ internal class GetProductQueryHandler : IGetProductQueryHandler
         {
             throw new InvalidProductException(request.Id);
         }
+
+        var measurementDetails = _dbContext.Products_MeasureDetails
+            .AsNoTracking()
+            .Include(pmd => pmd.MeasureUnit)
+            .Where(pmd => pmd.Product == product).ToList();
+
+        var technicalDetails = _dbContext.Products_TechnicalDetails
+            .AsNoTracking()
+            .Include(pmd => pmd.MeasureUnit)
+            .Where(pmd => pmd.Product == product).ToList();
+
+        var otherDetails = _dbContext.Products_OtherDetails
+            .AsNoTracking()
+            .Include(pmd => pmd.MeasureUnit)
+            .Where(pmd => pmd.Product == product).ToList();
+
+        product.Measurements = measurementDetails;
+        product.TechnicalDetails = technicalDetails;
+        product.OtherDetails = otherDetails;
 
         return new GetProductQueryResponse
         {
