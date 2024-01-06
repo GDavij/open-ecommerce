@@ -10,6 +10,7 @@ using Core.Modules.Stock.Domain.Contracts.Http.Commands.RemoveImageFromProduct;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateMeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateProduct;
+using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetProduct;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.SearchProduct;
 using FluentValidation;
@@ -28,7 +29,7 @@ public class StockController : ControllerBase
     {
         _mediator = mediator;
     }
-    
+
     [HttpPost]
     [Route("products")]
     public async Task<IActionResult> CreateProduct([FromServices] AbstractValidator<CreateProductCommand> validator, [FromBody] CreateProductCommand command, CancellationToken cancellationToken)
@@ -75,6 +76,7 @@ public class StockController : ControllerBase
 
         return Ok(await _mediator.Send(query));
     }
+
     [HttpPut]
     [Route("products")]
     public async Task<IActionResult> UpdateProduct([FromServices] AbstractValidator<UpdateProductCommand> validator, [FromBody] UpdateProductCommand command, CancellationToken cancellationToken)
@@ -105,7 +107,7 @@ public class StockController : ControllerBase
         }
 
         await _mediator.Send(command, cancellationToken);
-        
+
         return Ok();
     }
 
@@ -122,6 +124,24 @@ public class StockController : ControllerBase
         var resource = await _mediator.Send(command, cancellationToken);
 
         return Ok(resource);
+    }
+
+    [HttpGet]
+    [Route("brands/{id}")]
+    public async Task<IActionResult> GetBrand([FromServices] AbstractValidator<GetBrandQuery> validator, [FromRoute] Guid id)
+    {
+        var query = new GetBrandQuery
+        {
+            Id = id
+        };
+
+        var validationResult = validator.Validate(query);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+
+        return Ok(await _mediator.Send(query));
     }
 
     [HttpPut]
@@ -181,7 +201,7 @@ public class StockController : ControllerBase
         {
             Id = id
         };
-        
+
         var validationResult = validator.Validate(command);
         if (!validationResult.IsValid)
         {
@@ -236,7 +256,7 @@ public class StockController : ControllerBase
         }
 
         await _mediator.Send(command, cancellationToken);
-     
+
         return Ok();
     }
 }
