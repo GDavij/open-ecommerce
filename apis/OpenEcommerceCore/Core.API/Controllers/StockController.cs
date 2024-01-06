@@ -12,6 +12,7 @@ using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateMeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateProduct;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetProduct;
+using Core.Modules.Stock.Domain.Contracts.Http.Queries.SearchBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.SearchProduct;
 using FluentValidation;
 using MediatR;
@@ -136,6 +137,20 @@ public class StockController : ControllerBase
         };
 
         var validationResult = validator.Validate(query);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+
+        return Ok(await _mediator.Send(query));
+    }
+
+    [HttpGet]
+    [Route("brands")]
+    public async Task<IActionResult> SearchBrand([FromServices] AbstractValidator<SearchBrandQuery> validator, [FromQuery] SearchBrandQuery query)
+    {
+        var validationResult = validator.Validate(query);
+
         if (!validationResult.IsValid)
         {
             return BadRequest(validationResult.Errors);

@@ -5,7 +5,7 @@ using Core.Modules.Stock.Domain.Entities.Product;
 using Core.Modules.Stock.Domain.Exceptions.Product;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.Modules.Stock.Application.Http.Queries.SearchProducts;
+namespace Core.Modules.Stock.Application.Http.Queries.SearchProduct;
 
 internal class SearchProductQueryHandler : ISearchProductQueryHandler
 {
