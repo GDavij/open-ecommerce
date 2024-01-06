@@ -53,6 +53,14 @@ internal class SearchProductQueryHandler : ISearchProductQueryHandler
 
             queryable = queryable.Where(p => validRequestBrands.Contains(p.Brand.Id));
         }
+
+        if (!string.IsNullOrEmpty(request.SearchTerm))
+        {
+            queryable = queryable.Where(p =>
+                EF.Functions.ILike(
+                    p.Name + " " + p.Description + " " + p.Brand.Name + " " + p.SKU + " " + p.EAN + " " + p.UPC,
+                    $"%{request.SearchTerm}%"));
+        }
         
         var products = await queryable
                 .Skip(numberOfRowsToSkip)
