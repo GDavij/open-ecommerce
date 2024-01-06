@@ -11,6 +11,7 @@ using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateMeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateProduct;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetProduct;
+using Core.Modules.Stock.Domain.Contracts.Http.Queries.SearchProduct;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -61,6 +62,19 @@ public class StockController : ControllerBase
         return Ok(product);
     }
 
+    [HttpGet]
+    [Route("products")]
+    public async Task<IActionResult> SearchProducts([FromServices] AbstractValidator<SearchProductQuery> validator,
+        [FromQuery] SearchProductQuery query)
+    {
+        var validationResult = validator.Validate(query);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+
+        return Ok(await _mediator.Send(query));
+    }
     [HttpPut]
     [Route("products")]
     public async Task<IActionResult> UpdateProduct([FromServices] AbstractValidator<UpdateProductCommand> validator, [FromBody] UpdateProductCommand command, CancellationToken cancellationToken)

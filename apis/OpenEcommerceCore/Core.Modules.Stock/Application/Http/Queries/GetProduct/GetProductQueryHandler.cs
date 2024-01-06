@@ -31,20 +31,20 @@ internal class GetProductQueryHandler : IGetProductQueryHandler
             throw new InvalidProductException(request.Id);
         }
 
-        var measurementDetails = _dbContext.Products_MeasureDetails
+        var measurementDetails = await _dbContext.Products_MeasureDetails
             .AsNoTracking()
             .Include(pmd => pmd.MeasureUnit)
-            .Where(pmd => pmd.Product == product).ToList();
+            .Where(pmd => pmd.Product == product).ToListAsync(cancellationToken);
 
-        var technicalDetails = _dbContext.Products_TechnicalDetails
+        var technicalDetails = await _dbContext.Products_TechnicalDetails
             .AsNoTracking()
             .Include(pmd => pmd.MeasureUnit)
-            .Where(pmd => pmd.Product == product).ToList();
+            .Where(pmd => pmd.Product == product).ToListAsync(cancellationToken);
 
-        var otherDetails = _dbContext.Products_OtherDetails
+        var otherDetails = await _dbContext.Products_OtherDetails
             .AsNoTracking()
             .Include(pmd => pmd.MeasureUnit)
-            .Where(pmd => pmd.Product == product).ToList();
+            .Where(pmd => pmd.Product == product).ToListAsync(cancellationToken);
 
         product.Measurements = measurementDetails;
         product.TechnicalDetails = technicalDetails;
