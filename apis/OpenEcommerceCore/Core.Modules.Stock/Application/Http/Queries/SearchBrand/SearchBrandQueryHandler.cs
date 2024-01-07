@@ -32,7 +32,7 @@ internal class SearchBrandQueryHandler : ISearchBrandQueryHandler
 
         return new SearchBrandQueryResponse
         {
-            ProductsFound = brands,
+            BrandsFound = brands,
             pageIndex = request.Page,
             MaxPages = (brands.Count + numberOfRowsToSkip + _numberOfRowsToReturn - 1) / _numberOfRowsToReturn
         };

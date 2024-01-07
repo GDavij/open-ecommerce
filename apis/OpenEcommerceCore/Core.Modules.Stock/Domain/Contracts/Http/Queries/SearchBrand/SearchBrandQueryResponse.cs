@@ -4,7 +4,7 @@ namespace Core.Modules.Stock.Domain.Contracts.Http.Queries.SearchBrand;
 
 public record SearchBrandQueryResponse
 {
-    public List<FoundedBrandSearch> ProductsFound { get; init; }
+    public List<FoundedBrandSearch> BrandsFound { get; init; }
     public int MaxPages { get; init; }
     public int pageIndex { get; init; } = 1;
     
