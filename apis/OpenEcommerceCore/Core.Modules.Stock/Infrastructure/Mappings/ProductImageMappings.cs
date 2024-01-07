@@ -15,7 +15,7 @@ internal class ProductImageMappings : IEntityTypeConfiguration<ProductImage>
 
         builder.HasOne(pi => pi.Product)
             .WithMany(p => p.Images)
-            .HasForeignKey(pi => pi.Id)
+            .HasForeignKey(pi => pi.ProductId)
             .IsRequired();
 
         builder.Property(pi => pi.Description)

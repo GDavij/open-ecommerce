@@ -3,6 +3,7 @@ using System;
 using Core.Modules.Stock.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Core.Modules.Stock.Migrations
 {
     [DbContext(typeof(StockContext))]
-    partial class StockContextModelSnapshot : ModelSnapshot
+    [Migration("20240107064225_fix-for-bad-constraint-on-fk-product-images")]
+    partial class fixforbadconstraintonfkproductimages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

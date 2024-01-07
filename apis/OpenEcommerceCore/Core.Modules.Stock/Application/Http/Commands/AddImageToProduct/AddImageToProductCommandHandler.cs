@@ -50,7 +50,7 @@ internal class AddImageToProductCommandHandler : IAddImageToProductCommandHandle
         var productImage = ProductImage.Create(
             product: existentProduct,
             description: request.Description,
-            url: container.Uri.AbsoluteUri);
+            url: $"{container.Uri.AbsoluteUri}/{blobName}");
 
         _dbContext.ProductImages.Add(productImage);
 

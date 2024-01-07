@@ -24,6 +24,7 @@ internal class RemoveImageFromProductCommandHandler : IRemoveImageFromProductCom
     public async Task<RemoveImageFromProductCommandResponse> Handle(RemoveImageFromProductCommand request, CancellationToken cancellationToken)
     {
         ProductImage? existentImage = await _dbContext.ProductImages
+            .Include(pi => pi.Product)
             .FirstOrDefaultAsync(i => i.Id == request.Id, cancellationToken);
 
         if (existentImage == null)

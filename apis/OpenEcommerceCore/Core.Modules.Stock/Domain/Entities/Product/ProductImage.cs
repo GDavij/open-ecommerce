@@ -3,6 +3,7 @@ namespace Core.Modules.Stock.Domain.Entities.Product;
 internal class ProductImage
 {
     public Guid Id { get; init; }
+    public Guid ProductId { get; init; }
     public Product Product { get; init; }
     public string Description { get; init; }
     public string Url { get; init; }
@@ -16,6 +17,7 @@ internal class ProductImage
         return new ProductImage
         {
            Id = Guid.NewGuid(),
+           ProductId = product.Id,
            Product = product,
            Description = description,
            Url = url

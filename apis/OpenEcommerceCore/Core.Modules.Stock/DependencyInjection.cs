@@ -1,5 +1,6 @@
 using System.Reflection;
 using Azure.Identity;
+using Core.Modules.Shared.Domain.Constants;
 using Core.Modules.Stock.Application.Http.Commands;
 using Core.Modules.Stock.Application.Http.Commands.AddImageToProduct;
 using Core.Modules.Stock.Application.Http.Commands.CreateBrand;
@@ -39,6 +40,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Core.Modules.Stock;
 
@@ -55,10 +57,19 @@ public static class DependencyInjection
         //Azure Storage Configuration
         services.AddAzureClients(cfg =>
         {
-            cfg.UseCredential(new DefaultAzureCredential());
-
-            Uri blobClientStorageConnectionString = new Uri(Environment.GetEnvironmentVariable("BLOB_CLIENT_STORAGE_CONNECTION_STRING")!);
-            cfg.AddBlobServiceClient(blobClientStorageConnectionString);
+            string azBlobClientStorageConnection = Environment.GetEnvironmentVariable(SharedConnectionStringEnvironmentVariableName.AzureBlobStorage);
+            
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Production)
+            {
+                
+                Uri blobClientStorageConnectionString = new Uri(azBlobClientStorageConnection);
+                cfg.UseCredential(new DefaultAzureCredential());
+                cfg.AddBlobServiceClient(blobClientStorageConnectionString);
+            }
+            else
+            {
+                cfg.AddBlobServiceClient(azBlobClientStorageConnection);
+            }
         });
 
         //Db Contexts

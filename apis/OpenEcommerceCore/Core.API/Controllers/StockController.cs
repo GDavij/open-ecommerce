@@ -196,7 +196,7 @@ public class StockController : ControllerBase
 
     [HttpPost]
     [Route("products/images")]
-    public async Task<IActionResult> AddImageToProduct([FromServices] AbstractValidator<AddImageToProductCommand> validator, [FromBody] AddImageToProductCommand command, CancellationToken cancellationToken)
+    public async Task<IActionResult> AddImageToProduct([FromServices] AbstractValidator<AddImageToProductCommand> validator, [FromForm] AddImageToProductCommand command, CancellationToken cancellationToken)
     {
         var validationResult = validator.Validate(command);
         if (!validationResult.IsValid)
@@ -207,7 +207,7 @@ public class StockController : ControllerBase
         var resource = await _mediator.Send(command, cancellationToken);
         return Ok(resource);
     }
-
+    
     [HttpDelete]
     [Route("products/images/{id}")]
     public async Task<IActionResult> RemoveImageFromProduct([FromServices] AbstractValidator<RemoveImageFromProductCommand> validator, [FromRoute] Guid id, CancellationToken cancellationToken)
