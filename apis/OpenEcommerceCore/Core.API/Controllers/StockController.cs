@@ -3,6 +3,7 @@ using Core.Modules.Stock.Domain.Contracts.Http.Commands.AddImageToProduct;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateMeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateProduct;
+using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateProductTag;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteMeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteProduct;
@@ -68,8 +69,7 @@ public class StockController : ControllerBase
 
     [HttpGet]
     [Route("products")]
-    public async Task<IActionResult> SearchProducts([FromServices] AbstractValidator<SearchProductQuery> validator,
-        [FromQuery] SearchProductQuery query)
+    public async Task<IActionResult> SearchProducts([FromServices] AbstractValidator<SearchProductQuery> validator, [FromQuery] SearchProductQuery query, CancellationToken cancellationToken)
     {
         var validationResult = validator.Validate(query);
         if (!validationResult.IsValid)
@@ -131,7 +131,7 @@ public class StockController : ControllerBase
 
     [HttpGet]
     [Route("brands/{id}")]
-    public async Task<IActionResult> GetBrand([FromServices] AbstractValidator<GetBrandQuery> validator, [FromRoute] Guid id)
+    public async Task<IActionResult> GetBrand([FromServices] AbstractValidator<GetBrandQuery> validator, [FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var query = new GetBrandQuery
         {
@@ -144,12 +144,12 @@ public class StockController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        return Ok(await _mediator.Send(query));
+        return Ok(await _mediator.Send(query, cancellationToken));
     }
 
     [HttpGet]
     [Route("brands")]
-    public async Task<IActionResult> SearchBrand([FromServices] AbstractValidator<SearchBrandQuery> validator, [FromQuery] SearchBrandQuery query)
+    public async Task<IActionResult> SearchBrand([FromServices] AbstractValidator<SearchBrandQuery> validator, [FromQuery] SearchBrandQuery query, CancellationToken cancellationToken)
     {
         var validationResult = validator.Validate(query);
 
@@ -158,7 +158,7 @@ public class StockController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        return Ok(await _mediator.Send(query));
+        return Ok(await _mediator.Send(query, cancellationToken));
     }
 
     [HttpPut]
@@ -245,7 +245,7 @@ public class StockController : ControllerBase
 
     [HttpGet]
     [Route("measure-units/{id}")]
-    public async Task<IActionResult> GetMeasureUnit([FromServices] AbstractValidator<GetMeasureUnitQuery> validator, [FromRoute] Guid id)
+    public async Task<IActionResult> GetMeasureUnit([FromServices] AbstractValidator<GetMeasureUnitQuery> validator, [FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var query = new GetMeasureUnitQuery
         {
@@ -258,12 +258,12 @@ public class StockController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
         
-        return Ok(await _mediator.Send(query));
+        return Ok(await _mediator.Send(query, cancellationToken));
     }
 
     [HttpGet]
     [Route("measure-units")]
-    public async Task<IActionResult> ListMeasureUnits([FromServices] AbstractValidator<ListMeasureUnitsQuery> validator, [FromQuery] ListMeasureUnitsQuery query)
+    public async Task<IActionResult> ListMeasureUnits([FromServices] AbstractValidator<ListMeasureUnitsQuery> validator, [FromQuery] ListMeasureUnitsQuery query, CancellationToken cancellationToken)
     {
         var validationResult = validator.Validate(query);
         if (!validationResult.IsValid)
@@ -271,7 +271,7 @@ public class StockController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        return Ok(await _mediator.Send(query));
+        return Ok(await _mediator.Send(query, cancellationToken));
     }
 
     [HttpPut]
@@ -306,5 +306,19 @@ public class StockController : ControllerBase
         await _mediator.Send(command, cancellationToken);
 
         return Ok();
+    }
+
+    [HttpPost]
+    [Route("tags")]
+    public async Task<IActionResult> CreateTag([FromServices] AbstractValidator<CreateProductTagCommand> validator, [FromBody] CreateProductTagCommand command, CancellationToken cancellationToken)
+    {
+        var validationResult = validator.Validate(command);
+
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+
+        return Ok(await _mediator.Send(command, cancellationToken));
     }
 }

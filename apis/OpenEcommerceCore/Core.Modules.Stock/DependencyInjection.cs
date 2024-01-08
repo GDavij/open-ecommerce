@@ -6,6 +6,7 @@ using Core.Modules.Stock.Application.Http.Commands.AddImageToProduct;
 using Core.Modules.Stock.Application.Http.Commands.CreateBrand;
 using Core.Modules.Stock.Application.Http.Commands.CreateMeasureUnit;
 using Core.Modules.Stock.Application.Http.Commands.CreateProduct;
+using Core.Modules.Stock.Application.Http.Commands.CreateProductTag;
 using Core.Modules.Stock.Application.Http.Commands.DeleteBrand;
 using Core.Modules.Stock.Application.Http.Commands.DeleteMeasureUnit;
 using Core.Modules.Stock.Application.Http.Commands.DeleteProduct;
@@ -23,6 +24,7 @@ using Core.Modules.Stock.Domain.Contracts.Http.Commands.AddImageToProduct;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateMeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateProduct;
+using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateProductTag;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteMeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteProduct;
@@ -103,6 +105,8 @@ public static class DependencyInjection
         services.AddScoped<AbstractValidator<UpdateProductCommand>, UpdateProductCommandValidator>();
         services.AddScoped<AbstractValidator<GetProductQuery>, GetProductQueryValidator>();
         services.AddScoped<AbstractValidator<SearchProductQuery>, SearchProductQueryValidator>();
+
+        services.AddScoped<AbstractValidator<CreateProductTagCommand>, CreateProductTagCommandValidator>();
         
         return services;
     }
