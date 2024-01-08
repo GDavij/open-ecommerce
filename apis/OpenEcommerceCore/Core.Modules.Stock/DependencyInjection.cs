@@ -1,6 +1,7 @@
 using System.Reflection;
 using Azure.Identity;
 using Core.Modules.Shared.Domain.Constants;
+using Core.Modules.Stock.API.Controllers;
 using Core.Modules.Stock.Application.Http.Commands;
 using Core.Modules.Stock.Application.Http.Commands.AddImageToProduct;
 using Core.Modules.Stock.Application.Http.Commands.CreateBrand;
@@ -72,10 +73,10 @@ public static class DependencyInjection
         services.AddAzureClients(cfg =>
         {
             string azBlobClientStorageConnection = Environment.GetEnvironmentVariable(SharedConnectionStringEnvironmentVariableName.AzureBlobStorage);
-            
+
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Production)
             {
-                
+
                 Uri blobClientStorageConnectionString = new Uri(azBlobClientStorageConnection);
                 cfg.UseCredential(new DefaultAzureCredential());
                 cfg.AddBlobServiceClient(blobClientStorageConnectionString);
@@ -88,7 +89,7 @@ public static class DependencyInjection
 
         //Db Contexts
         services.AddDbContext<IStockContext, StockContext>();
-        
+
         //Providers
         services.AddScoped<IStockDateTimeProvider, StockDateTimeProvider>();
 
@@ -118,9 +119,16 @@ public static class DependencyInjection
         services.AddScoped<AbstractValidator<UpdateProductTagCommand>, UpdateProductTagCommandValidator>();
         services.AddScoped<AbstractValidator<DeleteProductTagCommand>, DeleteProductTagCommandValidator>();
         services.AddScoped<AbstractValidator<GetProductTagQuery>, GetProductTagQueryValidator>();
-        services.AddScoped<AbstractValidator<ListProductTagsQuery>, ListProductTagsQueryValidator>(); 
-        
+        services.AddScoped<AbstractValidator<ListProductTagsQuery>, ListProductTagsQueryValidator>();
+
         return services;
+    }
+
+    public static IMvcBuilder AddStockControllers(this IMvcBuilder mvcBuilder)
+    {
+        mvcBuilder.AddApplicationPart(Assembly.GetExecutingAssembly());
+
+        return mvcBuilder;
     }
 
     public static WebApplication RunStockMigrations(this WebApplication app)

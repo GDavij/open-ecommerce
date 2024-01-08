@@ -42,6 +42,13 @@ public static class DependencyInjection
         return services;
     }
 
+    public static IMvcBuilder AddUserAccessControllers(this IMvcBuilder mvcBuilder)
+    {
+        mvcBuilder.AddApplicationPart(Assembly.GetExecutingAssembly());
+
+        return mvcBuilder;
+    }
+
     public static WebApplication RunUserAccessMigrations(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
