@@ -11,6 +11,7 @@ using Core.Modules.Stock.Domain.Contracts.Http.Commands.RemoveImageFromProduct;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateMeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateProduct;
+using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateProductTag;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetMeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetProduct;
@@ -311,6 +312,20 @@ public class StockController : ControllerBase
     [HttpPost]
     [Route("tags")]
     public async Task<IActionResult> CreateTag([FromServices] AbstractValidator<CreateProductTagCommand> validator, [FromBody] CreateProductTagCommand command, CancellationToken cancellationToken)
+    {
+        var validationResult = validator.Validate(command);
+
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+
+        return Ok(await _mediator.Send(command, cancellationToken));
+    }
+
+    [HttpPut]
+    [Route("tags")]
+    public async Task<IActionResult> UpdateTag([FromServices] AbstractValidator<UpdateProductTagCommand> validator, [FromBody] UpdateProductTagCommand command, CancellationToken cancellationToken)
     {
         var validationResult = validator.Validate(command);
 
