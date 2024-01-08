@@ -16,6 +16,7 @@ using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateProductTag;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetMeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetProduct;
+using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetProductTag;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.ListMeasureUnits;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.SearchBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.SearchProduct;
@@ -322,6 +323,24 @@ public class StockController : ControllerBase
         }
 
         return Ok(await _mediator.Send(command, cancellationToken));
+    }
+
+    [HttpGet]
+    [Route("tags/{id}")]
+    public async Task<IActionResult> GetTag([FromServices] AbstractValidator<GetProductTagQuery> validator, [FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var query = new GetProductTagQuery 
+        {
+            Id = id
+        };
+
+        var validationResult = validator.Validate(query);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+
+        return Ok(await _mediator.Send(query, cancellationToken));
     }
 
     [HttpPut]
