@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Domain\Models\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Core.Modules.Shared\Core.Modules.Shared.csproj" />
     </ItemGroup>
 
@@ -53,6 +49,10 @@
     <ItemGroup>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
         <InternalsVisibleTo Include="$(AssemblyName).Tests" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Domain\Models\" />
     </ItemGroup>
 
 </Project>

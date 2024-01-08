@@ -1,5 +1,8 @@
+using Core.Modules.Shared.Domain.DataStructures;
+using Core.Modules.Shared.Domain.Extensions;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.SearchBrand;
+using Core.Modules.Stock.Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.Modules.Stock.Application.Http.Queries.SearchBrand;
@@ -14,27 +17,18 @@ internal class SearchBrandQueryHandler : ISearchBrandQueryHandler
         _dbContext = dbContext;
     }
 
-    public async Task<SearchBrandQueryResponse> Handle(SearchBrandQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<SearchBrandQueryResponse>> Handle(SearchBrandQuery request, CancellationToken cancellationToken)
     {
-        int numberOfRowsToSkip = (request.Page - 1) * _numberOfRowsToReturn;
-        
         var brands = await _dbContext.Brands
-            .Select(b => new SearchBrandQueryResponse.FoundedBrandSearch 
+            .Select(b => new SearchBrandQueryResponse
             {
                 Id = b.Id,
                 Name = b.Name,
                 Description = b.Description
             })
             .Where(b => EF.Functions.ILike(b.Name + " " + b.Description, $"%{request.SearchTerm}%"))
-            .Skip(numberOfRowsToSkip)
-            .Take(_numberOfRowsToReturn)
-            .ToListAsync(cancellationToken);
+            .ToPaginatedListAsync(_numberOfRowsToReturn, request.Page, cancellationToken);
 
-        return new SearchBrandQueryResponse
-        {
-            BrandsFound = brands,
-            pageIndex = request.Page,
-            MaxPages = (brands.Count + numberOfRowsToSkip + _numberOfRowsToReturn - 1) / _numberOfRowsToReturn
-        };
+        return brands;
     }
 }

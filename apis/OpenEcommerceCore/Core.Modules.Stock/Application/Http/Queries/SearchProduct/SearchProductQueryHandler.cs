@@ -1,8 +1,11 @@
 using System.Text;
+using Core.Modules.Shared.Domain.DataStructures;
+using Core.Modules.Shared.Domain.Extensions;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.SearchProduct;
 using Core.Modules.Stock.Domain.Entities.Product;
 using Core.Modules.Stock.Domain.Exceptions.Product;
+using Core.Modules.Stock.Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.Modules.Stock.Application.Http.Queries.SearchProduct;
@@ -18,11 +21,9 @@ internal class SearchProductQueryHandler : ISearchProductQueryHandler
         _dbContext = dbContext;
     }
 
-    public async Task<SearchProductQueryResponse> Handle(SearchProductQuery request,
+    public async Task<PaginatedList<SearchProductQueryResponse>> Handle(SearchProductQuery request,
         CancellationToken cancellationToken)
     {
-        int numberOfRowsToSkip = (request.Page - 1) * _numberOfRowsToReturn;
-
         var queryable = _dbContext.Products
             .Include(p => p.Brand)
             .Include(p => p.Tags)
@@ -63,33 +64,27 @@ internal class SearchProductQueryHandler : ISearchProductQueryHandler
         }
         
         var products = await queryable
-                .Skip(numberOfRowsToSkip)
-                .Take(_numberOfRowsToReturn)
-                .ToListAsync(cancellationToken); 
-        
-        return new SearchProductQueryResponse
-        {
-            ProductsFound = products.Select(p => new FoundedProductSearch
-            {
-                ProductId = p.Id,
-                BrandName = p.Brand.Name,
-                Name = p.Name,
-                Description = p.Description,
-                Sku = p.SKU,
-                Ean = p.EAN,
-                Upc = p.UPC,
-                Price = p.Price,
-                Tags = p.Tags.Select(t => new ProductTagResponse
-                {
-                    Id = t.Id,
+            .Select(p => new SearchProductQueryResponse 
+            { 
+                ProductId = p.Id, 
+                BrandName = p.Brand.Name, 
+                Name = p.Name, 
+                Description = p.Description, 
+                Sku = p.SKU, 
+                Ean = p.EAN, 
+                Upc = p.UPC, 
+                Price = p.Price, 
+                Tags = p.Tags.Select(t => new SearchProductQueryResponse.ProductTagResponse 
+                { 
+                    Id = t.Id, 
                     Name = t.Name
                 }).ToList(),
-                StockUnitCount = p.StockUnitCount,
-                CreatedAt = p.CreatedAt,
-                LastUpdate = p.LastUpdate
-            }).ToList(),
-            pageIndex = request.Page,
-            MaxPages = (products.Count + numberOfRowsToSkip + _numberOfRowsToReturn - 1) / _numberOfRowsToReturn
-        };
+                StockUnitCount = p.StockUnitCount, 
+                CreatedAt = p.CreatedAt, 
+                LastUpdate = p.LastUpdate 
+            })
+            .ToPaginatedListAsync(_numberOfRowsToReturn, request.Page, cancellationToken);
+
+        return products;
     }
 }

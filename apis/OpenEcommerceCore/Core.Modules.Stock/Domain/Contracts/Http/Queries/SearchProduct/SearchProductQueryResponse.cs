@@ -2,13 +2,6 @@ namespace Core.Modules.Stock.Domain.Contracts.Http.Queries.SearchProduct;
 
 public record SearchProductQueryResponse
 {
-    public List<FoundedProductSearch> ProductsFound { get; init; }
-    public int MaxPages { get; init; }
-    public int pageIndex { get; init; } = 1;
-};
-
-public record FoundedProductSearch
-{
     public Guid ProductId { get; init; }
     public string BrandName { get; init; }
     public string Name { get; init; }
@@ -21,11 +14,12 @@ public record FoundedProductSearch
     public int StockUnitCount { get; init; }
     public DateTime CreatedAt { get; init; }
     public DateTime LastUpdate { get; init; }
-}
+    
+    public record ProductTagResponse
+    {
+        public Guid Id { get; init; }
+        public string Name { get; init; }
+    }    
+};
 
 
-public record ProductTagResponse
-{
-    public Guid Id { get; init; }
-    public string Name { get; init; }
-}
