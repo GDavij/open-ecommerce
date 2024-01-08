@@ -13,6 +13,7 @@ using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateProduct;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetMeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetProduct;
+using Core.Modules.Stock.Domain.Contracts.Http.Queries.ListMeasureUnits;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.SearchBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.SearchProduct;
 using FluentValidation;
@@ -257,6 +258,19 @@ public class StockController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
         
+        return Ok(await _mediator.Send(query));
+    }
+
+    [HttpGet]
+    [Route("measure-units")]
+    public async Task<IActionResult> ListMeasureUnits([FromServices] AbstractValidator<ListMeasureUnitsQuery> validator, [FromQuery] ListMeasureUnitsQuery query)
+    {
+        var validationResult = validator.Validate(query);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+
         return Ok(await _mediator.Send(query));
     }
 
