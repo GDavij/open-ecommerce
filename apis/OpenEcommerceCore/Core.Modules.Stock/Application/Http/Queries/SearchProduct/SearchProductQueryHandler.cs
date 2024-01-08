@@ -1,11 +1,8 @@
-using System.Text;
 using Core.Modules.Shared.Domain.DataStructures;
 using Core.Modules.Shared.Domain.Extensions;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.SearchProduct;
-using Core.Modules.Stock.Domain.Entities.Product;
 using Core.Modules.Stock.Domain.Exceptions.Product;
-using Core.Modules.Stock.Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.Modules.Stock.Application.Http.Queries.SearchProduct;

@@ -51,8 +51,4 @@
         <InternalsVisibleTo Include="$(AssemblyName).Tests" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Domain\Models\" />
-    </ItemGroup>
-
 </Project>
