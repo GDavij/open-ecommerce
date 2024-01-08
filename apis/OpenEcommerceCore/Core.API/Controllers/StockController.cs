@@ -7,6 +7,7 @@ using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateProductTag;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteMeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteProduct;
+using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteProductTag;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.RemoveImageFromProduct;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateMeasureUnit;
@@ -335,5 +336,25 @@ public class StockController : ControllerBase
         }
 
         return Ok(await _mediator.Send(command, cancellationToken));
+    }
+
+    [HttpDelete]
+    [Route("tags/{id}")]
+    public async Task<IActionResult> DeleteTag([FromServices] AbstractValidator<DeleteProductTagCommand> validator,
+        [FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var command = new DeleteProductTagCommand
+        {
+            Id = id
+        };
+
+        var validationResult = validator.Validate(command);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+
+        await _mediator.Send(command, cancellationToken);
+        return Ok();
     }
 }
