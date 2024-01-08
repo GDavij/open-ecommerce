@@ -20,6 +20,7 @@ using Core.Modules.Stock.Application.Http.Queries.GetMeasureUnit;
 using Core.Modules.Stock.Application.Http.Queries.GetProduct;
 using Core.Modules.Stock.Application.Http.Queries.GetProductTag;
 using Core.Modules.Stock.Application.Http.Queries.ListMeasureUnits;
+using Core.Modules.Stock.Application.Http.Queries.ListProductTags;
 using Core.Modules.Stock.Application.Http.Queries.SearchBrand;
 using Core.Modules.Stock.Application.Http.Queries.SearchProduct;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
@@ -42,6 +43,7 @@ using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetMeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetProduct;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetProductTag;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.ListMeasureUnits;
+using Core.Modules.Stock.Domain.Contracts.Http.Queries.ListProductTags;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.SearchBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.SearchProduct;
 using Core.Modules.Stock.Domain.Contracts.Providers;
@@ -116,7 +118,7 @@ public static class DependencyInjection
         services.AddScoped<AbstractValidator<UpdateProductTagCommand>, UpdateProductTagCommandValidator>();
         services.AddScoped<AbstractValidator<DeleteProductTagCommand>, DeleteProductTagCommandValidator>();
         services.AddScoped<AbstractValidator<GetProductTagQuery>, GetProductTagQueryValidator>();
-        
+        services.AddScoped<AbstractValidator<ListProductTagsQuery>, ListProductTagsQueryValidator>(); 
         
         return services;
     }

@@ -18,6 +18,7 @@ using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetMeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetProduct;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.GetProductTag;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.ListMeasureUnits;
+using Core.Modules.Stock.Domain.Contracts.Http.Queries.ListProductTags;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.SearchBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Queries.SearchProduct;
 using FluentValidation;
@@ -334,6 +335,19 @@ public class StockController : ControllerBase
             Id = id
         };
 
+        var validationResult = validator.Validate(query);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+
+        return Ok(await _mediator.Send(query, cancellationToken));
+    }
+
+    [HttpGet]
+    [Route("tags")]
+    public async Task<IActionResult> ListTags([FromServices] AbstractValidator<ListProductTagsQuery> validator, [FromQuery] ListProductTagsQuery query, CancellationToken cancellationToken)
+    {
         var validationResult = validator.Validate(query);
         if (!validationResult.IsValid)
         {
