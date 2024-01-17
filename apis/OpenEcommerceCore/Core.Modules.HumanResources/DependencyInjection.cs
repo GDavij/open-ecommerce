@@ -2,6 +2,7 @@ using System.Reflection;
 using Core.Modules.HumanResources.Application.Http.Commands.CreateCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Context;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.CreateCollaborator;
+using Core.Modules.HumanResources.Domain.CustomConverters;
 using Core.Modules.HumanResources.Infrastructure.Contexts;
 using FluentValidation;
 using MassTransit;
@@ -33,7 +34,11 @@ public static class DependencyInjection
     
     public static IMvcBuilder AddHumanResourcesControllers(this IMvcBuilder mvcBuilder)
     {
-        mvcBuilder.AddApplicationPart(Assembly.GetExecutingAssembly());
+        mvcBuilder.AddApplicationPart(Assembly.GetExecutingAssembly())
+            .AddJsonOptions(opt =>
+            {
+                opt.JsonSerializerOptions.Converters.Add(new CustomTimespanJsonConverter());
+            });
 
         return mvcBuilder;
     }

@@ -27,18 +27,20 @@ internal class CreateCollaboratorCommandHandler : ICreateCollaboratorCommandHand
     public async Task<CreateCollaboratorCommandResponse> Handle(CreateCollaboratorCommand request, CancellationToken cancellationToken)
     {
         var existentCollaborator = await _dbContext.Collaborators.FirstOrDefaultAsync(c => c.Email == request.Email, cancellationToken);
-        if (existentCollaborator is null)
+        if (existentCollaborator is not null)
         {
             throw new AlreadyExistentCollaboratorException(request.Email);
         }
 
-        var addressesSent = request.Addresses.Select(a => a.StateId).Distinct().ToHashSet();
+        var addressesSent = request.Addresses.Select(a => a.StateId).Distinct().ToList();
         var validAddressesStates = await _dbContext.States.Where(s => addressesSent.Contains(s.Id)).ToListAsync(cancellationToken);
 
         if (validAddressesStates.Count < addressesSent.Count)
         {
-            addressesSent.IntersectWith(validAddressesStates.Select(va => va.Id));
-            throw new InvalidStateException(addressesSent.First());
+            var validGuids = validAddressesStates.Select(va => va.Id);
+            var firstInvalidId = addressesSent.First(a => !validGuids.Contains(a));
+            
+            throw new InvalidStateException(firstInvalidId);
         }
 
         var collaborator = new Collaborator

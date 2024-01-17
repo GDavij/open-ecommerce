@@ -56,7 +56,35 @@ public class CreateCollaboratorCommandValidator : AbstractValidator<CreateCollab
                 .GreaterThan(1100).WithMessage("Contract Monthly Salary must not be empty");
 
             c.RuleFor(c => c.Broken)
-                .NotEmpty().WithMessage("Contract Broken must not be empty");
+                .NotNull().WithMessage("Contract Broken must not be null");
+        });
+
+        RuleForEach(c => c.Addresses).ChildRules(a =>
+        {
+            a.RuleFor(a => a.StateId)
+                .NotEmpty().WithMessage("Address State Id must not be empty");
+
+            a.RuleFor(a => a.ZipCode)
+                .NotEmpty().WithMessage("Address Zip Code must not be empty")
+                .GreaterThan(0).WithMessage("Address Zip Code must be greater than 0");
+
+            a.RuleFor(a => a.Neighbourhood)
+                .NotEmpty().WithMessage("Address Neighbourhood must not be empty")
+                .MaximumLength(255).WithMessage("Address Neighbourhood must not be greater than 128 characters");
+
+            a.RuleFor(a => a.Street)
+                .NotEmpty().WithMessage("Address Street must not be empty")
+                .MaximumLength(128).WithMessage("Address Street must not be greater than 128 characters");
+        });
+
+        RuleForEach(c => c.SocialLinks).ChildRules(s =>
+        {
+            s.RuleFor(s => s.SocialMedia)
+                .IsInEnum().WithMessage("Social media must not be a invalid one");
+
+            s.RuleFor(s => s.Url)
+                .NotEmpty().WithMessage("Social Links Url must not be empty")
+                .MaximumLength(384).WithMessage("Social Links Url must have a maximum of 384 characters");
         });
     }
 

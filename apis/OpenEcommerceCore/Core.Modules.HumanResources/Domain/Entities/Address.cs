@@ -6,6 +6,7 @@ internal sealed class Address
     public Collaborator Collaborator { get; init; }
     public Guid CollaboratorId { get; init; }
     public State State { get; set; }
+    public Guid StateId { get; set; }
     public int ZipCode { get; set; }
     public string Neighbourhood { get; set; }
     public string Street { get; set; }

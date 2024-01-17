@@ -17,5 +17,9 @@ internal class StateMappings : IEntityTypeConfiguration<State>
         builder.Property(s => s.ShortName)
             .HasMaxLength(4)
             .IsRequired();
+
+        builder.HasMany(s => s.Addresses)
+            .WithOne(a => a.State)
+            .HasForeignKey(a => a.StateId);
     }
 }
