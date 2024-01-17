@@ -14,7 +14,7 @@ internal class HumanResourcesContext
     public DbSet<JobApplication> JobApplications { get; set; }
     public DbSet<SocialLink> SocialLinks { get; set; }
     public DbSet<WorkHour> WorkHours { get; set; }
-
+    public DbSet<State> States { get; init; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

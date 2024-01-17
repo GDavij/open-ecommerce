@@ -1,8 +1,11 @@
 using System.Reflection;
+using Core.Modules.HumanResources;
 using Core.Modules.Shared;
 using Core.Modules.Stock;
 using Core.Modules.UserAccess;
+using MassTransit;
 using Microsoft.OpenApi.Models;
+using DependencyInjection = Core.Modules.HumanResources.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddControllers()
     .AddUserAccessControllers()
-    .AddStockControllers();
+    .AddStockControllers()
+    .AddHumanResourcesControllers();
     
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -25,9 +29,30 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+
+
+//MassTransit
+builder.Services.AddMassTransit(cfg =>
+{
+    cfg.SetKebabCaseEndpointNameFormatter();
+
+    cfg.AddConsumers(
+        typeof(Core.Modules.HumanResources.DependencyInjection).Assembly,
+        typeof(Core.Modules.Stock.DependencyInjection).Assembly,
+        typeof(Core.Modules.UserAccess.DependencyInjection).Assembly
+        );
+    
+    cfg.UsingRabbitMq((ctx, conf) =>
+    {
+        var connectionStr = Environment.GetEnvironmentVariable("RABBITMQ_CORE_CONNECTION_STR")!;
+        conf.Host(new Uri(connectionStr));
+    });
+});
+
 builder.Services.RegisterSharedModule();
 builder.Services.RegisterUserAccessModule();
 builder.Services.RegisterStockModule();
+builder.Services.RegisterHumanResourcesModule();
 
 var app = builder.Build();
 
@@ -41,6 +66,7 @@ else
 {
     app.RunStockMigrations();
     app.RunUserAccessMigrations();
+    app.RunHumanResourcesMigrations();
 }
 
 

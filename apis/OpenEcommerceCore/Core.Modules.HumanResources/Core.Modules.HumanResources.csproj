@@ -7,18 +7,26 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="API\" />
-      <Folder Include="Application\" />
+      <Folder Include="Domain\Contracts\Http\Queries\" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+      <PackageReference Include="MassTransit" Version="8.1.3" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.3" />
+      <PackageReference Include="MediatR" Version="12.2.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.26" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.26">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.26" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.22" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Core.Modules.Shared\Core.Modules.Shared.csproj" />
     </ItemGroup>
 
 </Project>

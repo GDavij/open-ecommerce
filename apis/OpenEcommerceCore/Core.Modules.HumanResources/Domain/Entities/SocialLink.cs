@@ -1,3 +1,5 @@
+using Core.Modules.HumanResources.Domain.Enums;
+
 namespace Core.Modules.HumanResources.Domain.Entities;
 
 internal sealed class SocialLink
@@ -11,14 +13,3 @@ internal sealed class SocialLink
     public string URL { get; init; }
 }
 
-
-internal enum SocialMedia
-{
-    Linkedin,
-    Facebook,
-    Instagram,
-    Twitter,
-    Threads,
-    Mastodon,
-    Other
-}

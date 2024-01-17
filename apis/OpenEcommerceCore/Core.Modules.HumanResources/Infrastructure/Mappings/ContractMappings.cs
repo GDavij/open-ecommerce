@@ -19,6 +19,9 @@ internal class ContractMappings : IEntityTypeConfiguration<Contract>
             .HasMaxLength(255)
             .IsRequired();
 
+        builder.Property(c => c.Sector)
+            .IsRequired();
+        
         builder.HasMany<ContributionYear>(c => c.ContributionYears)
             .WithOne(c => c.Contract)
             .HasForeignKey(c => c.ContractId);
@@ -29,6 +32,9 @@ internal class ContractMappings : IEntityTypeConfiguration<Contract>
         builder.Property(c => c.EndDate)
             .IsRequired();
 
+        builder.Property(c => c.MonthlySalary)
+            .IsRequired();
+        
         builder.Ignore(c => c.Expired);
 
         builder.Property(c => c.Broken)

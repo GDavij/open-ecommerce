@@ -51,6 +51,7 @@ using Core.Modules.Stock.Domain.Contracts.Providers;
 using Core.Modules.Stock.Infrastructure.Contexts;
 using Core.Modules.Stock.Infrastructure.Providers;
 using FluentValidation;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
@@ -68,7 +69,7 @@ public static class DependencyInjection
         {
             cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
-
+        
         //Azure Storage Configuration
         services.AddAzureClients(cfg =>
         {

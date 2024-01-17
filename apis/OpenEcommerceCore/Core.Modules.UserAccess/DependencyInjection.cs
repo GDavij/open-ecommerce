@@ -22,14 +22,7 @@ public static class DependencyInjection
             cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
 
-        //MassTransit
-        services.AddMassTransit(cfg =>
-        {
-            cfg.UsingInMemory();
-            cfg.SetKebabCaseEndpointNameFormatter();
-            cfg.AddConsumers(Assembly.GetExecutingAssembly());
-        });
-
+        
         //Db Contexts
         services.AddScoped<IUserAccessContext, UserAccessContext>();
 

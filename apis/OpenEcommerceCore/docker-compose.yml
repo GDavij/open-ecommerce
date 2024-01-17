@@ -28,3 +28,14 @@ services:
       - .env
     volumes:
       - /var/coreapi/azurite:/var/lib/azurite/data:rw
+
+  rabbit-mq:
+    container_name: Core-RabbitMQ-0
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    env_file:
+      - .env
+    volumes:
+      - /var/coreapi/rabbitmq:/var/lib/rabbitmq:rw

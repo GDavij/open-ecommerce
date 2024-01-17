@@ -15,8 +15,8 @@ internal class AddressMappings : IEntityTypeConfiguration<Address>
             .HasForeignKey(a => a.CollaboratorId)
             .IsRequired();
 
-        builder.Property(a => a.State)
-            .HasMaxLength(128)
+        builder.HasOne<State>(s => s.State)
+            .WithOne()
             .IsRequired();
 
         builder.Property(a => a.ZipCode)

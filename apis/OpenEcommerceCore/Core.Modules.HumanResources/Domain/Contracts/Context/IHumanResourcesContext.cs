@@ -12,6 +12,7 @@ internal interface IHumanResourcesContext
     DbSet<JobApplication> JobApplications { get; set; }
     DbSet<SocialLink> SocialLinks { get; set; }
     DbSet<WorkHour> WorkHours { get; set; }
+    DbSet<State> States { get; init; }
     DatabaseFacade Database { get; }
     
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
