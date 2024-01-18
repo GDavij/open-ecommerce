@@ -11,8 +11,8 @@
       <PackageReference Include="MassTransit" Version="8.1.3" />
       <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.3" />
       <PackageReference Include="MediatR" Version="12.2.0" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.25" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.25">
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.26" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.26">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
@@ -22,6 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Core.Modules.HumanResources\Core.Modules.HumanResources.csproj" />
       <ProjectReference Include="..\Core.Modules.Shared\Core.Modules.Shared.csproj" />
     </ItemGroup>
     

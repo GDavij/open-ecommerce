@@ -13,6 +13,7 @@ public record CreateCollaboratorCommand : IRequest<CreateCollaboratorCommandResp
     public int Age { get; init; }
     public string Email { get; init; }
     public string Phone { get; init; }
+    public string Password { get; init; }
     public List<Contract> Contracts { get; init; }
     public List<SocialLink> SocialLinks { get; init; } 
     public List<Address> Addresses { get; init; }

@@ -4,13 +4,13 @@ namespace Core.Modules.HumanResources.Domain.IntegrationEvents.Events.Collaborat
 
 public record CreatedCollaboratorIntegrationEvent
 {
-    public CollaboratorDto Collaborator { get; init; }
+    public CollaboratorCreatedDto CollaboratorCreated { get; init; }
 
-    public static CreatedCollaboratorIntegrationEvent CreateEvent(CollaboratorDto collaboratorDto)
+    public static CreatedCollaboratorIntegrationEvent CreateEvent(CollaboratorCreatedDto collaboratorCreatedDto)
     {
         return new CreatedCollaboratorIntegrationEvent
         {
-            Collaborator = collaboratorDto
+            CollaboratorCreated = collaboratorCreatedDto
         };
     }
 };

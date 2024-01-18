@@ -24,15 +24,13 @@ internal class CollaboratorMappings : IEntityTypeConfiguration<Collaborator>
 
         builder.Property(c => c.Password)
             .HasColumnName("Password")
-            .HasMaxLength(512)
             .IsRequired();
 
         builder.Property(c => c.SecurityKey)
             .HasColumnName("SecurityKey")
-            .HasMaxLength(512)
             .IsRequired();
 
-        builder.Property(c => c.Sector)
+        builder.Property(c => c.Sectors)
             .HasColumnName("Sector")
             .IsRequired();
 

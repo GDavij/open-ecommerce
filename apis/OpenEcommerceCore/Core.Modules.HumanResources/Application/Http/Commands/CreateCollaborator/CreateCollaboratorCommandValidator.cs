@@ -24,11 +24,16 @@ public class CreateCollaboratorCommandValidator : AbstractValidator<CreateCollab
         
         RuleFor(c => c.Email)
             .NotEmpty().WithMessage("Email must not be empty")
+            .EmailAddress().WithMessage("Email must be a valid one")
             .MaximumLength(255).WithMessage("Email must have a maximum of 255 characters");
 
         RuleFor(c => c.Phone)
             .NotEmpty().WithMessage("Phone must not be empty")
             .MaximumLength(22).WithMessage("Phone must have a maximum of 22 characters");
+
+        RuleFor(c => c.Password)
+            .NotEmpty().WithMessage("Password must not be empty")
+            .MaximumLength(512).WithMessage("Password must not be greater than 512 characters");
 
         RuleFor(c => c.Contracts)
             .Must(HaveValidContributionYears).WithMessage("Contract Contribution Years must be valid");

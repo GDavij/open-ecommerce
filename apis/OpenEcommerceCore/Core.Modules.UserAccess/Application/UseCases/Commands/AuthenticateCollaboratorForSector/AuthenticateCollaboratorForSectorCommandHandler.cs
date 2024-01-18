@@ -50,7 +50,7 @@ internal class AuthenticateCollaboratorForSectorCommandHandler : IAuthenticateCo
         var existentCollaborator = await _dbContext.Collaborators
             .FirstOrDefaultAsync(c => c.Id == token.Id &&
                                       c.Deleted == false &&
-                                      c.Sector == context.Message.Sector);
+                                      c.Sectors.Contains(context.Message.Sector));
 
         if (existentCollaborator is null)
         {

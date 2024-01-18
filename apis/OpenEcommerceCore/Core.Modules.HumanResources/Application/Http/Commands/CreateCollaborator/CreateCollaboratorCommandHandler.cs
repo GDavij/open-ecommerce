@@ -45,7 +45,7 @@ internal class CreateCollaboratorCommandHandler : ICreateCollaboratorCommandHand
 
         var collaborator = new Collaborator
         {
-            Id = new Guid(),
+            Id = Guid.NewGuid(),
             Age = request.Age,
             Email = request.Email,
             Description = request.Description,
@@ -54,7 +54,7 @@ internal class CreateCollaboratorCommandHandler : ICreateCollaboratorCommandHand
             LastName = request.LastName,
             Addresses = request.Addresses.Select(a => new Address
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 State = validAddressesStates.First(va => va.Id == a.StateId),
                 Neighbourhood = a.Neighbourhood,
                 Street = a.Street,
@@ -62,7 +62,7 @@ internal class CreateCollaboratorCommandHandler : ICreateCollaboratorCommandHand
             }).ToList(),
             Contracts = request.Contracts.Select(c => new Contract
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 Name = c.Name,
                 Sector = c.Sector,
                 StartDate = c.StartDate,
@@ -71,11 +71,11 @@ internal class CreateCollaboratorCommandHandler : ICreateCollaboratorCommandHand
                 Broken = c.Broken,
                 ContributionYears = c.ContributionsYears.Select(cy => new ContributionYear
                 {
-                    Id = new Guid(),
+                    Id = Guid.NewGuid(),
                     Year = cy.Year,
                     WorkHours = cy.WorkHours.Select(w => new WorkHour
                     {
-                        Id = new Guid(),
+                        Id = Guid.NewGuid(),
                         Date = w.Date,
                         Start = w.Start,
                         End = w.End,
@@ -89,7 +89,7 @@ internal class CreateCollaboratorCommandHandler : ICreateCollaboratorCommandHand
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         //Add Retry with Polly
-        await _publishEndpoint.Publish(CreatedCollaboratorIntegrationEvent.CreateEvent(collaborator.MapToDto()));
+        await _publishEndpoint.Publish(CreatedCollaboratorIntegrationEvent.CreateEvent(collaborator.MapToCreatedDto(request.Password)));
 
         return CreateCollaboratorCommandResponse.Respond(_configService);
     }

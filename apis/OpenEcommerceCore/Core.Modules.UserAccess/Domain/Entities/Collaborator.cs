@@ -9,7 +9,7 @@ internal sealed class Collaborator
     public string Email { get; set; }
     public byte[] Password { get; set; }
     public byte[] SecurityKey { get; set; }
-    public ECollaboratorSector Sector { get; set; }
+    public List<ECollaboratorSector> Sectors { get; set; }
     public DateTime CreatedAt { get; init; }
     public DateTime LastLogin { get; set; }
     public bool Deleted { get; set; }
@@ -20,7 +20,7 @@ internal sealed class Collaborator
         string email,
         byte[] password,
         byte[] securityKey,
-        ECollaboratorSector sector,
+        List<ECollaboratorSector> sectors,
         DateTime createdAt,
         DateTime lastLogin,
         bool deleted)
@@ -30,7 +30,7 @@ internal sealed class Collaborator
         Email = email;
         Password = password;
         SecurityKey = securityKey;
-        Sector = sector;
+        Sectors = sectors;
         CreatedAt = createdAt;
         LastLogin = lastLogin;
         Deleted = deleted;
@@ -42,7 +42,7 @@ internal sealed class Collaborator
         string email,
         byte[] password,
         byte[] securityKey,
-        ECollaboratorSector sector)
+        List<ECollaboratorSector> sectors)
     {
         return new Collaborator(
             id,
@@ -50,7 +50,7 @@ internal sealed class Collaborator
             email,
             password,
             securityKey,
-            sector,
+            sectors,
             DateTime.UtcNow,
             DateTime.UtcNow,
             false);

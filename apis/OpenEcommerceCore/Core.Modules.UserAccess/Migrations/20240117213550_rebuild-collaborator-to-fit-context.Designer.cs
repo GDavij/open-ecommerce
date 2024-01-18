@@ -12,14 +12,14 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Core.Modules.UserAccess.Migrations
 {
     [DbContext(typeof(UserAccessContext))]
-    [Migration("20231128053217_create-basic-entities")]
-    partial class createbasicentities
+    [Migration("20240117213550_rebuild-collaborator-to-fit-context")]
+    partial class rebuildcollaboratortofitcontext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.25")
+                .HasAnnotation("ProductVersion", "6.0.26")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -39,6 +39,10 @@ namespace Core.Modules.UserAccess.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("CreatedAt");
 
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("Deleted");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -49,16 +53,16 @@ namespace Core.Modules.UserAccess.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("LastLogin");
 
-                    b.Property<string>("Password")
+                    b.Property<byte[]>("Password")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("character varying(512)")
+                        .HasColumnType("bytea")
                         .HasColumnName("Password");
 
-                    b.Property<string>("SecurityKey")
+                    b.Property<byte[]>("SecurityKey")
                         .IsRequired()
                         .HasMaxLength(512)
-                        .HasColumnType("character varying(512)")
+                        .HasColumnType("bytea")
                         .HasColumnName("SecurityKey");
 
                     b.HasKey("Id");
@@ -81,6 +85,10 @@ namespace Core.Modules.UserAccess.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("CreatedAt");
 
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("Deleted");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -91,20 +99,19 @@ namespace Core.Modules.UserAccess.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("LastLogin");
 
-                    b.Property<string>("Password")
+                    b.Property<byte[]>("Password")
                         .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("character varying(512)")
+                        .HasColumnType("bytea")
                         .HasColumnName("Password");
 
-                    b.Property<int>("Sector")
-                        .HasColumnType("integer")
+                    b.Property<int[]>("Sectors")
+                        .IsRequired()
+                        .HasColumnType("integer[]")
                         .HasColumnName("Sector");
 
-                    b.Property<string>("SecurityKey")
+                    b.Property<byte[]>("SecurityKey")
                         .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("character varying(512)")
+                        .HasColumnType("bytea")
                         .HasColumnName("SecurityKey");
 
                     b.HasKey("Id");

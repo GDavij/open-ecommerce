@@ -36,16 +36,14 @@ builder.Services.AddMassTransit(cfg =>
 {
     cfg.SetKebabCaseEndpointNameFormatter();
 
-    cfg.AddConsumers(
-        typeof(Core.Modules.HumanResources.DependencyInjection).Assembly,
-        typeof(Core.Modules.Stock.DependencyInjection).Assembly,
-        typeof(Core.Modules.UserAccess.DependencyInjection).Assembly
-        );
+    cfg.AddUserAccessConsumers();
     
     cfg.UsingRabbitMq((ctx, conf) =>
     {
         var connectionStr = Environment.GetEnvironmentVariable("RABBITMQ_CORE_CONNECTION_STR")!;
         conf.Host(new Uri(connectionStr));
+        
+        conf.ConfigureEndpoints(ctx);
     });
 });
 

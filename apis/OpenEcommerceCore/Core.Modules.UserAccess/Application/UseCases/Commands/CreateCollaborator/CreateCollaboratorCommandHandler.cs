@@ -1,3 +1,5 @@
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.CreateCollaborator;
+using Core.Modules.HumanResources.Domain.IntegrationEvents.Events.Collaborators;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;
 using Core.Modules.UserAccess.Domain.Contracts.Services;
 using Core.Modules.UserAccess.Domain.Contracts.UseCases.Commands;
@@ -18,13 +20,13 @@ internal class CreateCollaboratorCommandHandler : ICreateCollaboratorCommandHand
         _securityService = securityService;
     }
 
-    public async Task Consume(ConsumeContext<CreateCollaboratorCommand> context)
+    public async Task Consume(ConsumeContext<CreatedCollaboratorIntegrationEvent> context)
     {
         // Implement Retry and verification for databaseConnection Health from start
-        
+        var createdCollaborator = context.Message.CollaboratorCreated;
         var existentCollaborator = await _dbContext.Collaborators
             .FirstOrDefaultAsync(c =>
-                c.Email == context.Message.Email &&
+                c.Email == createdCollaborator.Email &&
                 c.Deleted == false);
 
         if (existentCollaborator != null)
@@ -35,17 +37,17 @@ internal class CreateCollaboratorCommandHandler : ICreateCollaboratorCommandHand
 
         byte[] securityKey = _securityService.GenerateSecurityKey();
         byte[] derivedPassword = await _securityService.DerivePassword(
-            context.Message.Password,
+            createdCollaborator.Password,
             securityKey,
             default);
 
         var collaborator = Collaborator.Create(
-            Guid.NewGuid(),
-            context.Message.CollaboratorModuleId,
-            context.Message.Email,
+            Guid.NewGuid(), 
+            createdCollaborator.Id,
+            createdCollaborator.Email,
             derivedPassword,
             securityKey,
-            context.Message.CollaboratorSector);
+            createdCollaborator.Sectors);
 
         _dbContext.Collaborators.Add(collaborator);
 
