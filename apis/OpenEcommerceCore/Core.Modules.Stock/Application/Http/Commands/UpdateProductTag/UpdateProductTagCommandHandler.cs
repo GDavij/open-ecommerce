@@ -1,11 +1,11 @@
 using Core.Modules.Shared.Domain.Contracts.Services;
+using Core.Modules.Shared.Messaging.IntegrationEvents.Stock.Events.Tags;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateProduct;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateProductTag;
+using Core.Modules.Stock.Domain.DtosMappings;
 using Core.Modules.Stock.Domain.Exceptions.Product;
 using Core.Modules.Stock.Domain.Exceptions.ProductTag;
-using Core.Modules.Stock.Domain.IntegrationEvents.Models.Mappings;
-using Core.Modules.Stock.Domain.IntegrationEvents.Tags;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 

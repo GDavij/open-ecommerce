@@ -9,7 +9,6 @@ using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateMeasureUnit;
 using Core.Modules.Stock.Domain.Entities;
 using Core.Modules.Stock.Domain.Exceptions.MeasureUnit;
-using Core.Modules.Stock.Domain.IntegrationEvents.MeasureUnit;
 using FluentAssertions;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;

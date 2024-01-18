@@ -1,10 +1,10 @@
 using Core.Modules.Shared.Domain.Contracts.Services;
+using Core.Modules.Shared.Messaging.IntegrationEvents.Stock.Events.MeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateMeasureUnit;
+using Core.Modules.Stock.Domain.DtosMappings;
 using Core.Modules.Stock.Domain.Entities;
 using Core.Modules.Stock.Domain.Exceptions.MeasureUnit;
-using Core.Modules.Stock.Domain.IntegrationEvents.MeasureUnit;
-using Core.Modules.Stock.Domain.IntegrationEvents.Models.Mappings;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 

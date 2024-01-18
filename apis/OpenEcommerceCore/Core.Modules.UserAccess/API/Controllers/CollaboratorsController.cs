@@ -1,4 +1,4 @@
-using Core.Modules.UserAccess.Application.UseCases.Commands.CreateCollaboratorSession;
+using Core.Modules.UserAccess.Application.Http.Commands.CreateCollaboratorSession;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

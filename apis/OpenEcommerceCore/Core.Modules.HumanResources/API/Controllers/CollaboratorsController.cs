@@ -17,6 +17,7 @@ public class CollaboratorsController : ControllerBase
         _mediator = mediator;
     }
 
+    
     [HttpPost]
     public async Task<IActionResult> CreateCollaborator([FromServices] AbstractValidator<CreateCollaboratorCommand> validator, [FromBody] CreateCollaboratorCommand command, CancellationToken cancellationToken)
     {

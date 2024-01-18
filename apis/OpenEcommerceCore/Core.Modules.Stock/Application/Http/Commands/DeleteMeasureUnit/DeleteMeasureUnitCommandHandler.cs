@@ -1,7 +1,7 @@
+using Core.Modules.Shared.Messaging.IntegrationEvents.Stock.Events.MeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteMeasureUnit;
 using Core.Modules.Stock.Domain.Exceptions.Product;
-using Core.Modules.Stock.Domain.IntegrationEvents.MeasureUnit;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 

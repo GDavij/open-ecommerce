@@ -1,7 +1,7 @@
+using Core.Modules.Shared.Messaging.IntegrationEvents.Stock.Events.Brand;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteBrand;
 using Core.Modules.Stock.Domain.Exceptions.Product;
-using Core.Modules.Stock.Domain.IntegrationEvents.Brand;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 

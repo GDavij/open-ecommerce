@@ -1,8 +1,8 @@
+using Core.Modules.Shared.Messaging.IntegrationEvents.Stock.Events.Product;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.RemoveImageFromProduct;
 using Core.Modules.Stock.Domain.Entities.Product;
 using Core.Modules.Stock.Domain.Exceptions.Product;
-using Core.Modules.Stock.Domain.IntegrationEvents.Product;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 

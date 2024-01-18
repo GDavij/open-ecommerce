@@ -1,13 +1,13 @@
 using Core.Modules.Shared.Domain.Contracts.Services;
+using Core.Modules.Shared.Messaging.IntegrationEvents.Stock.Events.Brand;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateBrand;
+using Core.Modules.Stock.Domain.DtosMappings;
 using Core.Modules.Stock.Domain.Exceptions.Product;
-using Core.Modules.Stock.Domain.IntegrationEvents.Brand;
-using Core.Modules.Stock.Domain.IntegrationEvents.Models.Mappings;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.Modules.Stock.Application.Http.Commands.DeleteBrand;
+namespace Core.Modules.Stock.Application.Http.Commands.UpdateBrand;
 
 internal class UpdateBrandCommandHandler : IUpdateBrandCommandHandler
 {

@@ -1,11 +1,11 @@
 using Core.Modules.HumanResources.Domain.Contracts.Context;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.CreateCollaborator;
+using Core.Modules.HumanResources.Domain.DtosMappings;
 using Core.Modules.HumanResources.Domain.Entities;
 using Core.Modules.HumanResources.Domain.Exceptions;
 using Core.Modules.HumanResources.Domain.Exceptions.State;
-using Core.Modules.HumanResources.Domain.IntegrationEvents.Dtos;
-using Core.Modules.HumanResources.Domain.IntegrationEvents.Events.Collaborators;
 using Core.Modules.Shared.Domain.Contracts.Services;
+using Core.Modules.Shared.Messaging.IntegrationEvents.HumanResources.Events.Collaborators;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 

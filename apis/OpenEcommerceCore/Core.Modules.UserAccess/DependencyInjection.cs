@@ -1,12 +1,11 @@
 using System.Reflection;
 using Core.Modules.HumanResources.Application.Http.Commands.CreateCollaborator;
+using Core.Modules.UserAccess.Application.Http.Commands.CreateCollaboratorSession;
+using Core.Modules.UserAccess.Application.Messaging.Commands.CreateCollaborator;
 using Core.Modules.UserAccess.Application.Services;
-using Core.Modules.UserAccess.Application.UseCases.Commands.CreateCollaborator;
-using Core.Modules.UserAccess.Application.UseCases.Commands.CreateCollaboratorSession;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;
 using Core.Modules.UserAccess.Domain.Contracts.Providers;
 using Core.Modules.UserAccess.Domain.Contracts.Services;
-using Core.Modules.UserAccess.Domain.Contracts.UseCases.Commands;
 using Core.Modules.UserAccess.Infrastructure.Contexts;
 using Core.Modules.UserAccess.Infrastructure.Providers;
 using FluentValidation;

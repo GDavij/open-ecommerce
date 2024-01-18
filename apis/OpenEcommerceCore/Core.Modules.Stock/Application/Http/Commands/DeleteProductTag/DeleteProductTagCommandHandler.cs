@@ -1,7 +1,7 @@
+using Core.Modules.Shared.Messaging.IntegrationEvents.Stock.Events.Tags;
 using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteProductTag;
 using Core.Modules.Stock.Domain.Exceptions.Product;
-using Core.Modules.Stock.Domain.IntegrationEvents.Tags;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 

@@ -37,4 +37,9 @@
         <InternalsVisibleTo Include="$(AssemblyName).Tests" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Application\Http\" />
+      <Folder Include="Application\Messaging\Commands\" />
+    </ItemGroup>
+
 </Project>

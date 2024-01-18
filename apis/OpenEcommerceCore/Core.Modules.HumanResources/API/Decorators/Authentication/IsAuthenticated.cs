@@ -1,3 +1,6 @@
+using Core.Modules.Shared.Domain.BusinessHierarchy;
+using Core.Modules.Shared.Domain.ResultObjects;
+using Core.Modules.Shared.Messaging.Commands.UserAccess;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +14,7 @@ internal class IsAuthenticated : IAuthorizationRequirement
 internal class IsAuthenticatedHandler : AuthorizationHandler<IsAuthenticated>
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IRequestClient<AuthenticateCollaboratorForSectorCommand> _requestAuthClient;
 
     public IsAuthenticatedHandler(IHttpContextAccessor httpContextAccessor)
     {
@@ -26,8 +30,17 @@ internal class IsAuthenticatedHandler : AuthorizationHandler<IsAuthenticated>
             return;
         }
 
-        context.Succeed(requirement);
+        var command = new AuthenticateCollaboratorForSectorCommand(token, ECollaboratorSector.HumanResources);
 
+        var cancellationToken = _httpContextAccessor.HttpContext.RequestAborted;
+        var authorizationResponse = await _requestAuthClient.GetResponse<AuthenticationResult>(command, cancellationToken);
+        if (!authorizationResponse.Message.IsAuthenticated)
+        {
+            context.Fail();
+            return;
+        }
+
+        context.Succeed(requirement);
     }
 }
 
