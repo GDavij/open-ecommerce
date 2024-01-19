@@ -10,5 +10,6 @@ public record CollaboratorCreatedDto
     public string Email { get; init; }
     public string Password { get; init; }
     public List<ECollaboratorSector> Sectors { get; init; }
+    public bool IsAdmin { get; init; }
     public bool Deleted { get; init; }
 };

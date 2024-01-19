@@ -1,6 +1,8 @@
 using System.Reflection;
 using Core.Modules.HumanResources.Application.Http.Commands.CreateCollaborator;
+using Core.Modules.Shared.Messaging.Commands.UserAccess;
 using Core.Modules.UserAccess.Application.Http.Commands.CreateCollaboratorSession;
+using Core.Modules.UserAccess.Application.Messaging.Commands.AuthenticateCollaboratorForSector;
 using Core.Modules.UserAccess.Application.Messaging.Commands.CreateCollaborator;
 using Core.Modules.UserAccess.Application.Services;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;
@@ -44,7 +46,7 @@ public static class DependencyInjection
     public static IBusRegistrationConfigurator AddUserAccessConsumers(this IBusRegistrationConfigurator cfg)
     {
         cfg.AddConsumer<CreateCollaboratorCommandHandler>();
-
+        cfg.AddConsumer<AuthenticateCollaboratorForSectorCommandHandler>();
         return cfg;
     }
 

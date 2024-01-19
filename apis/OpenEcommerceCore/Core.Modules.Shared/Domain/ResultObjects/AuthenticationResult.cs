@@ -1,11 +1,18 @@
+using System.Text.Json.Serialization;
 using Core.Modules.Shared.Domain.Models;
 
 namespace Core.Modules.Shared.Domain.ResultObjects;
 
 public class AuthenticationResult
 {
-    public bool IsAuthenticated { get; }
-    public Identity? Identity { get; }
+    public bool IsAuthenticated { get; set; }
+
+
+    public Identity? Identity { get; set; }
+
+    [JsonConstructor]
+    public AuthenticationResult()
+    { }
 
     private AuthenticationResult(bool isAuthenticated, Identity? identity)
     {

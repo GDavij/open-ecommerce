@@ -46,6 +46,7 @@ internal class CreateCollaboratorCommandHandler : ICreateCollaboratorCommandHand
             createdCollaborator.Email,
             derivedPassword,
             securityKey,
+            createdCollaborator.IsAdmin,
             createdCollaborator.Sectors);
 
         _dbContext.Collaborators.Add(collaborator);

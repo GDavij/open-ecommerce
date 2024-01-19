@@ -89,7 +89,7 @@ internal class CreateCollaboratorCommandHandler : ICreateCollaboratorCommandHand
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         //Add Retry with Polly
-        await _publishEndpoint.Publish(CreatedCollaboratorIntegrationEvent.CreateEvent(collaborator.MapToCreatedDto(request.Password)));
+        await _publishEndpoint.Publish(CreatedCollaboratorIntegrationEvent.CreateEvent(collaborator.MapToCreatedDto(request.Password, false)));
 
         return CreateCollaboratorCommandResponse.Respond(_configService);
     }

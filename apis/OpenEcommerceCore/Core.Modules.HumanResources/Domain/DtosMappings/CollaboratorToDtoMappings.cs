@@ -5,7 +5,7 @@ namespace Core.Modules.HumanResources.Domain.DtosMappings;
 
 internal static class CollaboratorToDtoMapping
 {
-    public static CollaboratorCreatedDto MapToCreatedDto(this Collaborator collaborator, string password)
+    public static CollaboratorCreatedDto MapToCreatedDto(this Collaborator collaborator, string password, bool isAdmin)
     {
         return new CollaboratorCreatedDto
         {
@@ -15,6 +15,7 @@ internal static class CollaboratorToDtoMapping
             Password = password,
             Email = collaborator.Email,
             Sectors = collaborator.Contracts.Select(c => c.Sector).Distinct().ToList(),
+            IsAdmin = isAdmin,
             Deleted = collaborator.Deleted
         };
     }

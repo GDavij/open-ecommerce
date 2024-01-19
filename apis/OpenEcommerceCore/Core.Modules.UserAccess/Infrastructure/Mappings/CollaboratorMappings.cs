@@ -42,6 +42,10 @@ internal class CollaboratorMappings : IEntityTypeConfiguration<Collaborator>
             .HasColumnName("LastLogin")
             .IsRequired();
 
+        builder.Property(c => c.IsAdmin)
+            .HasColumnName("IsAdmin")
+            .IsRequired();
+        
         builder.Property(c => c.Deleted)
             .HasColumnName("Deleted")
             .IsRequired();

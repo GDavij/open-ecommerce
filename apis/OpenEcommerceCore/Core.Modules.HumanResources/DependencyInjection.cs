@@ -25,13 +25,13 @@ public static class DependencyInjection
 
         //Validators
         services.AddScoped<AbstractValidator<CreateCollaboratorCommand>, CreateCollaboratorCommandValidator>();
-        
+
         //EfCore
         services.AddDbContext<IHumanResourcesContext, HumanResourcesContext>();
-        
+
         return services;
     }
-    
+
     public static IMvcBuilder AddHumanResourcesControllers(this IMvcBuilder mvcBuilder)
     {
         mvcBuilder.AddApplicationPart(Assembly.GetExecutingAssembly())

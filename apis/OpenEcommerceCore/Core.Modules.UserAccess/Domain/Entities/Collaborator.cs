@@ -12,6 +12,7 @@ internal sealed class Collaborator
     public List<ECollaboratorSector> Sectors { get; set; }
     public DateTime CreatedAt { get; init; }
     public DateTime LastLogin { get; set; }
+    public bool IsAdmin { get; init; }
     public bool Deleted { get; set; }
     
     private Collaborator(
@@ -23,6 +24,7 @@ internal sealed class Collaborator
         List<ECollaboratorSector> sectors,
         DateTime createdAt,
         DateTime lastLogin,
+        bool isAdmin,
         bool deleted)
     {
         Id = id;
@@ -33,6 +35,7 @@ internal sealed class Collaborator
         Sectors = sectors;
         CreatedAt = createdAt;
         LastLogin = lastLogin;
+        IsAdmin = isAdmin;
         Deleted = deleted;
     }
 
@@ -42,6 +45,7 @@ internal sealed class Collaborator
         string email,
         byte[] password,
         byte[] securityKey,
+        bool isAdmin,
         List<ECollaboratorSector> sectors)
     {
         return new Collaborator(
@@ -53,6 +57,7 @@ internal sealed class Collaborator
             sectors,
             DateTime.UtcNow,
             DateTime.UtcNow,
+            isAdmin,
             false);
     }
 }
