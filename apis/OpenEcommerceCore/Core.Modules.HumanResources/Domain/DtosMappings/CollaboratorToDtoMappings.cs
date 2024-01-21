@@ -16,7 +16,16 @@ internal static class CollaboratorToDtoMapping
             Email = collaborator.Email,
             Sectors = collaborator.Contracts.Select(c => c.Sector).Distinct().ToList(),
             IsAdmin = isAdmin,
-            Deleted = collaborator.Deleted
+        };
+    }
+    
+    public static CollaboratorUpdatedDto MapToUpdatedDto(this Collaborator collaborator, string? password)
+    {
+        return new CollaboratorUpdatedDto
+        {
+            Id = collaborator.Id,
+            Email = collaborator.Email,
+            Password = password
         };
     }
 }

@@ -39,7 +39,6 @@
 
     <ItemGroup>
       <Folder Include="Application\Http\" />
-      <Folder Include="Application\Messaging\Commands\" />
     </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace Core.Modules.HumanResources.Domain.Exceptions;
+namespace Core.Modules.HumanResources.Domain.Exceptions.Collaborators;
 
 internal class AlreadyExistentCollaboratorException : BaseHttpException
 {

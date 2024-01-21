@@ -44,12 +44,15 @@ internal class CreateCollaboratorSessionCommandHandler : ICreateCollaboratorSess
             return ValidationResult<CreateCollaboratorSessionResponse>.Error(HttpStatusCode.BadRequest);
         }
         
+        existentCollaborator.LastLogin = DateTime.UtcNow;
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        
         Token token = Token.Create(
             existentCollaborator.Id,
             existentCollaborator.Password,
             ETokenType.Collaborator,
             TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
-
+        
         string encodedToken = _securityService.EncodeToken(token);
 
         var response = new CreateCollaboratorSessionResponse(encodedToken);

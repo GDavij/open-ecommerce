@@ -83,7 +83,7 @@ internal class SecurityService : ISecurityService
 
             return true;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             token = null!;
             return false;

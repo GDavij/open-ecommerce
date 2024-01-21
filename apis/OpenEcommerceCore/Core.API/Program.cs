@@ -29,7 +29,8 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-
+// Http Context Accessor 
+builder.Services.AddHttpContextAccessor();
 
 //MassTransit
 builder.Services.AddMassTransit(cfg =>

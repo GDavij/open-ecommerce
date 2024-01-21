@@ -6,9 +6,9 @@ public class ValidationResult<T>
     where T : class
 {
     
-   public bool IsValid { get; }
-   public HttpStatusCode Code { get; }
-   public T? Result { get; }
+   public bool IsValid { get; set; }
+   public HttpStatusCode Code { get; set; }
+   public T? Result { get; set; }
 
    private ValidationResult(bool isValid, HttpStatusCode code, T? result = null)
    {

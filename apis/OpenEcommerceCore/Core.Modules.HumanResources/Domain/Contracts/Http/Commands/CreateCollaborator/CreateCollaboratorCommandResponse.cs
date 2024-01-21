@@ -12,7 +12,7 @@ public record CreateCollaboratorCommandResponse
 
     public static CreateCollaboratorCommandResponse Respond(IAppConfigService configService)
     {
-        var baseFrontendUrl = configService.GetEnvironmentVariable(HumanResourcesModuleUrls.AdministrativeDashboardFrontendUrl);
+        var baseFrontendUrl = configService.GetEnvironmentVariable(ModuleUrls.AdministrativeDashboardFrontendUrl);
         return new CreateCollaboratorCommandResponse
         {
             Resource = $"{baseFrontendUrl}/collaborators"

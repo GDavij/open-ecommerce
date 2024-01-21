@@ -4,6 +4,8 @@ using Core.Modules.Shared.Messaging.Commands.UserAccess;
 using Core.Modules.UserAccess.Application.Http.Commands.CreateCollaboratorSession;
 using Core.Modules.UserAccess.Application.Messaging.Commands.AuthenticateCollaboratorForSector;
 using Core.Modules.UserAccess.Application.Messaging.Commands.CreateCollaborator;
+using Core.Modules.UserAccess.Application.Messaging.Commands.GetCollaboratorIsAdmin;
+using Core.Modules.UserAccess.Application.Messaging.Commands.UpdateCollaborator;
 using Core.Modules.UserAccess.Application.Services;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;
 using Core.Modules.UserAccess.Domain.Contracts.Providers;
@@ -46,7 +48,10 @@ public static class DependencyInjection
     public static IBusRegistrationConfigurator AddUserAccessConsumers(this IBusRegistrationConfigurator cfg)
     {
         cfg.AddConsumer<CreateCollaboratorCommandHandler>();
+        cfg.AddConsumer<UpdateCollaboratorCommandHandler>();
+        
         cfg.AddConsumer<AuthenticateCollaboratorForSectorCommandHandler>();
+        cfg.AddConsumer<GetCollaboratorIsAdminCommandHandler>();
         return cfg;
     }
 

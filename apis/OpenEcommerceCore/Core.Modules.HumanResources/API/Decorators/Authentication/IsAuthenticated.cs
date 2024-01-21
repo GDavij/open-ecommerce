@@ -1,9 +1,8 @@
+using Core.Modules.HumanResources.Domain.Constants;
 using Core.Modules.Shared.Domain.BusinessHierarchy;
 using Core.Modules.Shared.Domain.ResultObjects;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
 using MassTransit;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,5 +42,8 @@ internal class IsAuthenticated : Attribute, IAsyncAuthorizationFilter
         {
             context.Result = new UnauthorizedResult();
         }
+        
+        context.HttpContext.Items
+            .Add(HttpContextItems.Identity, authorizationResponse.Message.Identity);
     }
 }

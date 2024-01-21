@@ -43,10 +43,6 @@ internal class CollaboratorMappings : IEntityTypeConfiguration<Collaborator>
             .WithOne(a => a.Collaborator)
             .HasForeignKey(a => a.CollaboratorId);
 
-        builder.Property(c => c.Deleted)
-            .HasDefaultValue(false)
-            .IsRequired();
-        
         builder.Ignore(c => c.TotalContributionYears);
 
         builder.Ignore(c => c.TotalHoursWorked);

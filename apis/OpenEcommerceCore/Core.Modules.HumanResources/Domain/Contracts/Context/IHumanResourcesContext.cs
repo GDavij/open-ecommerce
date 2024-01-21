@@ -6,6 +6,7 @@ namespace Core.Modules.HumanResources.Domain.Contracts.Context;
 
 internal interface IHumanResourcesContext
 {
+    DbSet<Address> Addresses { get; set; }
     DbSet<Collaborator> Collaborators { get; set; }
     DbSet<Contract> Contracts { get; set; }
     DbSet<ContributionYear> ContributionYears { get; set; }

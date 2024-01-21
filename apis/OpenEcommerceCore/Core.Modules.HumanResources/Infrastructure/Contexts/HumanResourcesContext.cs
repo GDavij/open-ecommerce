@@ -8,6 +8,7 @@ namespace Core.Modules.HumanResources.Infrastructure.Contexts;
 internal class HumanResourcesContext
     : DbContext, IHumanResourcesContext
 {
+    public DbSet<Address> Addresses { get; set; }
     public DbSet<Collaborator> Collaborators { get; set; }
     public DbSet<Contract> Contracts { get; set; }
     public DbSet<ContributionYear> ContributionYears { get; set; }
