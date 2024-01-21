@@ -1,5 +1,6 @@
 using Core.Modules.HumanResources.API.Decorators.Authentication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.CreateCollaborator;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.DeleteCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.UpdateCollaborator;
 using FluentValidation;
 using MediatR;
@@ -43,5 +44,21 @@ public class CollaboratorsController : ControllerBase
         }
 
         return Ok(await _mediator.Send(command, cancellationToken));
+    }
+
+    [HttpDelete("{id}")]
+    [IsAuthenticated]
+    public async Task<IActionResult> DeleteCollaborator([FromServices] AbstractValidator<DeleteCollaboratorCommand> validator, [FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var command = new DeleteCollaboratorCommand(id);
+
+        var validationResult = validator.Validate(command);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+
+        await _mediator.Send(command, cancellationToken);
+        return Ok();
     }
 }

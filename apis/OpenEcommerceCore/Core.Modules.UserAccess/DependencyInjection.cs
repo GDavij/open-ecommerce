@@ -1,10 +1,13 @@
 using System.Reflection;
 using Core.Modules.HumanResources.Application.Http.Commands.CreateCollaborator;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.DeleteCollaborator;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
 using Core.Modules.UserAccess.Application.Http.Commands.CreateCollaboratorSession;
 using Core.Modules.UserAccess.Application.Messaging.Commands.AuthenticateCollaboratorForSector;
 using Core.Modules.UserAccess.Application.Messaging.Commands.CreateCollaborator;
+using Core.Modules.UserAccess.Application.Messaging.Commands.DeleteCollaborator;
 using Core.Modules.UserAccess.Application.Messaging.Commands.GetCollaboratorIsAdmin;
+using Core.Modules.UserAccess.Application.Messaging.Commands.GetCollaboratorIsDeleted;
 using Core.Modules.UserAccess.Application.Messaging.Commands.UpdateCollaborator;
 using Core.Modules.UserAccess.Application.Services;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;
@@ -49,9 +52,12 @@ public static class DependencyInjection
     {
         cfg.AddConsumer<CreateCollaboratorCommandHandler>();
         cfg.AddConsumer<UpdateCollaboratorCommandHandler>();
+        cfg.AddConsumer<DeleteCollaboratorCommandHandler>();
         
         cfg.AddConsumer<AuthenticateCollaboratorForSectorCommandHandler>();
         cfg.AddConsumer<GetCollaboratorIsAdminCommandHandler>();
+        cfg.AddConsumer<GetCollaboratorIsDeletedCommandHandler>();
+        
         return cfg;
     }
 

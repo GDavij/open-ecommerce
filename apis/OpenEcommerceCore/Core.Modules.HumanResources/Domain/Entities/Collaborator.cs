@@ -25,4 +25,10 @@ internal sealed class Collaborator
         var result = await requestClient.GetResponse<EvaluationResult<ValueTypeWrapper<bool>>>(new GetCollaboratorIsAdminCommand { Id = Id });
         return result.Message.Eval.Value;
     }
+
+    public async Task<bool> IsDeleted(IRequestClient<GetCollaboratorIsDeletedCommand> requestClient)
+    {
+        var result = await requestClient.GetResponse<EvaluationResult<ValueTypeWrapper<bool>>>(new GetCollaboratorIsDeletedCommand(Id));
+        return result.Message.Eval.Value;
+    }
 }
