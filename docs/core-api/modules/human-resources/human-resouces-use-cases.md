@@ -94,7 +94,7 @@ TODO: Create Request and Response
 
 No Integration Events
 
-### Search Collaborators (Don't Search Administrators)
+### Search Collaborators (Don't Search Administrators, and don't search human resources collaborators if not admin)
 
 #### Objective
 
