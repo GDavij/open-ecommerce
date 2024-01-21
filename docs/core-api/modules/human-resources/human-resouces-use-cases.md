@@ -18,10 +18,12 @@ This are the use cases that is received via direct endpoint call (HTTP/HTTPS - J
 
 #### Objective
 
-This use case has the objective to receive data needed for create a collaborator, this includes their `module` or `administrator`` being then   
-- Stock  
-- RH  
-- Finance  
+This use case has the objective to receive data needed for create a collaborator, this includes their `module` being those
+
+- Stock
+- RH
+- Finance
+
 and if the data is valid it must create a collaborator
 
 #### Payload
@@ -30,15 +32,11 @@ TODO: Create Request Response
 
 #### Integration Events
 
-One of these
-- Administrator Created
-- Stock Collaborator Created
-- Human Resources Collaborator Created
-- Finance Collaborator Created
+- Created Collaborator
 
 ### Update Collaborator
 
-#### Objective 
+#### Objective
 
 This use Case has the objective to receive new data about the collaborator and if valid updates it.
 
@@ -48,31 +46,9 @@ TODO: Request Response
 
 #### Integration Events
 
-One of these
-- Administrator Updated
-- Stock Collaborator Updated
-- Human Resources Collaborator Updated
-- Finance Collaborator Updated
+- Updated Collaborator
 
-## Messaging Calls
-
-TODO: Define Messaging Integration Events(Subjects)
-
-### Contract Renewal
-
-#### Objective
-
-This use case has the objective to receive a data about the contract and if valid it gonna update the contract for a specific collaborator.
-
-#### Payload
-
-TODO: Create Request Response
-
-#### Integration Events
-
-No Integration Events
-
-### Delete Collaborator (Force Break Contract)
+### Delete Collaborator (Force Break Contracts)
 
 #### Objective
 
@@ -84,10 +60,123 @@ TODO: Create Request Response
 
 #### Integration Events
 
-- Administrator Deleted
-- Stock Collaborator Deleted
-- Human Resources Collaborator Deleted
-- Finance Collaborator Deleted
+- Deleted Collaborator
+
+### Break Contract
+
+#### Objective
+
+This use case has the objective to receive a contract id and if valid it should break the contract
+
+### Add Contracts
+
+#### Objective
+
+This use case has the objective to receive contracts and a collaborator Id and if valid it must add the contracts received to the collaborator
+
+### Delete Contract
+
+#### Objective
+
+This use case the objective to receive contracts and a collaborator Id and if valid it must delete the contract
+
+### Get Collaborator
+
+#### Objective
+
+This use case has the objective to receive a collaborator id and if exists return collaborator data
+
+#### Payload
+
+TODO: Create Request and Response
+
+#### Integration Events
+
+No Integration Events
+
+### Search Collaborators (Don't Search Administrators)
+
+#### Objective
+
+This use case has the objective to receive a search term and some filters and it must return the founded collaborators for it.
+
+#### Payload
+
+TODO: Create Request and Response
+
+#### Integration Events
+
+No Integration Events
+
+### Create Administrator
+
+#### Objective
+
+This use case has the objective to receive data to create a administrator and if valid and none administrator exists, it must create a administrator
+
+#### Payload
+
+TODO: Request and Response
+
+#### Integration Events
+
+- Created Administrator
+
+### Update Administrator
+
+#### Objective
+
+This use case has the objective to receive the administrator id and the data to update it and if valid it must update the administrator
+
+#### Payload
+
+TODO: Request and Response
+
+#### Integration Events
+
+- Updated Administrator
+
+### Delete Administrator
+
+#### Objective
+
+This use case has the objective to receive a administrator Id and if valid it must delete the Administrator
+
+#### Payload
+
+TODO: Request and Response
+
+#### Integration Events
+
+- Deleted Collaborator
+
+### Get Administrator
+
+#### Objective
+
+This use case has the objective to receive a administrator Id and if valid it must return the administrator data
+
+#### Payload
+
+TODO: Request and Response
+
+#### Integration Events
+
+No Integration Events
+
+### List Administrators
+
+#### Objective
+
+This use case has the objective to list all administrators of the system
+
+#### Payload
+
+TODO: Request and Response
+
+#### Integration Events
+
+No Integration Events
 
 ### Send Job application
 
@@ -103,9 +192,9 @@ TODO: Create Request and Response
 
 No Integration Events
 
-### Search Job Applications 
+### Search Job Applications
 
-#### Objective 
+#### Objective
 
 This use case has objective to search and list job applications
 
@@ -116,3 +205,7 @@ TODO: Create Request and Response
 #### Integration Events
 
 No Integrations Events
+
+## Messaging Calls
+
+TODO: Define Messaging Integration Events(Subjects)
