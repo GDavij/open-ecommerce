@@ -2,6 +2,7 @@ using Core.Modules.HumanResources.Domain.Contracts.Context;
 using Core.Modules.HumanResources.Domain.Contracts.DynamicData.Resolvers;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.DeleteCollaborator;
 using Core.Modules.HumanResources.Domain.Exceptions.Collaborators;
+using Core.Modules.HumanResources.Domain.Extensions;
 using Core.Modules.Shared.Domain.BusinessHierarchy;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
 using Core.Modules.Shared.Messaging.IntegrationEvents.HumanResources.Events.Collaborators;
@@ -57,7 +58,11 @@ internal class DeleteCollaboratorCommandHandler : IDeleteCollaboratorCommandHand
             throw new MissingAdministrativePrivilegesException("Delete a Administrator");
         }
 
-        var existentCollaboratorSectors = existentCollaborator.Contracts.Select(c => c.Sector);
+        var existentCollaboratorSectors = existentCollaborator.Contracts
+            .WhereValidContracts()
+            .Select(c => c.Sector)
+            .Distinct();
+        
         if (!currentCollaboratorIsAdmin && existentCollaboratorSectors.Contains(ECollaboratorSector.HumanResources))
         {
             throw new MissingAdministrativePrivilegesException("Delete a Human Resources Collaborator");

@@ -6,6 +6,7 @@ using Core.Modules.HumanResources.Domain.DtosMappings;
 using Core.Modules.HumanResources.Domain.Entities;
 using Core.Modules.HumanResources.Domain.Exceptions.Collaborators;
 using Core.Modules.HumanResources.Domain.Exceptions.State;
+using Core.Modules.HumanResources.Domain.Extensions;
 using Core.Modules.Shared.Domain.BusinessHierarchy;
 using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
@@ -57,7 +58,11 @@ internal class UpdateCollaboratorCommandHandler : IUpdateCollaboratorCommandHand
             throw new MissingAdministrativePrivilegesException("Update Administrator");
         }
         
-        var existentCollaboratorSectors = existentCollaborator.Contracts.Select(c => c.Sector).Distinct();
+        var existentCollaboratorSectors = existentCollaborator.Contracts
+            .WhereValidContracts()
+            .Select(c => c.Sector)
+            .Distinct();
+        
         if (!currentCollaboratorIsAdmin && existentCollaboratorSectors.Contains(ECollaboratorSector.HumanResources))
         {
             throw new MissingAdministrativePrivilegesException("Update other Human Resources Collaborator");
