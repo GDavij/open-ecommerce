@@ -1,4 +1,5 @@
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.CreateCollaborator;
+using Core.Modules.HumanResources.Domain.Entities;
 using FluentValidation;
 
 namespace Core.Modules.HumanResources.Application.Http.Commands.CreateCollaborator;
@@ -36,7 +37,8 @@ public class CreateCollaboratorCommandValidator : AbstractValidator<CreateCollab
             .MaximumLength(512).WithMessage("Password must not be greater than 512 characters");
 
         RuleFor(c => c.Contracts)
-            .Must(HaveValidContributionYears).WithMessage("Contract Contribution Years must be valid");
+            .Must(HaveValidContributionYears).WithMessage("Contract Contribution Years must be valid")
+            .Must(HaveOnlyOneContractForASector).WithMessage("Collaborator must have a unique contract for a sector");
         
         RuleForEach(c => c.Contracts).ChildRules(c =>
         {
@@ -120,6 +122,20 @@ public class CreateCollaboratorCommandValidator : AbstractValidator<CreateCollab
             }
         }
 
+        return true;
+    }
+
+    private bool HaveOnlyOneContractForASector(List<CreateCollaboratorCommand.Contract> contracts)
+    {
+        var sectors = contracts.Select(c => c.Sector).ToList();
+        var numberOfSectors = sectors.Count;
+        var distinctSectors = sectors.Distinct().Count();
+
+        if (numberOfSectors > distinctSectors)
+        {
+            return false;
+        }
+        
         return true;
     }
 }

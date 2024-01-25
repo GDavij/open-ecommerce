@@ -1,5 +1,9 @@
 [Return To Index](../../../../README.md)
 
+#### Comments
+
+Should transform the definitions into RFCs(Rule Formalization Checklist) in future
+
 # Human Resources Module
 
 The Human Resources Module is considerable important especially for the bootstrap of the system, since it generates the administrator of the system, and manages all collaborators.
@@ -22,3 +26,22 @@ TODO: Need to write more mitigation features because of module importance
 
 TODO
 
+For more details about the use cases [see this Document](./human-resouces-use-cases.md)
+
+## Definition of Business Rules
+
+- A Administrator or Human Resources Collaborator Must be able to create, manage, and break contracts
+
+- A Administrator or Human Resources Collaborator Must be able to Receive and manage Job Applications
+
+- A Administrator or Human Resources Collaborator Must be able to control work hours of other collaborators(if admin, anyone, if HR collaborator only other sectors that not is HR)
+
+- Administrators or Human Resources Collaborators must be able to Add Collaborators and manage their data that the business need
+
+## Definition of Application Rules
+
+- Human Resources Collaborators must have a Stratified control of access in Human Resources Module like position
+
+- Only Administrators can Modify or Delete Human Resources Collaborators(Collaborators that does have a contract for the Human Resources Sector)
+
+- One Collaborator Cannot have more than one active contract(not broken nor deleted) for a same sector at the same time
