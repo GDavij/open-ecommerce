@@ -50,8 +50,8 @@ For more details about the use cases [see this Document](./human-resouces-use-ca
 
 - Every Collaborator must have a valid Email Address that is Unique for the collaborator
 
-- Every Collaborator can have a optional Phone Field that must be unique in the module
-
 - All DateTime Data that a contract have must be valid, it is not out of the time Scope
 
 - A Address must have a valid State
+
+- Human Resources Collaborators can Update their own Data

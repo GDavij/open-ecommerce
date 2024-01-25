@@ -28,6 +28,12 @@ You can already see some documentation made and in progress by navigating in the
    2. [Stock Domain Entities](docs/core-api/modules/stock/stock-domain-entities.md)
    3. [Stock Use Cases](docs/core-api/modules/stock/stock-use-cases.md)
 
+4. Human Resources Module
+
+   1. [Human Resources Definition](docs/core-api/modules/human-resources/human-resources-definition.md)
+   2. [Human Resources Domain Entities](docs/core-api/modules/human-resources/human-resources-domain-entities.md)
+   3. [Human Resources Use Cases](docs/core-api/modules/human-resources/human-resouces-use-cases.md)
+
 ## Technologies to be used
 
 ### Backend
