@@ -38,10 +38,20 @@ For more details about the use cases [see this Document](./human-resouces-use-ca
 
 - Administrators or Human Resources Collaborators must be able to Add Collaborators and manage their data that the business need
 
+- Administrator and Human Resources must be able to Add, Manage and Delete States into the system like (Illinois, New York or São Paulo)
+
 ## Definition of Application Rules
 
-- Human Resources Collaborators must have a Stratified control of access in Human Resources Module like position
+- Human Resources Collaborators must have a Stratified control of access in Human Resources Module like position (Only for Human Resources Collaborators)
 
 - Only Administrators can Modify or Delete Human Resources Collaborators(Collaborators that does have a contract for the Human Resources Sector)
 
 - One Collaborator Cannot have more than one active contract(not broken nor deleted) for a same sector at the same time
+
+- Every Collaborator must have a valid Email Address that is Unique for the collaborator
+
+- Every Collaborator can have a optional Phone Field that must be unique in the module
+
+- All DateTime Data that a contract have must be valid, it is not out of the time Scope
+
+- A Address must have a valid State
