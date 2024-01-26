@@ -37,6 +37,7 @@ public class CreateCollaboratorCommandValidator : AbstractValidator<CreateCollab
             .MaximumLength(512).WithMessage("Password must not be greater than 512 characters");
 
         RuleFor(c => c.Contracts)
+            .Must(c => c.Count > 0).WithMessage("Collaborator must have at least one contract")
             .Must(HaveValidContributionYears).WithMessage("Contract Contribution Years must be valid")
             .Must(HaveOnlyOneContractForASector).WithMessage("Collaborator must have a unique contract for a sector");
         

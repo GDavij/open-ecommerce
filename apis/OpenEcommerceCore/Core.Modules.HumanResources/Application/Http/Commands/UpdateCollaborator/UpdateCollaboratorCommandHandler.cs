@@ -9,10 +9,10 @@ using Core.Modules.HumanResources.Domain.Exceptions.State;
 using Core.Modules.HumanResources.Domain.Extensions;
 using Core.Modules.Shared.Domain.BusinessHierarchy;
 using Core.Modules.Shared.Domain.Contracts.Services;
+using Core.Modules.Shared.Domain.ResultObjects;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
 using Core.Modules.Shared.Messaging.IntegrationEvents.HumanResources.Events.Collaborators;
 using MassTransit;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.Modules.HumanResources.Application.Http.Commands.UpdateCollaborator;
@@ -23,20 +23,39 @@ internal class UpdateCollaboratorCommandHandler : IUpdateCollaboratorCommandHand
     private readonly IRequestClient<GetCollaboratorIsAdminCommand> _getIsAdminRequestClient;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IAppConfigService _configService;
+    private readonly IRequestClient<GetDeletedCollaboratorsIdsCommand> _getDeletedCollaboratorsIds;
     private readonly ICurrentCollaboratorAsyncResolver _currentCollaborator;
 
-    public UpdateCollaboratorCommandHandler(IHumanResourcesContext dbContext, IPublishEndpoint publishEndpoint, IAppConfigService configService, ICurrentCollaboratorAsyncResolver currentCollaborator, IRequestClient<GetCollaboratorIsAdminCommand> getIsAdminRequestClient)
+    public UpdateCollaboratorCommandHandler(
+        IHumanResourcesContext dbContext,
+        IPublishEndpoint publishEndpoint,
+        IAppConfigService configService,
+        ICurrentCollaboratorAsyncResolver currentCollaborator,
+        IRequestClient<GetCollaboratorIsAdminCommand> getIsAdminRequestClient,
+        IRequestClient<GetDeletedCollaboratorsIdsCommand> getDeletedCollaboratorsIds)
     {
         _dbContext = dbContext;
         _publishEndpoint = publishEndpoint;
         _configService = configService;
         _currentCollaborator = currentCollaborator;
         _getIsAdminRequestClient = getIsAdminRequestClient;
+        _getDeletedCollaboratorsIds = getDeletedCollaboratorsIds;
     }
 
     public async Task<UpdateCollaboratorCommandResponse> Handle(UpdateCollaboratorCommand request, CancellationToken cancellationToken)
     {
         Collaborator currentCollaborator = await _currentCollaborator.ResolveAsync();
+        
+        var deletedCollaborators = (await _getDeletedCollaboratorsIds.GetResponse<EvaluationResult<List<Guid>>>(new GetDeletedCollaboratorsIdsCommand())).Message.Eval;
+        var conflictCollaborator = await _dbContext.Collaborators.FirstOrDefaultAsync(c => 
+                    c.Id != request.Id &&
+                    !deletedCollaborators.Contains(c.Id) &&
+                    (c.Email == request.Email || c.Phone == request.Phone), cancellationToken);
+        
+        if (conflictCollaborator is not null)
+        {
+            throw new AlreadyExistentCollaboratorException(request.Email, request.Phone);
+        }
         
         var existentCollaborator = await _dbContext.Collaborators
             .Include(c => c.Addresses)
@@ -63,7 +82,7 @@ internal class UpdateCollaboratorCommandHandler : IUpdateCollaboratorCommandHand
             .Select(c => c.Sector)
             .Distinct();
         
-        if (!currentCollaboratorIsAdmin && existentCollaboratorSectors.Contains(ECollaboratorSector.HumanResources))
+        if (!currentCollaboratorIsAdmin && existentCollaboratorSectors.Contains(ECollaboratorSector.HumanResources) && currentCollaborator.Id != existentCollaborator.Id)
         {
             throw new MissingAdministrativePrivilegesException("Update other Human Resources Collaborator");
         }

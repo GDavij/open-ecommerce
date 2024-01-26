@@ -5,6 +5,8 @@ using Core.Modules.HumanResources.Domain.Entities;
 using Core.Modules.HumanResources.Domain.Exceptions.Collaborators;
 using Core.Modules.HumanResources.Domain.Exceptions.State;
 using Core.Modules.Shared.Domain.Contracts.Services;
+using Core.Modules.Shared.Domain.ResultObjects;
+using Core.Modules.Shared.Messaging.Commands.UserAccess;
 using Core.Modules.Shared.Messaging.IntegrationEvents.HumanResources.Events.Collaborators;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -16,20 +18,24 @@ internal class CreateCollaboratorCommandHandler : ICreateCollaboratorCommandHand
     private readonly IHumanResourcesContext _dbContext;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IAppConfigService _configService;
-
-    public CreateCollaboratorCommandHandler(IHumanResourcesContext dbContext, IPublishEndpoint publishEndpoint, IAppConfigService configService)
+    private readonly IRequestClient<GetDeletedCollaboratorsIdsCommand> _getDeletedCollaboratorsIdsClient;
+    
+    public CreateCollaboratorCommandHandler(IHumanResourcesContext dbContext, IPublishEndpoint publishEndpoint, IAppConfigService configService, IRequestClient<GetDeletedCollaboratorsIdsCommand> getDeletedCollaboratorsIdsClient)
     {
         _dbContext = dbContext;
         _publishEndpoint = publishEndpoint;
         _configService = configService;
+        _getDeletedCollaboratorsIdsClient = getDeletedCollaboratorsIdsClient;
     }
 
     public async Task<CreateCollaboratorCommandResponse> Handle(CreateCollaboratorCommand request, CancellationToken cancellationToken)
     {
-        var existentCollaborator = await _dbContext.Collaborators.FirstOrDefaultAsync(c => c.Email == request.Email, cancellationToken);
+        var deletedCollaborators = (await _getDeletedCollaboratorsIdsClient.GetResponse<EvaluationResult<List<Guid>>>(new GetDeletedCollaboratorsIdsCommand())).Message.Eval;       
+        
+        var existentCollaborator = await _dbContext.Collaborators.FirstOrDefaultAsync(c => !deletedCollaborators.Contains(c.Id) && (c.Email == request.Email || c.Phone == request.Phone), cancellationToken);
         if (existentCollaborator is not null)
         {
-            throw new AlreadyExistentCollaboratorException(request.Email);
+            throw new AlreadyExistentCollaboratorException(request.Email, request.Phone);
         }
 
         var addressesSent = request.Addresses.Select(a => a.StateId).Distinct().ToList();
