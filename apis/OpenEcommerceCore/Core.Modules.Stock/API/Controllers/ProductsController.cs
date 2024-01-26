@@ -1,3 +1,4 @@
+using Core.Modules.Shared.Domain.Constants;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.AddImageToProduct;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateProduct;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteProduct;
@@ -11,8 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Modules.Stock.API.Controllers;
 
+[ApiExplorerSettings(GroupName = SwaggerApiGroups.V1)]
 [ApiController]
-[Route("/api/v1/[controller]")]
+[Route("/api/stock/v1/[controller]")]
 public class ProductsController : ControllerBase
 { 
    private readonly IMediator _mediator;

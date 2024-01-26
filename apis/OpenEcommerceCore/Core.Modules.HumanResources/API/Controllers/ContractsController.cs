@@ -1,13 +1,15 @@
 using Core.Modules.HumanResources.API.Decorators.Authentication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.BreakContract;
+using Core.Modules.Shared.Domain.Constants;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Modules.HumanResources.API.Controllers;
 
+[ApiExplorerSettings(GroupName = SwaggerApiGroups.V1)]
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/human-resources/v1/[controller]")]
 public class ContractsController : ControllerBase
 {
     private readonly IMediator _mediator;

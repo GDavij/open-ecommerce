@@ -1,3 +1,4 @@
+using Core.Modules.Shared.Domain.Constants;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateBrand;
@@ -9,8 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Modules.Stock.API.Controllers;
 
+[ApiExplorerSettings(GroupName = SwaggerApiGroups.V1)]
 [ApiController]
-[Route("/api/v1/[controller]")]
+[Route("/api/stock/v1/[controller]")]
 public class BrandsController : ControllerBase 
 {
    private readonly IMediator _mediator;

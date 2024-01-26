@@ -1,3 +1,4 @@
+using Core.Modules.Shared.Domain.Constants;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateMeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteMeasureUnit;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateMeasureUnit;
@@ -9,8 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Modules.Stock.API.Controllers;
 
+[ApiExplorerSettings(GroupName = SwaggerApiGroups.V1)]
 [ApiController]
-[Route("/api/v1/[controller]")]
+[Route("/api/stock/v1/[controller]")]
 public class MeasureUnitController : ControllerBase
 {
     private readonly IMediator _mediator;

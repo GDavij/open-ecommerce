@@ -1,3 +1,4 @@
+using Core.Modules.Shared.Domain.Constants;
 using Core.Modules.UserAccess.Application.Http.Commands.CreateCollaboratorSession;
 using FluentValidation;
 using MediatR;
@@ -5,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Modules.UserAccess.API.Controllers;
 
+[ApiExplorerSettings(GroupName = SwaggerApiGroups.V1)]
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/user-access/v1/[controller]")]
 public class CollaboratorsController : ControllerBase
 {
    private readonly IMediator _mediator;

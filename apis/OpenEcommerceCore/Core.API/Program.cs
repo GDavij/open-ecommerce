@@ -27,6 +27,8 @@ builder.Services.AddSwaggerGen(options =>
         Title = "Open Ecommerce Core Api",
         Description = "Open Ecommerce Core API Swagger Docs"
     });
+   
+    options.DocInclusionPredicate((docName, apiDescription) => apiDescription.GroupName == docName);
 });
 
 // Http Context Accessor 
@@ -59,7 +61,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(opt =>
+    {
+        opt.DocumentTitle = "Open Ecommerce Core API Swagger Docs";
+    });
 }
 else
 {
