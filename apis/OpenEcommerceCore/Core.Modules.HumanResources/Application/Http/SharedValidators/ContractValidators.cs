@@ -1,11 +1,11 @@
-using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.SharedCommandParts;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.SharedSchemas;
 
 namespace Core.Modules.HumanResources.Application.Http.SharedValidators;
 
 internal static class ContractValidators
 {
       //TODO: Reduce Resource Usage in this method
-        public static bool HaveValidContributionYears(List<ContractCommand> contracts)
+        public static bool HaveValidContributionYears(List<ContractRequestSchema> contracts)
         {
             foreach (var contract in contracts)
             {
@@ -34,7 +34,7 @@ internal static class ContractValidators
             return true;
         }
     
-        public static bool HaveOnlyOneContractForASector(List<ContractCommand> contracts)
+        public static bool HaveOnlyOneContractForASector(List<ContractRequestSchema> contracts)
         {
             var sectors = contracts.Select(c => c.Sector).ToList();
             var numberOfSectors = sectors.Count;

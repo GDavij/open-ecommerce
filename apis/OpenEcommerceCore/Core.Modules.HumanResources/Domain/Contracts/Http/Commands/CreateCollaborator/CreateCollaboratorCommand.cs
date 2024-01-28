@@ -1,4 +1,3 @@
-using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.SharedCommandParts;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.SharedSchemas;
 using Core.Modules.HumanResources.Domain.Entities;
 using Core.Modules.HumanResources.Domain.Enums;
@@ -16,7 +15,7 @@ public record CreateCollaboratorCommand : IRequest<CreateCollaboratorCommandResp
     public string Email { get; init; }
     public string Phone { get; init; }
     public string Password { get; init; }
-    public List<ContractCommand> Contracts { get; init; }
+    public List<ContractRequestSchema> Contracts { get; init; }
     public List<SocialLinkRequestSchema> SocialLinks { get; init; } 
     public List<AddressRequestSchema> Addresses { get; init; }
 };

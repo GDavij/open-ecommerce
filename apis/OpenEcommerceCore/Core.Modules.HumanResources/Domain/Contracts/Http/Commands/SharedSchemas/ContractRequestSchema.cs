@@ -1,9 +1,9 @@
 using Core.Modules.Shared.Domain.BusinessHierarchy;
 
-namespace Core.Modules.HumanResources.Domain.Contracts.Http.Commands.SharedCommandParts;
+namespace Core.Modules.HumanResources.Domain.Contracts.Http.Commands.SharedSchemas;
 
 
-public record ContractCommand
+public record ContractRequestSchema
 {
     public string Name { get; init; }
     public ECollaboratorSector Sector { get; init; }
