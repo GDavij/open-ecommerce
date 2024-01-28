@@ -8,6 +8,7 @@ using Core.Modules.UserAccess.Application.Messaging.Commands.GetAdministratorsId
 using Core.Modules.UserAccess.Application.Messaging.Commands.GetCollaboratorIsAdmin;
 using Core.Modules.UserAccess.Application.Messaging.Commands.GetCollaboratorIsDeleted;
 using Core.Modules.UserAccess.Application.Messaging.Commands.GetDeletedCollaboratorsIds;
+using Core.Modules.UserAccess.Application.Messaging.Commands.RemoveCollaboratorSector;
 using Core.Modules.UserAccess.Application.Messaging.Commands.UpdateCollaborator;
 using Core.Modules.UserAccess.Application.Services;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;
@@ -55,11 +56,13 @@ public static class DependencyInjection
         cfg.AddConsumer<DeleteCollaboratorCommandHandler>();
         
         cfg.AddConsumer<AuthenticateCollaboratorForSectorCommandHandler>();
+        
         cfg.AddConsumer<GetCollaboratorIsAdminCommandHandler>();
         cfg.AddConsumer<GetCollaboratorIsDeletedCommandHandler>();
         cfg.AddConsumer<GetDeletedCollaboratorsIdsCommandHandler>();
         cfg.AddConsumer<GetAdministratorsIdsCommandHandler>();
 
+        cfg.AddConsumer<RemoveCollaboratorSectorCommandHandler>();
         cfg.AddConsumer<AddCollaboratorSectorsCommandHandler>();
         
         return cfg;
