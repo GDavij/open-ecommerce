@@ -1,5 +1,6 @@
 using Core.Modules.HumanResources.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Core.Modules.HumanResources.Domain.Contracts.Context;
@@ -16,5 +17,6 @@ internal interface IHumanResourcesContext
     DbSet<State> States { get; init; }
     DatabaseFacade Database { get; }
     
+    EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

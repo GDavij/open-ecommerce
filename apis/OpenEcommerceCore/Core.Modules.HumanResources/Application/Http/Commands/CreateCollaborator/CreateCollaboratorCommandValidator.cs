@@ -1,3 +1,4 @@
+using Core.Modules.HumanResources.Application.Http.SharedValidators;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.CreateCollaborator;
 using Core.Modules.HumanResources.Domain.Entities;
 using FluentValidation;
@@ -38,8 +39,8 @@ public class CreateCollaboratorCommandValidator : AbstractValidator<CreateCollab
 
         RuleFor(c => c.Contracts)
             .Must(c => c.Count > 0).WithMessage("Collaborator must have at least one contract")
-            .Must(HaveValidContributionYears).WithMessage("Contract Contribution Years must be valid")
-            .Must(HaveOnlyOneContractForASector).WithMessage("Collaborator must have a unique contract for a sector");
+            .Must(ContractValidators.HaveValidContributionYears).WithMessage("Contract Contribution Years must be valid")
+            .Must(ContractValidators.HaveOnlyOneContractForASector).WithMessage("Collaborator must have a unique contract for a sector");
         
         RuleForEach(c => c.Contracts).ChildRules(c =>
         {
@@ -61,7 +62,7 @@ public class CreateCollaboratorCommandValidator : AbstractValidator<CreateCollab
 
             c.RuleFor(c => c.MonthlySalary)
                 .NotEmpty().WithMessage("Contract Monthly Salary must not be empty")
-                .GreaterThan(1100).WithMessage("Contract Monthly Salary must not be empty");
+                .GreaterThan(1100).WithMessage("Contract Monthly Salary must be greater than 1100$");
 
             c.RuleFor(c => c.Broken)
                 .NotNull().WithMessage("Contract Broken must not be null");
@@ -96,47 +97,5 @@ public class CreateCollaboratorCommandValidator : AbstractValidator<CreateCollab
         });
     }
 
-    //TODO: Reduce Resource Usage in this method
-    private bool HaveValidContributionYears(List<CreateCollaboratorCommand.Contract> contracts)
-    {
-        foreach (var contract in contracts)
-        {
-            foreach (var contributionYear in contract.ContributionsYears)
-            {
-                if (contributionYear.Year < contract.StartDate.Year || contributionYear.Year > contract.EndDate.Year)
-                {
-                    return false;
-                }
-
-                foreach (var workHour in contributionYear.WorkHours)
-                {
-                    if (workHour.Date.Year < contract.StartDate.Year || workHour.Date.Year > contract.EndDate.Year)
-                    {
-                        return false;
-                    }
-
-                    if (workHour.Start.Subtract(workHour.End).TotalHours >= 18)
-                    {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        return true;
-    }
-
-    private bool HaveOnlyOneContractForASector(List<CreateCollaboratorCommand.Contract> contracts)
-    {
-        var sectors = contracts.Select(c => c.Sector).ToList();
-        var numberOfSectors = sectors.Count;
-        var distinctSectors = sectors.Distinct().Count();
-
-        if (numberOfSectors > distinctSectors)
-        {
-            return false;
-        }
-        
-        return true;
-    }
+  
 }

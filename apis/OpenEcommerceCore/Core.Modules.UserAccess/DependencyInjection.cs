@@ -1,18 +1,16 @@
 using System.Reflection;
-using Core.Modules.HumanResources.Application.Http.Commands.CreateCollaborator;
-using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.DeleteCollaborator;
-using Core.Modules.Shared.Messaging.Commands.UserAccess;
 using Core.Modules.UserAccess.Application.Http.Commands.CreateCollaboratorSession;
+using Core.Modules.UserAccess.Application.Messaging.Commands.AddCollaboratorSectors;
 using Core.Modules.UserAccess.Application.Messaging.Commands.AuthenticateCollaboratorForSector;
 using Core.Modules.UserAccess.Application.Messaging.Commands.CreateCollaborator;
 using Core.Modules.UserAccess.Application.Messaging.Commands.DeleteCollaborator;
+using Core.Modules.UserAccess.Application.Messaging.Commands.GetAdministratorsIds;
 using Core.Modules.UserAccess.Application.Messaging.Commands.GetCollaboratorIsAdmin;
 using Core.Modules.UserAccess.Application.Messaging.Commands.GetCollaboratorIsDeleted;
-using Core.Modules.UserAccess.Application.Messaging.Commands.GetDeletedCollaboratorsIdsCommandHandler;
+using Core.Modules.UserAccess.Application.Messaging.Commands.GetDeletedCollaboratorsIds;
 using Core.Modules.UserAccess.Application.Messaging.Commands.UpdateCollaborator;
 using Core.Modules.UserAccess.Application.Services;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;
-using Core.Modules.UserAccess.Domain.Contracts.Messaging.Commands;
 using Core.Modules.UserAccess.Domain.Contracts.Providers;
 using Core.Modules.UserAccess.Domain.Contracts.Services;
 using Core.Modules.UserAccess.Infrastructure.Contexts;
@@ -60,6 +58,9 @@ public static class DependencyInjection
         cfg.AddConsumer<GetCollaboratorIsAdminCommandHandler>();
         cfg.AddConsumer<GetCollaboratorIsDeletedCommandHandler>();
         cfg.AddConsumer<GetDeletedCollaboratorsIdsCommandHandler>();
+        cfg.AddConsumer<GetAdministratorsIdsCommandHandler>();
+
+        cfg.AddConsumer<AddCollaboratorSectorsCommandHandler>();
         
         return cfg;
     }

@@ -5,7 +5,7 @@ using Core.Modules.UserAccess.Domain.Contracts.Messaging.Commands;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.Modules.UserAccess.Application.Messaging.Commands.GetDeletedCollaboratorsIdsCommandHandler;
+namespace Core.Modules.UserAccess.Application.Messaging.Commands.GetDeletedCollaboratorsIds;
 
 internal class GetDeletedCollaboratorsIdsCommandHandler : IGetDeletedCollaboratorsIdsCommandHandler
 {

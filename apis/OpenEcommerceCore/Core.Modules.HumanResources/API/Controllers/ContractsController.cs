@@ -1,4 +1,5 @@
 using Core.Modules.HumanResources.API.Decorators.Authentication;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.AddContracts;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.BreakContract;
 using Core.Modules.Shared.Domain.Constants;
 using FluentValidation;
@@ -21,7 +22,7 @@ public class ContractsController : ControllerBase
 
     [HttpPatch("break/{id}")]
     [IsAuthenticated]
-    public async Task<IActionResult> BreakContract([FromServices] AbstractValidator<BreakContractCommand> validator, [FromRoute] Guid id)
+    public async Task<IActionResult> BreakContract([FromServices] AbstractValidator<BreakContractCommand> validator, [FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var command = new BreakContractCommand(id);
         
@@ -31,7 +32,20 @@ public class ContractsController : ControllerBase
             return BadRequest(validationResult.Errors);
         }
 
-        await _mediator.Send(command);
+        await _mediator.Send(command, cancellationToken);
         return Ok();
+    }
+
+    [HttpPost]
+    [IsAuthenticated]
+    public async Task<IActionResult> AddContracts([FromServices] AbstractValidator<AddContractsCommand> validator, [FromBody] AddContractsCommand command, CancellationToken cancellationToken)
+    {
+        var validationResults = validator.Validate(command);
+        if (!validationResults.IsValid)
+        {
+            return BadRequest(validationResults.Errors);
+        }
+
+        return Ok(await _mediator.Send(command, cancellationToken));
     }
 }

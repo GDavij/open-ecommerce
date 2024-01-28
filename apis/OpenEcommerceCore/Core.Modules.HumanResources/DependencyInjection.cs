@@ -1,10 +1,12 @@
 using System.Reflection;
+using Core.Modules.HumanResources.Application.Http.Commands.AddContracts;
 using Core.Modules.HumanResources.Application.Http.Commands.BreakContract;
 using Core.Modules.HumanResources.Application.Http.Commands.CreateCollaborator;
 using Core.Modules.HumanResources.Application.Http.Commands.DeleteCollaborator;
 using Core.Modules.HumanResources.Application.Http.Commands.UpdateCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Context;
 using Core.Modules.HumanResources.Domain.Contracts.DynamicData.Resolvers;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.AddContracts;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.BreakContract;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.CreateCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.DeleteCollaborator;
@@ -36,6 +38,7 @@ public static class DependencyInjection
         services.AddScoped<AbstractValidator<DeleteCollaboratorCommand>, DeleteCollaboratorCommandValidator>();
         
         services.AddScoped<AbstractValidator<BreakContractCommand>, BreakContractCommandValidator>();
+        services.AddScoped<AbstractValidator<AddContractsCommand>, AddContractsCommandValidator>();
         
         //Dynamic Data Resolvers
         services.AddScoped<ICurrentCollaboratorAsyncResolver, CurrentCollaboratorAsyncResolver>();
