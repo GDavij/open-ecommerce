@@ -2,6 +2,7 @@ using Core.Modules.HumanResources.API.Decorators.Authentication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.CreateCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.DeleteCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.UpdateCollaborator;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Queries;
 using Core.Modules.Shared.Domain.Constants;
 using FluentValidation;
 using MediatR;
@@ -21,6 +22,19 @@ public class CollaboratorsController : ControllerBase
         _mediator = mediator;
     }
 
+    [HttpGet("{id}")]
+    [IsAuthenticated]
+    public async Task<IActionResult> GetCollaboratorById([FromServices] AbstractValidator<GetCollaboratorQuery> validator, [FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var command = new GetCollaboratorQuery(id);
+        var validationResults = validator.Validate(command);
+        if (!validationResults.IsValid)
+        {
+            return BadRequest(validationResults.Errors);
+        }
+        
+        return Ok(await _mediator.Send(command, cancellationToken));
+    }
     
     [HttpPost]
     [IsAuthenticated]

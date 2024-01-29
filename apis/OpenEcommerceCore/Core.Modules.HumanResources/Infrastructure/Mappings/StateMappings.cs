@@ -10,7 +10,7 @@ internal class StateMappings : IEntityTypeConfiguration<State>
     {
         builder.HasKey(s => s.Id);
 
-        builder.Property(s => s.name)
+        builder.Property(s => s.Name)
             .HasMaxLength(128)
             .IsRequired();
 
