@@ -23,7 +23,7 @@ internal class UpdateCollaboratorCommandHandler : IUpdateCollaboratorCommandHand
         var updatedCollaboratorInfo = context.Message.CollaboratorUpdated;
         
         var updatedCollaborator = await _dbContext.Collaborators
-            .FirstOrDefaultAsync(c => c.CollaboratorModuleId == context.Message.CollaboratorUpdated.Id && !c.Deleted);
+            .FirstOrDefaultAsync(c => c.CollaboratorModuleId == context.Message.CollaboratorUpdated.Id);
         
         if (updatedCollaborator is null)
         {
