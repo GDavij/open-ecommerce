@@ -59,3 +59,5 @@ For more details about the use cases [see this Document](./human-resouces-use-ca
 - Human Resources Collaborators can Update their own Data
 
 - To Create a Human Resources Collaborator the collaborator must have at least one contract attached to it
+
+- If an administrator or human resources collaborator request to delete a contract being this contract the unique contract of the collaborator it should delete the collaborator too.
