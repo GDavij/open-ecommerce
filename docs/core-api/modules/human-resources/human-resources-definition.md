@@ -42,7 +42,7 @@ For more details about the use cases [see this Document](./human-resouces-use-ca
 
 ## Definition of Application Rules
 
-- Human Resources Collaborators must have a Stratified control of access in Human Resources Module like position (Implemented in the Human Resources Module Context) -> (Future Improvement)
+- Human Resources Collaborators must have a Stratified control of access in Human Resources Module like position -> (Future Improvement)
 
 - Only Administrators can Modify or Delete Human Resources Collaborators(Collaborators that does have a contract for the Human Resources Sector)
 
