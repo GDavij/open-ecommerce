@@ -1,8 +1,7 @@
-using Core.Modules.HumanResources.Domain.Entities;
 using Core.Modules.HumanResources.Domain.Enums;
 using Core.Modules.Shared.Domain.BusinessHierarchy;
 
-namespace Core.Modules.HumanResources.Domain.Contracts.Http.Queries;
+namespace Core.Modules.HumanResources.Domain.Contracts.Http.Queries.GetCollaborator;
 
 public record GetCollaboratorQueryResponse
 {

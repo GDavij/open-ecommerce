@@ -1,4 +1,4 @@
-using Core.Modules.HumanResources.Domain.Contracts.Http.Queries;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.GetCollaborator;
 using FluentValidation;
 
 namespace Core.Modules.HumanResources.Application.Http.Queries.GetCollaborator;

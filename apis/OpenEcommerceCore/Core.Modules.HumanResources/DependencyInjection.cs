@@ -14,7 +14,7 @@ using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.CreateCollabora
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.DeleteCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.DeleteContract;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.UpdateCollaborator;
-using Core.Modules.HumanResources.Domain.Contracts.Http.Queries;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.GetCollaborator;
 using Core.Modules.HumanResources.Domain.CustomConverters;
 using Core.Modules.HumanResources.Domain.DynamicData;
 using Core.Modules.HumanResources.Infrastructure.Contexts;

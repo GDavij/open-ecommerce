@@ -2,7 +2,7 @@ using Core.Modules.HumanResources.API.Decorators.Authentication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.CreateCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.DeleteCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.UpdateCollaborator;
-using Core.Modules.HumanResources.Domain.Contracts.Http.Queries;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.GetCollaborator;
 using Core.Modules.Shared.Domain.Constants;
 using FluentValidation;
 using MediatR;

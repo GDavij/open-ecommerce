@@ -1,10 +1,9 @@
 using Core.Modules.HumanResources.Domain.Contracts.Context;
-using Core.Modules.HumanResources.Domain.Contracts.Http.Queries;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.GetCollaborator;
 using Core.Modules.HumanResources.Domain.Exceptions.Collaborators;
 using Core.Modules.Shared.Domain.ResultObjects;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
 using MassTransit;
-using MassTransit.Clients;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.Modules.HumanResources.Application.Http.Queries.GetCollaborator;
