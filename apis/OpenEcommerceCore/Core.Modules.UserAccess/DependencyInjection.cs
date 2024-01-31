@@ -1,16 +1,9 @@
 using System.Reflection;
 using Core.Modules.UserAccess.Application.Http.Commands.CreateCollaboratorSession;
-using Core.Modules.UserAccess.Application.Messaging.Commands.AddCollaboratorSectors;
-using Core.Modules.UserAccess.Application.Messaging.Commands.AuthenticateCollaboratorForSector;
-using Core.Modules.UserAccess.Application.Messaging.Commands.CreateCollaborator;
-using Core.Modules.UserAccess.Application.Messaging.Commands.DeleteCollaborator;
-using Core.Modules.UserAccess.Application.Messaging.Commands.GetAdministratorsIds;
-using Core.Modules.UserAccess.Application.Messaging.Commands.GetCollaboratorIsAdmin;
-using Core.Modules.UserAccess.Application.Messaging.Commands.GetCollaboratorIsDeleted;
-using Core.Modules.UserAccess.Application.Messaging.Commands.GetCollaboratorsIdsFromSector;
-using Core.Modules.UserAccess.Application.Messaging.Commands.GetDeletedCollaboratorsIds;
-using Core.Modules.UserAccess.Application.Messaging.Commands.RemoveCollaboratorSector;
-using Core.Modules.UserAccess.Application.Messaging.Commands.UpdateCollaborator;
+using Core.Modules.UserAccess.Application.Messaging.Commands.Auth;
+using Core.Modules.UserAccess.Application.Messaging.Commands.Collaborators;
+using Core.Modules.UserAccess.Application.Messaging.Queries.Administrators;
+using Core.Modules.UserAccess.Application.Messaging.Queries.Collaborators;
 using Core.Modules.UserAccess.Application.Services;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;
 using Core.Modules.UserAccess.Domain.Contracts.Providers;
@@ -58,11 +51,11 @@ public static class DependencyInjection
         
         cfg.AddConsumer<AuthenticateCollaboratorForSectorCommandHandler>();
         
-        cfg.AddConsumer<GetCollaboratorIsAdminCommandHandler>();
-        cfg.AddConsumer<GetCollaboratorIsDeletedCommandHandler>();
-        cfg.AddConsumer<GetDeletedCollaboratorsIdsCommandHandler>();
-        cfg.AddConsumer<GetAdministratorsIdsCommandHandler>();
-        cfg.AddConsumer<GetCollaboratorsIdsFromSectorCommandHandler>();
+        cfg.AddConsumer<GetCollaboratorIsAdminQueryHandler>();
+        cfg.AddConsumer<GetCollaboratorIsDeletedQueryHandler>();
+        cfg.AddConsumer<GetDeletedCollaboratorsIdsQueryHandler>();
+        cfg.AddConsumer<GetAdministratorsIdsQueryHandler>();
+        cfg.AddConsumer<GetCollaboratorsIdsFromSectorQueryHandler>();
 
         cfg.AddConsumer<RemoveCollaboratorSectorCommandHandler>();
         cfg.AddConsumer<AddCollaboratorSectorsCommandHandler>();
