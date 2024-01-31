@@ -46,7 +46,7 @@ internal class UpdateCollaboratorCommandHandler : IUpdateCollaboratorCommandHand
     {
         Collaborator currentCollaborator = await _currentCollaborator.ResolveAsync();
         
-        var deletedCollaborators = (await _getDeletedCollaboratorsIds.GetResponse<EvaluationResult<List<Guid>>>(new GetDeletedCollaboratorsIdsCommand())).Message.Eval;
+        var deletedCollaborators = (await _getDeletedCollaboratorsIds.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetDeletedCollaboratorsIdsCommand())).Message.Eval;
         var conflictCollaborator = await _dbContext.Collaborators.FirstOrDefaultAsync(c => 
                     c.Id != request.Id &&
                     !deletedCollaborators.Contains(c.Id) &&

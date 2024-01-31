@@ -29,7 +29,7 @@ internal class GetCollaboratorQueryHandler : IGetCollaboratorQueryHandler
 
     public async Task<GetCollaboratorQueryResponse> Handle(GetCollaboratorQuery request, CancellationToken cancellationToken)
     {
-        var administratorsIds = (await _getAdministratorsIdsClient.GetResponse<EvaluationResult<List<Guid>>>(new GetAdministratorsIdsCommand())).Message.Eval; 
+        var administratorsIds = (await _getAdministratorsIdsClient.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetAdministratorsIdsCommand())).Message.Eval; 
         var existentCollaborator = await _dbContext.Collaborators
             .Include(c => c.Contracts)
                 .ThenInclude(c => c.ContributionYears)

@@ -30,7 +30,7 @@ internal class CreateCollaboratorCommandHandler : ICreateCollaboratorCommandHand
 
     public async Task<CreateCollaboratorCommandResponse> Handle(CreateCollaboratorCommand request, CancellationToken cancellationToken)
     {
-        var deletedCollaborators = (await _getDeletedCollaboratorsIdsClient.GetResponse<EvaluationResult<List<Guid>>>(new GetDeletedCollaboratorsIdsCommand())).Message.Eval;       
+        var deletedCollaborators = (await _getDeletedCollaboratorsIdsClient.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetDeletedCollaboratorsIdsCommand())).Message.Eval;       
         
         var existentCollaborator = await _dbContext.Collaborators.FirstOrDefaultAsync(c => !deletedCollaborators.Contains(c.Id) && (c.Email == request.Email || c.Phone == request.Phone), cancellationToken);
         if (existentCollaborator is not null)

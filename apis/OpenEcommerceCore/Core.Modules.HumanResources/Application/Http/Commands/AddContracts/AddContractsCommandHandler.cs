@@ -40,7 +40,7 @@ internal class AddContractsCommandHandler : IAddContractsCommandHandler
 
     public async Task<AddContractsCommandResponse> Handle(AddContractsCommand request, CancellationToken cancellationToken)
     {
-        var deletedCollaborators = (await _getDeletedCollaboratorsClient.GetResponse<EvaluationResult<List<Guid>>>(new GetDeletedCollaboratorsIdsCommand(), cancellationToken)).Message.Eval;
+        var deletedCollaborators = (await _getDeletedCollaboratorsClient.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetDeletedCollaboratorsIdsCommand(), cancellationToken)).Message.Eval;
         
         var existentCollaborator = await _dbContext.Collaborators
             .Include(c => c.Contracts)

@@ -3,6 +3,7 @@ using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.CreateCollabora
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.DeleteCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.UpdateCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.GetCollaborator;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.SearchCollaborators;
 using Core.Modules.Shared.Domain.Constants;
 using FluentValidation;
 using MediatR;
@@ -34,6 +35,19 @@ public class CollaboratorsController : ControllerBase
         }
         
         return Ok(await _mediator.Send(command, cancellationToken));
+    }
+
+    [HttpGet]
+    [IsAuthenticated]
+    public async Task<IActionResult> SearchCollaborators([FromServices] AbstractValidator<SearchCollaboratorsQuery> validator, [FromQuery] SearchCollaboratorsQuery query, CancellationToken cancellationToken)
+    {
+        var validationResults = validator.Validate(query);
+        if (!validationResults.IsValid)
+        {
+            return BadRequest(validationResults.Errors);
+        }
+
+        return Ok(await _mediator.Send(query, cancellationToken));
     }
     
     [HttpPost]

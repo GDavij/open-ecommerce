@@ -18,11 +18,11 @@ internal class GetDeletedCollaboratorsIdsCommandHandler : IGetDeletedCollaborato
 
     public async Task Consume(ConsumeContext<GetDeletedCollaboratorsIdsCommand> context)
     {
-        var deletedCollaborators = await _dbContext.Collaborators
+        var deletedCollaborators = _dbContext.Collaborators
             .Where(c => c.Deleted)
             .Select(c => c.CollaboratorModuleId)
-            .ToListAsync();
+            .ToHashSet();
 
-        await context.RespondAsync(new EvaluationResult<List<Guid>>(deletedCollaborators));
+        await context.RespondAsync(new EvaluationResult<HashSet<Guid>>(deletedCollaborators));
     }
 }

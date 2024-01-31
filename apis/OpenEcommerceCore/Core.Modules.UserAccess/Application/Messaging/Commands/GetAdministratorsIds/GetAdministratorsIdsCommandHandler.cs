@@ -18,11 +18,11 @@ internal class GetAdministratorsIdsCommandHandler : IGetAdministratorsIdsCommand
 
     public async Task Consume(ConsumeContext<GetAdministratorsIdsCommand> context)
     {
-        var administrators = await _dbContext.Collaborators
+        var administrators = _dbContext.Collaborators
             .Where(c => !c.Deleted && c.IsAdmin)
             .Select(c => c.CollaboratorModuleId)
-            .ToListAsync();
+            .ToHashSet();
 
-        await context.RespondAsync(new EvaluationResult<List<Guid>>(administrators));
+        await context.RespondAsync(new EvaluationResult<HashSet<Guid>>(administrators));
     }
 }
