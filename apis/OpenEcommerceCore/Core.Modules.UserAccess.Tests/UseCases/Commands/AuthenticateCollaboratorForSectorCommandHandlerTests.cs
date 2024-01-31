@@ -8,6 +8,7 @@ using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.Shared.Domain.Models;
 using Core.Modules.Shared.Domain.ResultObjects;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
+using Core.Modules.Shared.Messaging.Commands.UserAccess.Auth;
 using Core.Modules.UserAccess.Application.Messaging.Commands.Auth;
 using Core.Modules.UserAccess.Application.Services;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;

@@ -6,6 +6,7 @@ using Core.Modules.HumanResources.Domain.Extensions;
 using Core.Modules.Shared.Domain.BusinessHierarchy;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
 using Core.Modules.Shared.Messaging.IntegrationEvents.HumanResources.Events.Collaborators;
+using Core.Modules.Shared.Messaging.Queries.UserAccess.Collaborators;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,15 +17,15 @@ internal class DeleteCollaboratorCommandHandler : IDeleteCollaboratorCommandHand
     private readonly IHumanResourcesContext _dbContext;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly ICurrentCollaboratorAsyncResolver _currentCollaborator;
-    private readonly IRequestClient<GetCollaboratorIsAdminCommand> _getIsAdminClient;
-    private readonly IRequestClient<GetCollaboratorIsDeletedCommand> _getIsDeletedClient;
+    private readonly IRequestClient<GetCollaboratorIsAdminQuery> _getIsAdminClient;
+    private readonly IRequestClient<GetCollaboratorIsDeletedQuery> _getIsDeletedClient;
     
     public DeleteCollaboratorCommandHandler(
         IHumanResourcesContext dbContext,
         IPublishEndpoint publishEndpoint,
         ICurrentCollaboratorAsyncResolver currentCollaborator,
-        IRequestClient<GetCollaboratorIsAdminCommand> getIsAdminClient,
-        IRequestClient<GetCollaboratorIsDeletedCommand> getIsDeletedClient)
+        IRequestClient<GetCollaboratorIsAdminQuery> getIsAdminClient,
+        IRequestClient<GetCollaboratorIsDeletedQuery> getIsDeletedClient)
     {
         _dbContext = dbContext;
         _publishEndpoint = publishEndpoint;

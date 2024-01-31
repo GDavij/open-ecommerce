@@ -1,7 +1,7 @@
 using Core.Modules.HumanResources.Domain.Constants;
 using Core.Modules.Shared.Domain.BusinessHierarchy;
 using Core.Modules.Shared.Domain.ResultObjects;
-using Core.Modules.Shared.Messaging.Commands.UserAccess;
+using Core.Modules.Shared.Messaging.Commands.UserAccess.Auth;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

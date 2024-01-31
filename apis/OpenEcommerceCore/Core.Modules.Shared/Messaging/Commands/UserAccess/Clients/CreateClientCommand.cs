@@ -1,4 +1,4 @@
-namespace Core.Modules.Shared.Messaging.Commands.UserAccess;
+namespace Core.Modules.Shared.Messaging.Commands.UserAccess.Clients;
 
 public record CreateClientCommand(
     Guid ClientModuleId,

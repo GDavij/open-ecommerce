@@ -8,6 +8,7 @@ using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.Shared.Domain.ResultObjects;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
 using Core.Modules.Shared.Messaging.IntegrationEvents.HumanResources.Events.Collaborators;
+using Core.Modules.Shared.Messaging.Queries.UserAccess.Collaborators;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,9 +19,9 @@ internal class CreateCollaboratorCommandHandler : ICreateCollaboratorCommandHand
     private readonly IHumanResourcesContext _dbContext;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IAppConfigService _configService;
-    private readonly IRequestClient<GetDeletedCollaboratorsIdsCommand> _getDeletedCollaboratorsIdsClient;
+    private readonly IRequestClient<GetDeletedCollaboratorsIdsCommandQuery> _getDeletedCollaboratorsIdsClient;
     
-    public CreateCollaboratorCommandHandler(IHumanResourcesContext dbContext, IPublishEndpoint publishEndpoint, IAppConfigService configService, IRequestClient<GetDeletedCollaboratorsIdsCommand> getDeletedCollaboratorsIdsClient)
+    public CreateCollaboratorCommandHandler(IHumanResourcesContext dbContext, IPublishEndpoint publishEndpoint, IAppConfigService configService, IRequestClient<GetDeletedCollaboratorsIdsCommandQuery> getDeletedCollaboratorsIdsClient)
     {
         _dbContext = dbContext;
         _publishEndpoint = publishEndpoint;
@@ -30,7 +31,7 @@ internal class CreateCollaboratorCommandHandler : ICreateCollaboratorCommandHand
 
     public async Task<CreateCollaboratorCommandResponse> Handle(CreateCollaboratorCommand request, CancellationToken cancellationToken)
     {
-        var deletedCollaborators = (await _getDeletedCollaboratorsIdsClient.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetDeletedCollaboratorsIdsCommand())).Message.Eval;       
+        var deletedCollaborators = (await _getDeletedCollaboratorsIdsClient.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetDeletedCollaboratorsIdsCommandQuery())).Message.Eval;       
         
         var existentCollaborator = await _dbContext.Collaborators.FirstOrDefaultAsync(c => !deletedCollaborators.Contains(c.Id) && (c.Email == request.Email || c.Phone == request.Phone), cancellationToken);
         if (existentCollaborator is not null)

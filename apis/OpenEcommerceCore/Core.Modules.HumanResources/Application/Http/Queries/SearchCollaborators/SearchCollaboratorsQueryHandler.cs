@@ -4,6 +4,8 @@ using Core.Modules.HumanResources.Domain.Extensions;
 using Core.Modules.Shared.Domain.BusinessHierarchy;
 using Core.Modules.Shared.Domain.ResultObjects;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
+using Core.Modules.Shared.Messaging.Queries.UserAccess.Administrators;
+using Core.Modules.Shared.Messaging.Queries.UserAccess.Collaborators;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,11 +14,11 @@ namespace Core.Modules.HumanResources.Application.Http.Queries.SearchCollaborato
 internal class SearchCollaboratorsQueryHandler : ISearchCollaboratorsQueryHandler
 {
     private readonly IHumanResourcesContext _dbContext;
-    private readonly IRequestClient<GetAdministratorsIdsCommand> _getAdministratorsIdsClient;
-    private readonly IRequestClient<GetDeletedCollaboratorsIdsCommand> _getDeletedCollaboratorsIdsClient;
-    private readonly IRequestClient<GetCollaboratorsIdsFromSector> _getCollaboratorsIdsFromSectorClient;
+    private readonly IRequestClient<GetAdministratorsIdsQuery> _getAdministratorsIdsClient;
+    private readonly IRequestClient<GetDeletedCollaboratorsIdsCommandQuery> _getDeletedCollaboratorsIdsClient;
+    private readonly IRequestClient<GetCollaboratorsIdsFromSectorQuery> _getCollaboratorsIdsFromSectorClient;
     
-    public SearchCollaboratorsQueryHandler(IHumanResourcesContext dbContext, IRequestClient<GetAdministratorsIdsCommand> getAdministratorsIdsClient, IRequestClient<GetDeletedCollaboratorsIdsCommand> getDeletedCollaboratorsIdsClient, IRequestClient<GetCollaboratorsIdsFromSector> getCollaboratorsIdsFromSectorClient)
+    public SearchCollaboratorsQueryHandler(IHumanResourcesContext dbContext, IRequestClient<GetAdministratorsIdsQuery> getAdministratorsIdsClient, IRequestClient<GetDeletedCollaboratorsIdsCommandQuery> getDeletedCollaboratorsIdsClient, IRequestClient<GetCollaboratorsIdsFromSectorQuery> getCollaboratorsIdsFromSectorClient)
     {
         _dbContext = dbContext;
         _getAdministratorsIdsClient = getAdministratorsIdsClient;
@@ -43,7 +45,7 @@ internal class SearchCollaboratorsQueryHandler : ISearchCollaboratorsQueryHandle
             c.Addresses.Any(a => EF.Functions.ILike(a.Neighbourhood + "%" + a.Street + "%" + a.ZipCode + "%" + a.State.Name + "%" + a.State.ShortName + "%", $"%{request.SearchTerm.Replace(' ', '%')}%"))) || 
             c.Contracts.Any(cont => EF.Functions.ILike("%" + cont.Name + "%", $"%{request.SearchTerm.Replace(' ', '%')}%")));
         
-        var deletedCollaboratorsIds = (await _getDeletedCollaboratorsIdsClient.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetDeletedCollaboratorsIdsCommand(), cancellationToken)).Message.Eval;
+        var deletedCollaboratorsIds = (await _getDeletedCollaboratorsIdsClient.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetDeletedCollaboratorsIdsCommandQuery(), cancellationToken)).Message.Eval;
         if (shouldFilterIsDeleted)
         {
             collaboratorsQueryable = request.IsDeleted == true 
@@ -53,11 +55,11 @@ internal class SearchCollaboratorsQueryHandler : ISearchCollaboratorsQueryHandle
 
         if (shouldFilterBySector)
         {
-            var collaboratorsFromSector = (await _getCollaboratorsIdsFromSectorClient.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetCollaboratorsIdsFromSector((ECollaboratorSector)request.Sector!))).Message.Eval;
+            var collaboratorsFromSector = (await _getCollaboratorsIdsFromSectorClient.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetCollaboratorsIdsFromSectorQuery((ECollaboratorSector)request.Sector!))).Message.Eval;
             collaboratorsQueryable = collaboratorsQueryable.Where(c => collaboratorsFromSector.Contains(c.Id));
         }
         
-        var administratorsIds = (await _getAdministratorsIdsClient.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetAdministratorsIdsCommand(), cancellationToken)).Message.Eval;
+        var administratorsIds = (await _getAdministratorsIdsClient.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetAdministratorsIdsQuery(), cancellationToken)).Message.Eval;
         
         var collaborators = await collaboratorsQueryable
             .Where(c => !administratorsIds.Contains(c.Id))

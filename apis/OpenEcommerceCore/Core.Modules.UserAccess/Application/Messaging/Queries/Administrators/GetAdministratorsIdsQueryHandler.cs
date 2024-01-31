@@ -1,5 +1,6 @@
 using Core.Modules.Shared.Domain.ResultObjects;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
+using Core.Modules.Shared.Messaging.Queries.UserAccess.Administrators;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;
 using Core.Modules.UserAccess.Domain.Contracts.Messaging.Queries.Administrators;
 using MassTransit;
@@ -15,7 +16,7 @@ internal class GetAdministratorsIdsQueryHandler : IGetAdministratorsIdsQueryHand
         _dbContext = dbContext;
     }
 
-    public async Task Consume(ConsumeContext<GetAdministratorsIdsCommand> context)
+    public async Task Consume(ConsumeContext<GetAdministratorsIdsQuery> context)
     {
         var administrators = _dbContext.Collaborators
             .Where(c => !c.Deleted && c.IsAdmin)

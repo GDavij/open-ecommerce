@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
+using Core.Modules.Shared.Messaging.Commands.UserAccess.Clients;
 using Core.Modules.UserAccess.Application.Messaging.Commands.Clients;
 using Core.Modules.UserAccess.Application.Services;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;

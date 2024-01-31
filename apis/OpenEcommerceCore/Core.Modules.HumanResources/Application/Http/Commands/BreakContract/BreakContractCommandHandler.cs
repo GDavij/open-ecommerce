@@ -7,6 +7,7 @@ using Core.Modules.HumanResources.Domain.Extensions;
 using Core.Modules.Shared.Domain.BusinessHierarchy;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
 using Core.Modules.Shared.Messaging.IntegrationEvents.HumanResources.Events.Contracts;
+using Core.Modules.Shared.Messaging.Queries.UserAccess.Collaborators;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,13 +17,13 @@ internal class BreakContractCommandHandler : IBreakContractCommandHandler
 {
     private readonly IHumanResourcesContext _dbContext;
     private readonly ICurrentCollaboratorAsyncResolver _currentCollaborator;
-    private readonly IRequestClient<GetCollaboratorIsAdminCommand> _getCollaboratorIsAdminClient;
+    private readonly IRequestClient<GetCollaboratorIsAdminQuery> _getCollaboratorIsAdminClient;
     private readonly IPublishEndpoint _publishEndpoint;
     
     public BreakContractCommandHandler(
         IHumanResourcesContext dbContext,
         ICurrentCollaboratorAsyncResolver currentCollaborator,
-        IRequestClient<GetCollaboratorIsAdminCommand> getCollaboratorIsAdminClient,
+        IRequestClient<GetCollaboratorIsAdminQuery> getCollaboratorIsAdminClient,
         IPublishEndpoint publishEndpoint)
     {
         _dbContext = dbContext;

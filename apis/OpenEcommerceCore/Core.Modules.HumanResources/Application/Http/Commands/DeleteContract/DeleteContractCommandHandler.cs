@@ -8,6 +8,7 @@ using Core.Modules.Shared.Domain.BusinessHierarchy;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
 using Core.Modules.Shared.Messaging.IntegrationEvents.HumanResources.Events.Collaborators;
 using Core.Modules.Shared.Messaging.IntegrationEvents.HumanResources.Events.Contracts;
+using Core.Modules.Shared.Messaging.Queries.UserAccess.Collaborators;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,10 +18,10 @@ internal class DeleteContractCommandHandler : IDeleteContractCommandHandler
 {
     private readonly IHumanResourcesContext _dbContext;
     private readonly ICurrentCollaboratorAsyncResolver _currentCollaborator;
-    private readonly IRequestClient<GetCollaboratorIsAdminCommand> _getCollaboratorIsAdminClient;
+    private readonly IRequestClient<GetCollaboratorIsAdminQuery> _getCollaboratorIsAdminClient;
     private readonly IPublishEndpoint _publishEndpoint;
     
-    public DeleteContractCommandHandler(IHumanResourcesContext dbContext, ICurrentCollaboratorAsyncResolver currentCollaborator, IRequestClient<GetCollaboratorIsAdminCommand> getCollaboratorIsAdminClient, IPublishEndpoint publishEndpoint)
+    public DeleteContractCommandHandler(IHumanResourcesContext dbContext, ICurrentCollaboratorAsyncResolver currentCollaborator, IRequestClient<GetCollaboratorIsAdminQuery> getCollaboratorIsAdminClient, IPublishEndpoint publishEndpoint)
     {
         _dbContext = dbContext;
         _currentCollaborator = currentCollaborator;

@@ -1,6 +1,7 @@
 using Core.Modules.Shared.Domain.Helpers;
 using Core.Modules.Shared.Domain.ResultObjects;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
+using Core.Modules.Shared.Messaging.Queries.UserAccess.Collaborators;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;
 using Core.Modules.UserAccess.Domain.Contracts.Messaging.Queries.Collaborators;
 using MassTransit;
@@ -17,7 +18,7 @@ internal class GetCollaboratorIsDeletedQueryHandler : IGetCollaboratorIsDeletedQ
         _dbContext = dbContext;
     }
 
-    public async Task Consume(ConsumeContext<GetCollaboratorIsDeletedCommand> context)
+    public async Task Consume(ConsumeContext<GetCollaboratorIsDeletedQuery> context)
     {
         var collaboratorId = context.Message.Id;
         

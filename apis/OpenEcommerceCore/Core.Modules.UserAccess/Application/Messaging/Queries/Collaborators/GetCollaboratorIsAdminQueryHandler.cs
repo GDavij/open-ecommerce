@@ -1,6 +1,7 @@
 using Core.Modules.Shared.Domain.Helpers;
 using Core.Modules.Shared.Domain.ResultObjects;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
+using Core.Modules.Shared.Messaging.Queries.UserAccess.Collaborators;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;
 using Core.Modules.UserAccess.Domain.Contracts.Messaging.Queries.Collaborators;
 using MassTransit;
@@ -18,7 +19,7 @@ internal class GetCollaboratorIsAdminQueryHandler : IGetCollaboratorIsAdminQuery
     }
 
 
-    public async Task Consume(ConsumeContext<GetCollaboratorIsAdminCommand> context)
+    public async Task Consume(ConsumeContext<GetCollaboratorIsAdminQuery> context)
     {
         var collaboratorId = context.Message.Id;
 

@@ -12,6 +12,7 @@ using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.Shared.Domain.ResultObjects;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
 using Core.Modules.Shared.Messaging.IntegrationEvents.HumanResources.Events.Collaborators;
+using Core.Modules.Shared.Messaging.Queries.UserAccess.Collaborators;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,10 +21,10 @@ namespace Core.Modules.HumanResources.Application.Http.Commands.UpdateCollaborat
 internal class UpdateCollaboratorCommandHandler : IUpdateCollaboratorCommandHandler
 {
     private readonly IHumanResourcesContext _dbContext;
-    private readonly IRequestClient<GetCollaboratorIsAdminCommand> _getIsAdminRequestClient;
+    private readonly IRequestClient<GetCollaboratorIsAdminQuery> _getIsAdminRequestClient;
     private readonly IPublishEndpoint _publishEndpoint;
     private readonly IAppConfigService _configService;
-    private readonly IRequestClient<GetDeletedCollaboratorsIdsCommand> _getDeletedCollaboratorsIds;
+    private readonly IRequestClient<GetDeletedCollaboratorsIdsCommandQuery> _getDeletedCollaboratorsIds;
     private readonly ICurrentCollaboratorAsyncResolver _currentCollaborator;
 
     public UpdateCollaboratorCommandHandler(
@@ -31,8 +32,8 @@ internal class UpdateCollaboratorCommandHandler : IUpdateCollaboratorCommandHand
         IPublishEndpoint publishEndpoint,
         IAppConfigService configService,
         ICurrentCollaboratorAsyncResolver currentCollaborator,
-        IRequestClient<GetCollaboratorIsAdminCommand> getIsAdminRequestClient,
-        IRequestClient<GetDeletedCollaboratorsIdsCommand> getDeletedCollaboratorsIds)
+        IRequestClient<GetCollaboratorIsAdminQuery> getIsAdminRequestClient,
+        IRequestClient<GetDeletedCollaboratorsIdsCommandQuery> getDeletedCollaboratorsIds)
     {
         _dbContext = dbContext;
         _publishEndpoint = publishEndpoint;
@@ -46,7 +47,7 @@ internal class UpdateCollaboratorCommandHandler : IUpdateCollaboratorCommandHand
     {
         Collaborator currentCollaborator = await _currentCollaborator.ResolveAsync();
         
-        var deletedCollaborators = (await _getDeletedCollaboratorsIds.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetDeletedCollaboratorsIdsCommand())).Message.Eval;
+        var deletedCollaborators = (await _getDeletedCollaboratorsIds.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetDeletedCollaboratorsIdsCommandQuery())).Message.Eval;
         var conflictCollaborator = await _dbContext.Collaborators.FirstOrDefaultAsync(c => 
                     c.Id != request.Id &&
                     !deletedCollaborators.Contains(c.Id) &&

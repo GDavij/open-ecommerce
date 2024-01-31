@@ -1,4 +1,5 @@
 using Core.Modules.Shared.Domain.ResultObjects;
+using Core.Modules.Shared.Messaging.Queries.UserAccess.Collaborators;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;
 using Core.Modules.UserAccess.Domain.Contracts.Messaging.Queries.Collaborators;
 using MassTransit;
@@ -14,7 +15,7 @@ internal class GetCollaboratorsIdsFromSectorQueryHandler : IGetCollaboratorsIdsF
         _dbContext = dbContext;
     }
 
-    public async Task Consume(ConsumeContext<Shared.Messaging.Commands.UserAccess.GetCollaboratorsIdsFromSector> context)
+    public async Task Consume(ConsumeContext<GetCollaboratorsIdsFromSectorQuery> context)
     {
         var collaborators = _dbContext.Collaborators
             .Where(c => c.Sectors.Contains(context.Message.Sector))

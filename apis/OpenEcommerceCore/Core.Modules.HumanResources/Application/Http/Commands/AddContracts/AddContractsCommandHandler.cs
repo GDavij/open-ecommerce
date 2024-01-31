@@ -10,6 +10,7 @@ using Core.Modules.Shared.Domain.Contracts.Services;
 using Core.Modules.Shared.Domain.ResultObjects;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
 using Core.Modules.Shared.Messaging.IntegrationEvents.HumanResources.Events.Contracts;
+using Core.Modules.Shared.Messaging.Queries.UserAccess.Collaborators;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,17 +19,17 @@ namespace Core.Modules.HumanResources.Application.Http.Commands.AddContracts;
 internal class AddContractsCommandHandler : IAddContractsCommandHandler
 {
     private readonly ICurrentCollaboratorAsyncResolver _currentCollaborator;
-    private readonly IRequestClient<GetCollaboratorIsAdminCommand> _getCollaboratorIsAdminClient;
+    private readonly IRequestClient<GetCollaboratorIsAdminQuery> _getCollaboratorIsAdminClient;
     private readonly IHumanResourcesContext _dbContext;
-    private readonly IRequestClient<GetDeletedCollaboratorsIdsCommand> _getDeletedCollaboratorsClient;
+    private readonly IRequestClient<GetDeletedCollaboratorsIdsCommandQuery> _getDeletedCollaboratorsClient;
     private readonly IAppConfigService _configService;
     private readonly IPublishEndpoint _publishEndpoint;
     
     public AddContractsCommandHandler(
         ICurrentCollaboratorAsyncResolver currentCollaborator,
-        IRequestClient<GetCollaboratorIsAdminCommand> getCollaboratorIsAdminClient,
+        IRequestClient<GetCollaboratorIsAdminQuery> getCollaboratorIsAdminClient,
         IHumanResourcesContext dbContext,
-        IRequestClient<GetDeletedCollaboratorsIdsCommand> getDeletedCollaboratorsClient, IAppConfigService configService, IPublishEndpoint publishEndpoint)
+        IRequestClient<GetDeletedCollaboratorsIdsCommandQuery> getDeletedCollaboratorsClient, IAppConfigService configService, IPublishEndpoint publishEndpoint)
     {
         _currentCollaborator = currentCollaborator;
         _getCollaboratorIsAdminClient = getCollaboratorIsAdminClient;
@@ -40,7 +41,7 @@ internal class AddContractsCommandHandler : IAddContractsCommandHandler
 
     public async Task<AddContractsCommandResponse> Handle(AddContractsCommand request, CancellationToken cancellationToken)
     {
-        var deletedCollaborators = (await _getDeletedCollaboratorsClient.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetDeletedCollaboratorsIdsCommand(), cancellationToken)).Message.Eval;
+        var deletedCollaborators = (await _getDeletedCollaboratorsClient.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetDeletedCollaboratorsIdsCommandQuery(), cancellationToken)).Message.Eval;
         
         var existentCollaborator = await _dbContext.Collaborators
             .Include(c => c.Contracts)

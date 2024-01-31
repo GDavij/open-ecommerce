@@ -3,6 +3,8 @@ using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.GetCollaborator;
 using Core.Modules.HumanResources.Domain.Exceptions.Collaborators;
 using Core.Modules.Shared.Domain.ResultObjects;
 using Core.Modules.Shared.Messaging.Commands.UserAccess;
+using Core.Modules.Shared.Messaging.Queries.UserAccess.Administrators;
+using Core.Modules.Shared.Messaging.Queries.UserAccess.Collaborators;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,15 +13,15 @@ namespace Core.Modules.HumanResources.Application.Http.Queries.GetCollaborator;
 internal class GetCollaboratorQueryHandler : IGetCollaboratorQueryHandler
 {
     private readonly IHumanResourcesContext _dbContext;
-    private readonly IRequestClient<GetCollaboratorIsAdminCommand> _getCollaboratorIsAdminClient;
-    private readonly IRequestClient<GetCollaboratorIsDeletedCommand> _getCollaboratorIsDeletedClient;
-    private readonly IRequestClient<GetAdministratorsIdsCommand> _getAdministratorsIdsClient;
+    private readonly IRequestClient<GetCollaboratorIsAdminQuery> _getCollaboratorIsAdminClient;
+    private readonly IRequestClient<GetCollaboratorIsDeletedQuery> _getCollaboratorIsDeletedClient;
+    private readonly IRequestClient<GetAdministratorsIdsQuery> _getAdministratorsIdsClient;
     
     public GetCollaboratorQueryHandler(
         IHumanResourcesContext dbContext,
-        IRequestClient<GetCollaboratorIsDeletedCommand> getCollaboratorIsDeletedClient,
-        IRequestClient<GetCollaboratorIsAdminCommand> getCollaboratorIsAdminClient,
-        IRequestClient<GetAdministratorsIdsCommand> getAdministratorsIdsClient)
+        IRequestClient<GetCollaboratorIsDeletedQuery> getCollaboratorIsDeletedClient,
+        IRequestClient<GetCollaboratorIsAdminQuery> getCollaboratorIsAdminClient,
+        IRequestClient<GetAdministratorsIdsQuery> getAdministratorsIdsClient)
     {
         _dbContext = dbContext;
         _getCollaboratorIsDeletedClient = getCollaboratorIsDeletedClient;
@@ -29,7 +31,7 @@ internal class GetCollaboratorQueryHandler : IGetCollaboratorQueryHandler
 
     public async Task<GetCollaboratorQueryResponse> Handle(GetCollaboratorQuery request, CancellationToken cancellationToken)
     {
-        var administratorsIds = (await _getAdministratorsIdsClient.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetAdministratorsIdsCommand())).Message.Eval; 
+        var administratorsIds = (await _getAdministratorsIdsClient.GetResponse<EvaluationResult<HashSet<Guid>>>(new GetAdministratorsIdsQuery())).Message.Eval; 
         var existentCollaborator = await _dbContext.Collaborators
             .Include(c => c.Contracts)
                 .ThenInclude(c => c.ContributionYears)
