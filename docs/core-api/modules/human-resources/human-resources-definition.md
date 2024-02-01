@@ -6,7 +6,7 @@ Should transform the definitions into RFCs(Rule Formalization Checklist) in futu
 
 # Human Resources Module
 
-The Human Resources Module is considerable important especially for the bootstrap of the system, since it generates the administrator of the system, and manages all collaborators.
+The Human Resources Module is considerable important especially for the bootstrap of the system since it manages all collaborators (CRUD).
 
 The human resources will to be able to receive applications for jobs analyze then and add to the job applications database
 
@@ -48,7 +48,7 @@ For more details about the use cases [see this Document](./human-resouces-use-ca
 
 - One Collaborator Cannot have more than one active contract(not broken nor deleted) for a same sector at the same time
 
-- Every Collaborator must have a valid Email Address that is Unique for the collaborator
+- Every Collaborator must have a valid Email Address that is Unique for the collaborator (Need to push admins emails from user access module to mitigate email collisions between databases)
 
 - All DateTime Data that a contract have must be valid, it is not out of the time Scope
 
