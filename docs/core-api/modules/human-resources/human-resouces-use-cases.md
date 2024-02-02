@@ -108,10 +108,6 @@ TODO: Create Request and Response
 
 No Integration Events
 
-#### Integration Events
-
-No Integration Events
-
 ### Send Job application
 
 #### Objective
