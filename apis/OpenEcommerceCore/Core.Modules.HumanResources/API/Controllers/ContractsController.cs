@@ -2,6 +2,7 @@ using Core.Modules.HumanResources.API.Decorators.Authentication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.AddContracts;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.BreakContract;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.DeleteContract;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Contracts.SearchContracts;
 using Core.Modules.Shared.Domain.Constants;
 using FluentValidation;
 using MediatR;
@@ -19,6 +20,19 @@ public class ContractsController : ControllerBase
     public ContractsController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+
+    [HttpGet]
+    [IsAuthenticated]
+    public async Task<IActionResult> SearchContracts([FromServices] AbstractValidator<SearchContractsQuery> validator, [FromQuery] SearchContractsQuery query, CancellationToken cancellationToken)
+    {
+        var validationResults = validator.Validate(query);
+        if (!validationResults.IsValid)
+        {
+            return BadRequest(validationResults.Errors);
+        }
+
+        return Ok(await _mediator.Send(query, cancellationToken));
     }
 
     [HttpPatch("break/{id}")]

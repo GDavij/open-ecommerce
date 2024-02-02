@@ -17,11 +17,11 @@ public static class PaginatedListExtensions
         int maxPages = (rows.Count + numberOfRowsToSkip + rowsPerPage - 1) / rowsPerPage;
         return new PaginatedList<T>
         {
-            Page = rows,
-                pageIndex = pageIndex,
-                MaxPages = maxPages,
-                HasNextPage = pageIndex < maxPages,
-                HasPreviousPage = pageIndex > 1
+            Page = rows, 
+            pageIndex = pageIndex, 
+            MaxPages = maxPages, 
+            HasNextPage = pageIndex < maxPages, 
+            HasPreviousPage = pageIndex > 1
         };
     }
 }

@@ -9,6 +9,7 @@ using Core.Modules.HumanResources.Application.Http.Commands.Contracts.DeleteCont
 using Core.Modules.HumanResources.Application.Http.Commands.JobApplications.SendJobApplication;
 using Core.Modules.HumanResources.Application.Http.Queries.Collaborators.GetCollaborator;
 using Core.Modules.HumanResources.Application.Http.Queries.Collaborators.SearchCollaborators;
+using Core.Modules.HumanResources.Application.Http.Queries.Contracts.SearchContracts;
 using Core.Modules.HumanResources.Application.Http.Queries.JobApplications.SearchJobApplications;
 using Core.Modules.HumanResources.Domain.Contracts.Context;
 using Core.Modules.HumanResources.Domain.Contracts.DynamicData.Resolvers;
@@ -21,6 +22,7 @@ using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.Delet
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.JobApplications.SendJobApplication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Collaborators.GetCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Collaborators.SearchCollaborators;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Contracts.SearchContracts;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.JobApplications.SearchJobApplications;
 using Core.Modules.HumanResources.Domain.CustomConverters;
 using Core.Modules.HumanResources.Domain.DynamicData;
@@ -56,6 +58,7 @@ public static class DependencyInjection
         services.AddScoped<AbstractValidator<BreakContractCommand>, BreakContractCommandValidator>();
         services.AddScoped<AbstractValidator<AddContractsCommand>, AddContractsCommandValidator>();
         services.AddScoped<AbstractValidator<DeleteContractCommand>, DeleteContractCommandValidator>();
+        services.AddScoped<AbstractValidator<SearchContractsQuery>, SearchContractsQueryValidator>();
 
         services.AddScoped<AbstractValidator<SendJobApplicationCommand>, SendJobApplicationCommandValidator>();
         services.AddScoped<AbstractValidator<SearchJobApplicationsQuery>, SearchJobApplicationsQueryValidator>();
