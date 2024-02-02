@@ -8,11 +8,32 @@ This Documentation aims to document all Use Cases for Human Resources Module
 
 ## INDEX of use cases
 
-TODO
+1. [Direct Endpoint Call](#direct-endpoint-call)  
+   1.1 [`Collaborators`](#collaborators)  
+    1.1.1 [Create Collaborator](#create-collaborator-with-contract)  
+    1.1.2 [Update Collaborator](#update-collaborator)  
+    1.1.3 [Delete Collaborator](#delete-collaborator-force-break-contracts)  
+    1.1.4 [Get Collaborator](#get-collaborator)  
+    1.1.5 [Search Collaborators](#search-collaborators)
+
+   1.2 [`Contracts`](#contracts)  
+    1.2.1 [Break Contract](#break-contract)  
+    1.2.2 [Add Contracts](#add-contracts)  
+    1.2.3 [Delete Contract](#delete-contract)  
+    1.2.4 [Search Contracts](#search-contracts)  
+    1.2.5 [Get Contract](#get-contract)
+
+   1.3 [`Job Applications`](#job-applications)  
+    1.3.1 [Send Job Application](#send-job-application)  
+    1.3.2 [Search Job Application](#search-job-applications)  
+    1.3.3 [Get Job Application](#get-job-application)  
+    1.3.4 [Update Job Application Status](#update-job-application-status)
 
 ## Direct Endpoint Call
 
 This are the use cases that is received via direct endpoint call (HTTP/HTTPS - JSON)
+
+### `Collaborators`
 
 ### Create Collaborator (with contract)
 
@@ -34,6 +55,8 @@ TODO: Create Request Response
 
 - Created Collaborator
 
+---
+
 ### Update Collaborator
 
 #### Objective
@@ -47,6 +70,8 @@ TODO: Request Response
 #### Integration Events
 
 - Updated Collaborator
+
+---
 
 ### Delete Collaborator (Force Break Contracts)
 
@@ -62,23 +87,7 @@ TODO: Create Request Response
 
 - Deleted Collaborator
 
-### Break Contract
-
-#### Objective
-
-This use case has the objective to receive a contract id and if valid it should break the contract
-
-### Add Contracts
-
-#### Objective
-
-This use case has the objective to receive contracts and a collaborator Id and if valid it must add the contracts received to the collaborator
-
-### Delete Contract
-
-#### Objective
-
-This use case the objective to receive contracts and a collaborator Id and if valid it must delete the contract
+---
 
 ### Get Collaborator
 
@@ -94,7 +103,9 @@ TODO: Create Request and Response
 
 No Integration Events
 
-### Search Collaborators (Don't Search Administrators, and don't search human resources collaborators if not admin)
+---
+
+### Search Collaborators
 
 #### Objective
 
@@ -107,6 +118,68 @@ TODO: Create Request and Response
 #### Integration Events
 
 No Integration Events
+
+---
+
+### `Contracts`
+
+### Break Contract
+
+#### Objective
+
+This use case has the objective to receive a contract id and if valid it should break the contract
+
+---
+
+### Add Contracts
+
+#### Objective
+
+This use case has the objective to receive contracts and a collaborator Id and if valid it must add the contracts received to the collaborator
+
+---
+
+### Delete Contract
+
+#### Objective
+
+This use case the objective to receive contracts and a collaborator Id and if valid it must delete the contract
+
+---
+
+### Search Contracts
+
+#### Objective
+
+This use case has the objective to receive a search term, a sector to filter contracts, is broken and is deleted filters and then return the contracts that it has found
+
+#### Payload
+
+TODO: Create Request and Response
+
+#### Integration Events
+
+No Integration Events
+
+---
+
+### Get Contract
+
+#### Objective
+
+This use case has the objective to receive a contract id and if valid it must return the found contract
+
+#### Payload
+
+TODO: Create Request and Response
+
+#### Integration Events
+
+No Integration Events
+
+---
+
+### `Job Applications`
 
 ### Send Job application
 
@@ -122,6 +195,8 @@ TODO: Create Request and Response
 
 No Integration Events
 
+---
+
 ### Search Job Applications
 
 #### Objective
@@ -136,6 +211,40 @@ TODO: Create Request and Response
 
 No Integrations Events
 
+---
+
+### Get Job Application
+
+#### Objective
+
+This use case has the object to receive a job application id and if valid it must return the job application
+
+#### Payload
+
+TODO: Request and Response
+
+#### Integration Events
+
+No Integration Events
+
+---
+
+### Update Job Application Status
+
+#### Objective
+
+This use case has the objective to receive a job application id and a status of the process step, and if valid it must update the process step to the new one sent
+
+#### Payload
+
+TODO: Request and Response
+
+#### Integration Events
+
+No Integration Events
+
+---
+
 ## Messaging Calls
 
-TODO: Define Messaging Integration Events(Subjects)
+TODO: Define Messaging Integration Events(Subjects) if any
