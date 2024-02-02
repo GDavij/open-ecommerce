@@ -2,6 +2,7 @@ using Azure.Storage.Blobs;
 using Core.Modules.HumanResources.Domain.Contracts.Context;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.SendJobApplication;
 using Core.Modules.HumanResources.Domain.Entities;
+using Core.Modules.HumanResources.Domain.Enums;
 using Core.Modules.HumanResources.Domain.Exceptions.JobApplication;
 using Core.Modules.Shared.Domain.Constants;
 using Microsoft.EntityFrameworkCore;

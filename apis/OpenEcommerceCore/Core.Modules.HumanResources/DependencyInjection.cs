@@ -9,6 +9,7 @@ using Core.Modules.HumanResources.Application.Http.Commands.SendJobApplication;
 using Core.Modules.HumanResources.Application.Http.Commands.UpdateCollaborator;
 using Core.Modules.HumanResources.Application.Http.Queries.GetCollaborator;
 using Core.Modules.HumanResources.Application.Http.Queries.SearchCollaborators;
+using Core.Modules.HumanResources.Application.Http.Queries.SearchJobApplications;
 using Core.Modules.HumanResources.Domain.Contracts.Context;
 using Core.Modules.HumanResources.Domain.Contracts.DynamicData.Resolvers;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.AddContracts;
@@ -20,6 +21,7 @@ using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.SendJobApplicat
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.UpdateCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.GetCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.SearchCollaborators;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.SearchJobApplication;
 using Core.Modules.HumanResources.Domain.CustomConverters;
 using Core.Modules.HumanResources.Domain.DynamicData;
 using Core.Modules.HumanResources.Infrastructure.Contexts;
@@ -56,6 +58,7 @@ public static class DependencyInjection
         services.AddScoped<AbstractValidator<DeleteContractCommand>, DeleteContractCommandValidator>();
 
         services.AddScoped<AbstractValidator<SendJobApplicationCommand>, SendJobApplicationCommandValidator>();
+        services.AddScoped<AbstractValidator<SearchJobApplicationsQuery>, SearchJobApplicationsQueryValidator>();
        
         services.AddAzureClients(cfg => 
         {

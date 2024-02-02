@@ -1,4 +1,6 @@
+using Core.Modules.HumanResources.API.Decorators.Authentication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.SendJobApplication;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.SearchJobApplication;
 using Core.Modules.Shared.Domain.Constants;
 using FluentValidation;
 using MediatR;
@@ -29,5 +31,18 @@ public class JobApplicationController : ControllerBase
 
         await _mediator.Send(command, cancellationToken);
         return Ok();
+    }
+
+    [HttpGet]
+    [IsAuthenticated]
+    public async Task<IActionResult> SearchJobApplications([FromServices] AbstractValidator<SearchJobApplicationsQuery> validator, [FromQuery] SearchJobApplicationsQuery query, CancellationToken cancellationToken)
+    {
+        var validationResult = validator.Validate(query);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+
+        return Ok(await _mediator.Send(query, cancellationToken));
     }
 }
