@@ -29,6 +29,10 @@ This Documentation aims to document all Use Cases for Human Resources Module
     1.3.3 [Get Job Application](#get-job-application)  
     1.3.4 [Update Job Application Status](#update-job-application-status)
 
+   1.4 [`States`](#states)  
+    1.4.1 [Create State](#create-state)  
+    1.4.2 [List States](#list-states)
+
 ## Direct Endpoint Call
 
 This are the use cases that is received via direct endpoint call (HTTP/HTTPS - JSON)
@@ -238,6 +242,40 @@ This use case has the objective to receive a job application id and a status of 
 #### Payload
 
 TODO: Request and Response
+
+#### Integration Events
+
+No Integration Events
+
+---
+
+### `States`
+
+### Create State
+
+#### Objective
+
+This use case has the objective to create a State for later be attached to an Address
+
+#### Payload
+
+TODO: Request and Response
+
+#### Integration Events
+
+No Integration Events
+
+---
+
+### List States
+
+#### Objective
+
+This use case has the objective to list all states in the module
+
+#### Payload
+
+TODO: Request Response
 
 #### Integration Events
 
