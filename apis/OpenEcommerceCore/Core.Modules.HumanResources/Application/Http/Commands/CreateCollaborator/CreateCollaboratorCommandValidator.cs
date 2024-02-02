@@ -22,7 +22,7 @@ public class CreateCollaboratorCommandValidator : AbstractValidator<CreateCollab
 
         RuleFor(c => c.Age)
             .NotEmpty().WithMessage("Age must not be empty")
-            .GreaterThan(12).WithMessage("Age must not be greater 12");
+            .GreaterThan(12).WithMessage("Age must be greater than 12");
         
         RuleFor(c => c.Email)
             .NotEmpty().WithMessage("Email must not be empty")

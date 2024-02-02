@@ -18,5 +18,5 @@ internal interface IHumanResourcesContext
     DatabaseFacade Database { get; }
     
     EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

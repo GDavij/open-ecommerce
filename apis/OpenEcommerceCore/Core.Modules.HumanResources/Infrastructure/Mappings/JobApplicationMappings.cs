@@ -38,6 +38,9 @@ internal class JobApplicationMappings : IEntityTypeConfiguration<JobApplication>
             .HasMaxLength(384)
             .IsRequired();
 
+        builder.Property(j => j.CreatedAt)
+            .IsRequired();
+        
         builder.HasMany<SocialLink>(j => j.SocialLinks)
             .WithOne(s => s.JobApplication)
             .HasForeignKey(s => s.JobApplicationId);
