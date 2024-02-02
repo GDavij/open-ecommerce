@@ -6,7 +6,7 @@ This Documentation aims to document all Use Cases for Human Resources Module
 
 **ADVICE: None of Integration Events are implemented for these use cases yet**
 
-## INDEX of use cases
+## Index of use cases
 
 1. [Direct Endpoint Call](#direct-endpoint-call)  
    1.1 [`Collaborators`](#collaborators)  
@@ -21,7 +21,9 @@ This Documentation aims to document all Use Cases for Human Resources Module
     1.2.2 [Add Contracts](#add-contracts)  
     1.2.3 [Delete Contract](#delete-contract)  
     1.2.4 [Search Contracts](#search-contracts)  
-    1.2.5 [Get Contract](#get-contract)
+    1.2.5 [Get Contract](#get-contract)  
+   1.2.6 [Add Work Hour to Contract Contribution Year](#add-work-hour-to-contract-contribution-year)  
+   1.2.7 [Remove Work Hour from Contract Contribution Year](#remove-work-hour-from-contract-contribution-year)
 
    1.3 [`Job Applications`](#job-applications)  
     1.3.1 [Send Job Application](#send-job-application)  
@@ -172,6 +174,38 @@ No Integration Events
 #### Objective
 
 This use case has the objective to receive a contract id and if valid it must return the found contract
+
+#### Payload
+
+TODO: Create Request and Response
+
+#### Integration Events
+
+No Integration Events
+
+---
+
+### Add Work Hour to contract contribution year
+
+#### Objective
+
+This use case has the objective to receive a contract id and work hour data (day, start, end) and if valid it must append this new work hour registration to the collaboration year of a contract
+
+#### Payload
+
+TODO: Create Request and Response
+
+#### Integration Events
+
+No Integration Events
+
+---
+
+### Remove Work Hour from contract Contribution Year
+
+#### Objective
+
+This use case has the objective that if a mistake occurs a HR collaborator or Admin can sent the Id of the work hour where is wrong and if valid(Exists) it must remove from the Contract Contribution Years
 
 #### Payload
 
