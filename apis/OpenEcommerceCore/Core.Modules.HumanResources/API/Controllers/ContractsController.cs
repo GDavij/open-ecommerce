@@ -2,6 +2,7 @@ using Core.Modules.HumanResources.API.Decorators.Authentication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.AddContracts;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.BreakContract;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.DeleteContract;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Contracts.GetContract;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Contracts.SearchContracts;
 using Core.Modules.Shared.Domain.Constants;
 using FluentValidation;
@@ -35,6 +36,20 @@ public class ContractsController : ControllerBase
         return Ok(await _mediator.Send(query, cancellationToken));
     }
 
+    [HttpGet("{id}")]
+    [IsAuthenticated]
+    public async Task<IActionResult> GetContract([FromServices] AbstractValidator<GetContractQuery> validator, [FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var query = new GetContractQuery(id);
+        var validationResults = validator.Validate(query);
+        if (!validationResults.IsValid)
+        {
+            return BadRequest(validationResults.Errors);
+        }
+
+        return Ok(await _mediator.Send(query, cancellationToken));
+    }
+    
     [HttpPatch("break/{id}")]
     [IsAuthenticated]
     public async Task<IActionResult> BreakContract([FromServices] AbstractValidator<BreakContractCommand> validator, [FromRoute] Guid id, CancellationToken cancellationToken)

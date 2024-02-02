@@ -9,6 +9,7 @@ using Core.Modules.HumanResources.Application.Http.Commands.Contracts.DeleteCont
 using Core.Modules.HumanResources.Application.Http.Commands.JobApplications.SendJobApplication;
 using Core.Modules.HumanResources.Application.Http.Queries.Collaborators.GetCollaborator;
 using Core.Modules.HumanResources.Application.Http.Queries.Collaborators.SearchCollaborators;
+using Core.Modules.HumanResources.Application.Http.Queries.Contracts.GetContract;
 using Core.Modules.HumanResources.Application.Http.Queries.Contracts.SearchContracts;
 using Core.Modules.HumanResources.Application.Http.Queries.JobApplications.SearchJobApplications;
 using Core.Modules.HumanResources.Domain.Contracts.Context;
@@ -22,6 +23,7 @@ using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.Delet
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.JobApplications.SendJobApplication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Collaborators.GetCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Collaborators.SearchCollaborators;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Contracts.GetContract;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Contracts.SearchContracts;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.JobApplications.SearchJobApplications;
 using Core.Modules.HumanResources.Domain.CustomConverters;
@@ -59,6 +61,7 @@ public static class DependencyInjection
         services.AddScoped<AbstractValidator<AddContractsCommand>, AddContractsCommandValidator>();
         services.AddScoped<AbstractValidator<DeleteContractCommand>, DeleteContractCommandValidator>();
         services.AddScoped<AbstractValidator<SearchContractsQuery>, SearchContractsQueryValidator>();
+        services.AddScoped<AbstractValidator<GetContractQuery>, GetContractQueryValidator>();
 
         services.AddScoped<AbstractValidator<SendJobApplicationCommand>, SendJobApplicationCommandValidator>();
         services.AddScoped<AbstractValidator<SearchJobApplicationsQuery>, SearchJobApplicationsQueryValidator>();
