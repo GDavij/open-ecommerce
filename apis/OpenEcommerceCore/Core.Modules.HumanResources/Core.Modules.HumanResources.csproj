@@ -27,4 +27,13 @@
       <ProjectReference Include="..\Core.Modules.Shared\Core.Modules.Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Application\Http\Commands\Collaborators\" />
+      <Folder Include="Application\Http\Commands\Contracts\" />
+      <Folder Include="Application\Http\Commands\JobApplications\" />
+      <Folder Include="Domain\Contracts\Http\Commands\Contracts\" />
+      <Folder Include="Domain\Contracts\Http\Queries\Collaborators\" />
+      <Folder Include="Domain\Contracts\Http\Queries\JobApplications\" />
+    </ItemGroup>
+
 </Project>

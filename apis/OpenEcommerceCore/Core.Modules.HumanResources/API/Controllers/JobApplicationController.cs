@@ -1,6 +1,6 @@
 using Core.Modules.HumanResources.API.Decorators.Authentication;
-using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.SendJobApplication;
-using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.SearchJobApplication;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.JobApplications.SendJobApplication;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.JobApplications.SearchJobApplications;
 using Core.Modules.Shared.Domain.Constants;
 using FluentValidation;
 using MediatR;

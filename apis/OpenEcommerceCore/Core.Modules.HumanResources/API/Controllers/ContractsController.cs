@@ -1,7 +1,7 @@
 using Core.Modules.HumanResources.API.Decorators.Authentication;
-using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.AddContracts;
-using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.BreakContract;
-using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.DeleteContract;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.AddContracts;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.BreakContract;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.DeleteContract;
 using Core.Modules.Shared.Domain.Constants;
 using FluentValidation;
 using MediatR;
