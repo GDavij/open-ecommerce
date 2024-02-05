@@ -1,38 +1,46 @@
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.SharedSchemas;
+using System.Linq;
 
 namespace Core.Modules.HumanResources.Application.Http.SharedValidators;
 
 internal static class ContractValidators
-{
-      //TODO: Reduce Resource Usage in this method
-        public static bool HaveValidContributionYears(List<ContractRequestSchema> contracts)
+{ 
+    //TODO: Reduce Resource Usage in this method
+    public static bool HaveValidContributionYears(List<ContractRequestSchema> contracts)
+    { 
+        var contributionYears = contracts.SelectMany(c => c.ContributionsYears, (_, cy) => cy.Year).ToList();
+        var uniqueContributionYears = contributionYears.ToHashSet();
+
+        if (uniqueContributionYears.Count < contributionYears.Count)
         {
-            foreach (var contract in contracts)
+            return false;
+        }
+        
+        foreach (var contract in contracts)
+        {
+            foreach (var contributionYear in contract.ContributionsYears)
             {
-                foreach (var contributionYear in contract.ContributionsYears)
+                if (contributionYear.Year < contract.StartDate.Year || contributionYear.Year > contract.EndDate.Year)
                 {
-                    if (contributionYear.Year < contract.StartDate.Year || contributionYear.Year > contract.EndDate.Year)
+                    return false;
+                }
+                foreach (var workHour in contributionYear.WorkHours)
+                {
+                    if (workHour.Date.Year != contributionYear.Year)
+                    {
+                        return false; 
+                    }
+
+                    if (workHour.End.Subtract(workHour.Start).TotalHours > 12)
                     {
                         return false;
                     }
-    
-                    foreach (var workHour in contributionYear.WorkHours)
-                    {
-                        if (workHour.Date.Year < contract.StartDate.Year || workHour.Date.Year > contract.EndDate.Year)
-                        {
-                            return false;
-                        }
-    
-                        if (workHour.Start.Subtract(workHour.End).TotalHours >= 18)
-                        {
-                            return false;
-                        }
-                    }
+                    
                 }
             }
-    
-            return true;
         }
+        return true;
+    }
     
         public static bool HaveOnlyOneContractForASector(List<ContractRequestSchema> contracts)
         {
