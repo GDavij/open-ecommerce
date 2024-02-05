@@ -1,5 +1,6 @@
 using Core.Modules.HumanResources.API.Decorators.Authentication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.AddContracts;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.AddWorkHourToContributionYear;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.BreakContract;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.DeleteContract;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Contracts.GetContract;
@@ -70,6 +71,25 @@ public class ContractsController : ControllerBase
     [IsAuthenticated]
     public async Task<IActionResult> AddContracts([FromServices] AbstractValidator<AddContractsCommand> validator, [FromBody] AddContractsCommand command, CancellationToken cancellationToken)
     {
+        var validationResults = validator.Validate(command);
+        if (!validationResults.IsValid)
+        {
+            return BadRequest(validationResults.Errors);
+        }
+
+        return Ok(await _mediator.Send(command, cancellationToken));
+    }
+    
+    [HttpPost("{id}/work-hours")]
+    [IsAuthenticated]
+    public async Task<IActionResult> AddWorkHourToContributionYear([FromServices] AbstractValidator<AddWorkHourToContributionYearCommand> validator, [FromRoute] Guid id, [FromBody] AddWorkHourToContributionYearCommand.WorkHourRequestSchema workHour, CancellationToken cancellationToken)
+    {
+        var command = new AddWorkHourToContributionYearCommand
+        {
+            ContractId = id,
+            WorkHour = workHour
+        };
+        
         var validationResults = validator.Validate(command);
         if (!validationResults.IsValid)
         {

@@ -4,6 +4,7 @@ using Core.Modules.HumanResources.Application.Http.Commands.Collaborators.Create
 using Core.Modules.HumanResources.Application.Http.Commands.Collaborators.DeleteCollaborator;
 using Core.Modules.HumanResources.Application.Http.Commands.Collaborators.UpdateCollaborator;
 using Core.Modules.HumanResources.Application.Http.Commands.Contracts.AddContracts;
+using Core.Modules.HumanResources.Application.Http.Commands.Contracts.AddWorkHourToContributionYear;
 using Core.Modules.HumanResources.Application.Http.Commands.Contracts.BreakContract;
 using Core.Modules.HumanResources.Application.Http.Commands.Contracts.DeleteContract;
 using Core.Modules.HumanResources.Application.Http.Commands.JobApplications.SendJobApplication;
@@ -18,6 +19,7 @@ using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Collaborators.C
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Collaborators.DeleteCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Collaborators.UpdateCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.AddContracts;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.AddWorkHourToContributionYear;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.BreakContract;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.DeleteContract;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.JobApplications.SendJobApplication;
@@ -62,6 +64,8 @@ public static class DependencyInjection
         services.AddScoped<AbstractValidator<DeleteContractCommand>, DeleteContractCommandValidator>();
         services.AddScoped<AbstractValidator<SearchContractsQuery>, SearchContractsQueryValidator>();
         services.AddScoped<AbstractValidator<GetContractQuery>, GetContractQueryValidator>();
+
+        services.AddScoped<AbstractValidator<AddWorkHourToContributionYearCommand>, AddWorkHourToContributionYearCommandValidator>();
 
         services.AddScoped<AbstractValidator<SendJobApplicationCommand>, SendJobApplicationCommandValidator>();
         services.AddScoped<AbstractValidator<SearchJobApplicationsQuery>, SearchJobApplicationsQueryValidator>();
