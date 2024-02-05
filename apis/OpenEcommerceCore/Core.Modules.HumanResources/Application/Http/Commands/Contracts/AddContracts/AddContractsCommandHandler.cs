@@ -1,6 +1,7 @@
 using Core.Modules.HumanResources.Domain.Contracts.Context;
 using Core.Modules.HumanResources.Domain.Contracts.DynamicData.Resolvers;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.AddContracts;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.SharedSchemas;
 using Core.Modules.HumanResources.Domain.Entities;
 using Core.Modules.HumanResources.Domain.Exceptions.Collaborators;
 using Core.Modules.HumanResources.Domain.Exceptions.Contracts;
@@ -83,6 +84,21 @@ internal class AddContractsCommandHandler : IAddContractsCommandHandler
         {
             var firstInvalidSector = requestSectors.First();
             throw new CollaboratorAlreadyHaveContractForSectorException(firstInvalidSector);
+        }
+        
+        foreach(var contract in request.Contracts)
+        {
+            for (var year = contract.StartDate.Year; year <= contract.EndDate.Year; year++)
+            {
+                if (contract.ContributionsYears.Exists(c => c.Year == year)) continue;
+                
+                var contributionYear = new ContractRequestSchema.ContributionYears
+                {
+                    Year = year,
+                    WorkHours = new List<ContractRequestSchema.ContributionYears.WorkHour>()
+                };
+                contract.ContributionsYears.Add(contributionYear);
+            }
         }
 
         var addedContracts = request.Contracts.Select(c => new Contract

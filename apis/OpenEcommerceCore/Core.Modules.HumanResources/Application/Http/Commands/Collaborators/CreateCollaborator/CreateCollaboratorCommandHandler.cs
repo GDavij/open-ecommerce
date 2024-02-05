@@ -1,5 +1,6 @@
 using Core.Modules.HumanResources.Domain.Contracts.Context;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Collaborators.CreateCollaborator;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.SharedSchemas;
 using Core.Modules.HumanResources.Domain.DtosMappings;
 using Core.Modules.HumanResources.Domain.Entities;
 using Core.Modules.HumanResources.Domain.Exceptions.Collaborators;
@@ -48,7 +49,22 @@ internal class CreateCollaboratorCommandHandler : ICreateCollaboratorCommandHand
             
             throw new InvalidStateException(firstInvalidId);
         }
-
+        
+        foreach(var contract in request.Contracts)
+        {
+            for (var year = contract.StartDate.Year; year <= contract.EndDate.Year; year++)
+            {
+                if (contract.ContributionsYears.Exists(c => c.Year == year)) continue;
+                
+                var contributionYear = new ContractRequestSchema.ContributionYears
+                {
+                    Year = year,
+                    WorkHours = new List<ContractRequestSchema.ContributionYears.WorkHour>()
+                };
+                contract.ContributionsYears.Add(contributionYear);
+            }
+        }
+        
         var collaborator = new Collaborator
         {
             Id = Guid.NewGuid(),
