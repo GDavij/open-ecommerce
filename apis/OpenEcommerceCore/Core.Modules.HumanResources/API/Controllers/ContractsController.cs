@@ -3,6 +3,7 @@ using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.AddCo
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.AddWorkHourToContributionYear;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.BreakContract;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.DeleteContract;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.RemoveWorkHourFromContributionYear;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Contracts.GetContract;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Contracts.SearchContracts;
 using Core.Modules.Shared.Domain.Constants;
@@ -97,6 +98,21 @@ public class ContractsController : ControllerBase
         }
 
         return Ok(await _mediator.Send(command, cancellationToken));
+    }
+
+    [HttpDelete("work-hours/{id}")]
+    [IsAuthenticated]
+    public async Task<IActionResult> RemoveWorkHourFromContributionYear([FromServices] AbstractValidator<RemoveWorkHourFromContributionYearCommand> validator, [FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var command = new RemoveWorkHourFromContributionYearCommand(id);
+        var validationResults = validator.Validate(command);
+        if (!validationResults.IsValid)
+        {
+            return BadRequest(validationResults.Errors);
+        }
+
+        await _mediator.Send(command, cancellationToken);
+        return Ok();
     }
 
     [HttpDelete("{id}")]

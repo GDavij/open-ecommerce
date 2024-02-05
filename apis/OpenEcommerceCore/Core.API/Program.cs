@@ -1,11 +1,9 @@
-using System.Reflection;
 using Core.Modules.HumanResources;
 using Core.Modules.Shared;
 using Core.Modules.Stock;
 using Core.Modules.UserAccess;
 using MassTransit;
 using Microsoft.OpenApi.Models;
-using DependencyInjection = Core.Modules.HumanResources.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
