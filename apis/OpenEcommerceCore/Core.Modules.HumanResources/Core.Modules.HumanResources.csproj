@@ -31,7 +31,6 @@
       <Folder Include="Application\Http\Commands\Collaborators\" />
       <Folder Include="Application\Http\Commands\JobApplications\" />
       <Folder Include="Domain\Contracts\Http\Queries\Collaborators\" />
-      <Folder Include="Domain\Contracts\Http\Queries\JobApplications\" />
     </ItemGroup>
 
 </Project>

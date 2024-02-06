@@ -13,7 +13,9 @@ using Core.Modules.HumanResources.Application.Http.Queries.Collaborators.GetColl
 using Core.Modules.HumanResources.Application.Http.Queries.Collaborators.SearchCollaborators;
 using Core.Modules.HumanResources.Application.Http.Queries.Contracts.GetContract;
 using Core.Modules.HumanResources.Application.Http.Queries.Contracts.SearchContracts;
+using Core.Modules.HumanResources.Application.Http.Queries.JobApplications.GetJobApplication;
 using Core.Modules.HumanResources.Application.Http.Queries.JobApplications.SearchJobApplications;
+using Core.Modules.HumanResources.Domain.Constants;
 using Core.Modules.HumanResources.Domain.Contracts.Context;
 using Core.Modules.HumanResources.Domain.Contracts.DynamicData.Resolvers;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Collaborators.CreateCollaborator;
@@ -29,6 +31,7 @@ using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Collaborators.Ge
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Collaborators.SearchCollaborators;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Contracts.GetContract;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Contracts.SearchContracts;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.JobApplications.GetJobApplication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.JobApplications.SearchJobApplications;
 using Core.Modules.HumanResources.Domain.CustomConverters;
 using Core.Modules.HumanResources.Domain.DynamicData;
@@ -52,8 +55,7 @@ public static class DependencyInjection
         {
             cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
-
-
+        
         //Validators
         services.AddScoped<AbstractValidator<CreateCollaboratorCommand>, CreateCollaboratorCommandValidator>();
         services.AddScoped<AbstractValidator<UpdateCollaboratorCommand>, UpdateCollaboratorCommandValidator>();
@@ -72,6 +74,7 @@ public static class DependencyInjection
 
         services.AddScoped<AbstractValidator<SendJobApplicationCommand>, SendJobApplicationCommandValidator>();
         services.AddScoped<AbstractValidator<SearchJobApplicationsQuery>, SearchJobApplicationsQueryValidator>();
+        services.AddScoped<AbstractValidator<GetJobApplicationQuery>, GetJobApplicationQueryValidator>();
        
         services.AddAzureClients(cfg => 
         {
@@ -93,8 +96,23 @@ public static class DependencyInjection
         
         //EfCore
         services.AddDbContext<IHumanResourcesContext, HumanResourcesContext>();
-
+        
+        SetupTemporaryFilesFolder();
+        
         return services;
+    }
+
+    private static void SetupTemporaryFilesFolder()
+    {
+        IEnumerable<string> temporaryFolders = new[]
+        {
+            Path.Join(TemporaryFileFolders.JobApplicationFolder)
+        };
+
+        foreach (var path in temporaryFolders.Where(path => !Directory.Exists(path)))
+        {
+            Directory.CreateDirectory(path);
+        }
     }
 
     public static IMvcBuilder AddHumanResourcesControllers(this IMvcBuilder mvcBuilder)

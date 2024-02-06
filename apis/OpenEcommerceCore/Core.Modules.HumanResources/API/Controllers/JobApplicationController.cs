@@ -1,5 +1,6 @@
 using Core.Modules.HumanResources.API.Decorators.Authentication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.JobApplications.SendJobApplication;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.JobApplications.GetJobApplication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.JobApplications.SearchJobApplications;
 using Core.Modules.Shared.Domain.Constants;
 using FluentValidation;
@@ -41,6 +42,20 @@ public class JobApplicationController : ControllerBase
         if (!validationResult.IsValid)
         {
             return BadRequest(validationResult.Errors);
+        }
+
+        return Ok(await _mediator.Send(query, cancellationToken));
+    }
+
+    [HttpGet("{id}")]
+    [IsAuthenticated]
+    public async Task<IActionResult> GetJobApplication([FromServices] AbstractValidator<GetJobApplicationQuery> validator, [FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var query = new GetJobApplicationQuery(id);
+        var validationResults = validator.Validate(query);
+        if (!validationResults.IsValid)
+        {
+            return BadRequest(validationResults.Errors);
         }
 
         return Ok(await _mediator.Send(query, cancellationToken));
