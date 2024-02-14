@@ -10,6 +10,7 @@ using Core.Modules.HumanResources.Application.Http.Commands.Contracts.DeleteCont
 using Core.Modules.HumanResources.Application.Http.Commands.Contracts.RemoveWorkHourFromContributionYear;
 using Core.Modules.HumanResources.Application.Http.Commands.JobApplications.SendJobApplication;
 using Core.Modules.HumanResources.Application.Http.Commands.JobApplications.UpdateJobApplicationStatus;
+using Core.Modules.HumanResources.Application.Http.Commands.States.CreateState;
 using Core.Modules.HumanResources.Application.Http.Queries.Collaborators.GetCollaborator;
 using Core.Modules.HumanResources.Application.Http.Queries.Collaborators.SearchCollaborators;
 using Core.Modules.HumanResources.Application.Http.Queries.Contracts.GetContract;
@@ -29,6 +30,7 @@ using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.Delet
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.RemoveWorkHourFromContributionYear;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.JobApplications.SendJobApplication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.JobApplications.UpdateJobApplicationStatus;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.States.CreateState;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Collaborators.GetCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Collaborators.SearchCollaborators;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Contracts.GetContract;
@@ -78,6 +80,8 @@ public static class DependencyInjection
         services.AddScoped<AbstractValidator<SearchJobApplicationsQuery>, SearchJobApplicationsQueryValidator>();
         services.AddScoped<AbstractValidator<GetJobApplicationQuery>, GetJobApplicationQueryValidator>();
         services.AddScoped<AbstractValidator<UpdateJobApplicationStatusCommand>, UpdateJobApplicationStatusCommandValidator>();
+
+        services.AddScoped<AbstractValidator<CreateStateCommand>, CreateStateCommandValidator>();
        
         services.AddAzureClients(cfg => 
         {
