@@ -12,7 +12,7 @@ internal sealed class JobApplication
     public string Phone { get; init; }
     public int Age { get; init; }
     public ECollaboratorSector Sector { get; init; }
-    public ApplicationProcess ProcessStep { get; init; }
+    public ApplicationProcess ProcessStep { get; set; }
     public string ResumeURL { get; init; }
     public List<SocialLink> SocialLinks { get; init; }
     public DateTime CreatedAt { get; init; }

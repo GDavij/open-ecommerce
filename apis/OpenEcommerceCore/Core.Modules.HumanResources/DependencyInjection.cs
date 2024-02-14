@@ -9,6 +9,7 @@ using Core.Modules.HumanResources.Application.Http.Commands.Contracts.BreakContr
 using Core.Modules.HumanResources.Application.Http.Commands.Contracts.DeleteContract;
 using Core.Modules.HumanResources.Application.Http.Commands.Contracts.RemoveWorkHourFromContributionYear;
 using Core.Modules.HumanResources.Application.Http.Commands.JobApplications.SendJobApplication;
+using Core.Modules.HumanResources.Application.Http.Commands.JobApplications.UpdateJobApplicationStatus;
 using Core.Modules.HumanResources.Application.Http.Queries.Collaborators.GetCollaborator;
 using Core.Modules.HumanResources.Application.Http.Queries.Collaborators.SearchCollaborators;
 using Core.Modules.HumanResources.Application.Http.Queries.Contracts.GetContract;
@@ -27,6 +28,7 @@ using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.Break
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.DeleteContract;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.Contracts.RemoveWorkHourFromContributionYear;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.JobApplications.SendJobApplication;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.JobApplications.UpdateJobApplicationStatus;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Collaborators.GetCollaborator;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Collaborators.SearchCollaborators;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Contracts.GetContract;
@@ -75,6 +77,7 @@ public static class DependencyInjection
         services.AddScoped<AbstractValidator<SendJobApplicationCommand>, SendJobApplicationCommandValidator>();
         services.AddScoped<AbstractValidator<SearchJobApplicationsQuery>, SearchJobApplicationsQueryValidator>();
         services.AddScoped<AbstractValidator<GetJobApplicationQuery>, GetJobApplicationQueryValidator>();
+        services.AddScoped<AbstractValidator<UpdateJobApplicationStatusCommand>, UpdateJobApplicationStatusCommandValidator>();
        
         services.AddAzureClients(cfg => 
         {

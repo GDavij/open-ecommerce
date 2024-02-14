@@ -1,5 +1,6 @@
 using Core.Modules.HumanResources.API.Decorators.Authentication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.JobApplications.SendJobApplication;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.JobApplications.UpdateJobApplicationStatus;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.JobApplications.GetJobApplication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.JobApplications.SearchJobApplications;
 using Core.Modules.Shared.Domain.Constants;
@@ -59,5 +60,19 @@ public class JobApplicationController : ControllerBase
         }
 
         return Ok(await _mediator.Send(query, cancellationToken));
+    }
+    
+    [HttpPatch("{id}")]
+    [IsAuthenticated]
+    public async Task<IActionResult> UpdateJobApplicationStatus([FromServices] AbstractValidator<UpdateJobApplicationStatusCommand> validator, [FromRoute] Guid id, [FromBody] HttpApiUpdateJobApplicationStatusRequestSchema body, CancellationToken cancellationToken)
+    {
+        var command = new UpdateJobApplicationStatusCommand(id, body.Status);
+        var validationResult = validator.Validate(command);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+        
+        return Ok(await _mediator.Send(command, cancellationToken));
     }
 }
