@@ -1,5 +1,6 @@
 using Core.Modules.HumanResources.API.Decorators.Authentication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Commands.States.CreateState;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.States.ListStates;
 using Core.Modules.Shared.Domain.Constants;
 using FluentValidation;
 using MediatR;
@@ -30,5 +31,18 @@ public class StatesController : ControllerBase
         }
 
         return Ok(await _mediator.Send(command, cancellationToken));
+    }
+
+    [HttpGet]
+    [IsAuthenticated]
+    public async Task<IActionResult> ListStates([FromServices] AbstractValidator<ListStatesQuery> validator, [FromQuery] ListStatesQuery query, CancellationToken cancellationToken)
+    {
+        var validationResult = validator.Validate(query);
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult.Errors);
+        }
+
+        return Ok(await _mediator.Send(query, cancellationToken));
     }
 }

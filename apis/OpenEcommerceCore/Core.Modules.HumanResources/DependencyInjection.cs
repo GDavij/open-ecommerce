@@ -17,6 +17,7 @@ using Core.Modules.HumanResources.Application.Http.Queries.Contracts.GetContract
 using Core.Modules.HumanResources.Application.Http.Queries.Contracts.SearchContracts;
 using Core.Modules.HumanResources.Application.Http.Queries.JobApplications.GetJobApplication;
 using Core.Modules.HumanResources.Application.Http.Queries.JobApplications.SearchJobApplications;
+using Core.Modules.HumanResources.Application.Http.Queries.States.ListStates;
 using Core.Modules.HumanResources.Domain.Constants;
 using Core.Modules.HumanResources.Domain.Contracts.Context;
 using Core.Modules.HumanResources.Domain.Contracts.DynamicData.Resolvers;
@@ -37,6 +38,7 @@ using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Contracts.GetCon
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.Contracts.SearchContracts;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.JobApplications.GetJobApplication;
 using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.JobApplications.SearchJobApplications;
+using Core.Modules.HumanResources.Domain.Contracts.Http.Queries.States.ListStates;
 using Core.Modules.HumanResources.Domain.CustomConverters;
 using Core.Modules.HumanResources.Domain.DynamicData;
 using Core.Modules.HumanResources.Infrastructure.Contexts;
@@ -82,6 +84,7 @@ public static class DependencyInjection
         services.AddScoped<AbstractValidator<UpdateJobApplicationStatusCommand>, UpdateJobApplicationStatusCommandValidator>();
 
         services.AddScoped<AbstractValidator<CreateStateCommand>, CreateStateCommandValidator>();
+        services.AddScoped<AbstractValidator<ListStatesQuery>, ListStatesQueryValidator>();
        
         services.AddAzureClients(cfg => 
         {
