@@ -9,7 +9,6 @@ using Core.Modules.Stock.Domain.Contracts.Contexts;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateBrand;
 using Core.Modules.Stock.Domain.Entities;
 using Core.Modules.Stock.Domain.Exceptions.Brand;
-using Core.Modules.Stock.Domain.IntegrationEvents;
 using FluentAssertions;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;

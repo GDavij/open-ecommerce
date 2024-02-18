@@ -1,5 +1,5 @@
 using Core.Modules.Shared.Domain.Constants;
-using Core.Modules.UserAccess.Application.Http.Commands.CreateCollaboratorSession;
+using Core.Modules.UserAccess.Domain.Contracts.Http.Commands.Collaborators.CreateCollaboratorSession;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +27,7 @@ public class CollaboratorsController : ControllerBase
          return BadRequest(validationResult.Errors);
       }
 
-      return Ok(await _mediator.Send(command, cancellationToken));
+      var result = await _mediator.Send(command, cancellationToken);
+      return StatusCode((int)result.Code, result);
    }
 }

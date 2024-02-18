@@ -19,7 +19,7 @@ internal class GetCollaboratorsIdsFromSectorQueryHandler : IGetCollaboratorsIdsF
     {
         var collaborators = _dbContext.Collaborators
             .Where(c => c.Sectors.Contains(context.Message.Sector))
-            .Select(c => c.CollaboratorModuleId)
+            .Select(c => c.CollaboratorModuleId!.Value)
             .ToHashSet();
 
         var result = new EvaluationResult<HashSet<Guid>>(collaborators);

@@ -13,6 +13,9 @@ This Documentation aims to document all Use Cases for User Access Module
    1.2 [`Collaborators`](#collaborators)  
     1.2.1 [Create Collaborator Session](#create-collaborator-session)
 
+   1.3 [`Administrators`](#administrators)  
+    1.3.1 [Create Administrator]
+
 2. [Messaging Calls](#messaging-calls)  
    2.1 [`Auth`](#auth)  
    2.1.1 [Authenticate Client](#authenticate-client)  
@@ -21,7 +24,7 @@ This Documentation aims to document all Use Cases for User Access Module
    2.2 [`Clients`](#clients)  
     2.2.1 [Create Client](#create-client-deprecated---gonna-change)
 
-   2.3 [`Administrators`](#administrators)  
+   2.3 [`Administrators`](#administrators-1)  
     2.3.1 [Get Administrators Ids](#get-administrator-ids-maybe-gonna-to-be-deprecated-in-future)
 
    2.4 [`Collaborators`](#collaborators-1)  
@@ -97,6 +100,20 @@ This use case has the objective to receive a collaborator `E-mail` and `Password
 #### Integration Events
 
 - Create Collaborator Session Integration Event
+
+---
+
+### `Administrators`
+
+### Create Administrator
+
+#### Objective
+
+This use case has the objective to create a administrator if none exists or if other administrator is the one making the request.
+
+#### Payload
+
+TODO: Request and Response
 
 ---
 

@@ -1,7 +1,7 @@
 using System.Net;
 using Core.Modules.Shared.Domain.ResultObjects;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;
-using Core.Modules.UserAccess.Domain.Contracts.Http.Commands;
+using Core.Modules.UserAccess.Domain.Contracts.Http.Commands.Clients.CreateClientSession;
 using Core.Modules.UserAccess.Domain.Contracts.Providers;
 using Core.Modules.UserAccess.Domain.Contracts.Services;
 using Core.Modules.UserAccess.Domain.Entities;
@@ -9,7 +9,7 @@ using Core.Modules.UserAccess.Domain.Helpers;
 using Core.Modules.UserAccess.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.Modules.UserAccess.Application.Http.Commands.CreateClientSession;
+namespace Core.Modules.UserAccess.Application.Http.Commands.Clients.CreateClientSession;
 
 internal class CreateClientSessionCommandHandler : ICreateClientSessionCommandHandler
 {

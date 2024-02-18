@@ -1,6 +1,7 @@
+using Core.Modules.UserAccess.Domain.Contracts.Http.Commands.Collaborators.CreateCollaboratorSession;
 using FluentValidation;
 
-namespace Core.Modules.UserAccess.Application.Http.Commands.CreateCollaboratorSession;
+namespace Core.Modules.UserAccess.Application.Http.Commands.Collaborators.CreateCollaboratorSession;
 
 internal class CreateCollaboratorSessionCommandValidator : AbstractValidator<CreateCollaboratorSessionCommand>
 {

@@ -61,14 +61,14 @@ internal class AuthenticateCollaboratorForSectorCommandHandler : IAuthenticateCo
         
         byte[] password = Convert.FromBase64String(token.Password);
 
-        bool isPasswordValid = existentCollaborator!.Password.SequenceEqual(password);
+        bool isPasswordValid = existentCollaborator.Password.SequenceEqual(password);
         if (!isPasswordValid)
         {
             await context.RespondAsync(AuthenticationResult.NotAuthenticated());
             return;
         }
-
-        Identity identity = Identity.Create(existentCollaborator.CollaboratorModuleId);
+        
+        Identity identity = Identity.Create(existentCollaborator.CollaboratorModuleId!.Value);
         await context.RespondAsync(AuthenticationResult.IsAuthenticatedWithIdentity(identity));
     }
 }

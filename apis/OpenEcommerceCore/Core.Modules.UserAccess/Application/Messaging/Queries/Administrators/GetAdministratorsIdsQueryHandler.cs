@@ -20,7 +20,7 @@ internal class GetAdministratorsIdsQueryHandler : IGetAdministratorsIdsQueryHand
     {
         var administrators = _dbContext.Collaborators
             .Where(c => !c.Deleted && c.IsAdmin)
-            .Select(c => c.CollaboratorModuleId)
+            .Select(c => c.Id)
             .ToHashSet();
 
         await context.RespondAsync(new EvaluationResult<HashSet<Guid>>(administrators));

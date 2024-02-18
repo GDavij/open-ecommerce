@@ -14,8 +14,7 @@ internal class CollaboratorMappings : IEntityTypeConfiguration<Collaborator>
             .HasColumnName("Id");
 
         builder.Property(c => c.CollaboratorModuleId)
-            .HasColumnName("CollaboratorModuleId")
-            .IsRequired();
+            .HasColumnName("CollaboratorModuleId");
 
         builder.Property(c => c.Email)
             .HasColumnName("Email")

@@ -5,7 +5,7 @@ namespace Core.Modules.UserAccess.Domain.Entities;
 internal sealed class Collaborator
 {
     public Guid Id { get; init; }
-    public Guid CollaboratorModuleId { get; init; }
+    public Guid? CollaboratorModuleId { get; init; }
     public string Email { get; set; }
     public byte[] Password { get; set; }
     public byte[] SecurityKey { get; set; }
@@ -17,7 +17,7 @@ internal sealed class Collaborator
     
     private Collaborator(
         Guid id,
-        Guid collaboratorModuleId,
+        Guid? collaboratorModuleId,
         string email,
         byte[] password,
         byte[] securityKey,
@@ -41,7 +41,7 @@ internal sealed class Collaborator
 
     public static Collaborator Create(
         Guid id,
-        Guid collaboratorModuleId,
+        Guid? collaboratorModuleId,
         string email,
         byte[] password,
         byte[] securityKey,

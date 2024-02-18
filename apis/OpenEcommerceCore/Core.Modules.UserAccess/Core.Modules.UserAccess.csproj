@@ -39,6 +39,8 @@
 
     <ItemGroup>
       <Folder Include="Application\Http\" />
+      <Folder Include="Application\Http\Commands\Clients\" />
+      <Folder Include="Application\Http\Commands\Collaborators\" />
     </ItemGroup>
 
 </Project>

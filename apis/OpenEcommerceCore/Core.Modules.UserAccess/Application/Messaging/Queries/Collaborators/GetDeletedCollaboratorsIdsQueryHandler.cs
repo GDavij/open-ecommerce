@@ -19,8 +19,8 @@ internal class GetDeletedCollaboratorsIdsQueryHandler : IGetDeletedCollaborators
     public async Task Consume(ConsumeContext<GetDeletedCollaboratorsIdsCommandQuery> context)
     {
         var deletedCollaborators = _dbContext.Collaborators
-            .Where(c => c.Deleted)
-            .Select(c => c.CollaboratorModuleId)
+            .Where(c => c.Deleted && c.CollaboratorModuleId != null)
+            .Select(c => c.CollaboratorModuleId!.Value)
             .ToHashSet();
 
         await context.RespondAsync(new EvaluationResult<HashSet<Guid>>(deletedCollaborators));

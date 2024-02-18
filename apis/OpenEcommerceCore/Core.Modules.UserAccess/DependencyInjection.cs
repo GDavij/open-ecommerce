@@ -1,11 +1,14 @@
 using System.Reflection;
-using Core.Modules.UserAccess.Application.Http.Commands.CreateCollaboratorSession;
+using Core.Modules.UserAccess.Application.Http.Commands.Administrators;
+using Core.Modules.UserAccess.Application.Http.Commands.Collaborators.CreateCollaboratorSession;
 using Core.Modules.UserAccess.Application.Messaging.Commands.Auth;
 using Core.Modules.UserAccess.Application.Messaging.Commands.Collaborators;
 using Core.Modules.UserAccess.Application.Messaging.Queries.Administrators;
 using Core.Modules.UserAccess.Application.Messaging.Queries.Collaborators;
 using Core.Modules.UserAccess.Application.Services;
 using Core.Modules.UserAccess.Domain.Contracts.Contexts;
+using Core.Modules.UserAccess.Domain.Contracts.Http.Commands.Administrators.CreateAdministrator;
+using Core.Modules.UserAccess.Domain.Contracts.Http.Commands.Collaborators.CreateCollaboratorSession;
 using Core.Modules.UserAccess.Domain.Contracts.Providers;
 using Core.Modules.UserAccess.Domain.Contracts.Services;
 using Core.Modules.UserAccess.Infrastructure.Contexts;
@@ -39,6 +42,8 @@ public static class DependencyInjection
         
         //Validators 
         services.AddScoped<AbstractValidator<CreateCollaboratorSessionCommand>, CreateCollaboratorSessionCommandValidator>();
+
+        services.AddScoped<AbstractValidator<CreateAdministratorCommand>, CreateAdministratorCommandValidator>();
         
         return services;
     }
