@@ -182,7 +182,7 @@ TODO: Request and Response
 
 ---
 
-### Get Collaborator Ids from Sector Query Handler
+### Get Collaborator Ids from Sector
 
 #### Objective
 
