@@ -24,7 +24,7 @@ This Documentation aims to document all Use Cases for User Access Module
    2.3 [`Administrators`](#administrators)  
     2.3.1 [Get Administrators Ids](#get-administrator-ids-maybe-gonna-to-be-deprecated-in-future)
 
-   2.4 [`Collaborators`](#collaborators)  
+   2.4 [`Collaborators`](#collaborators-1)  
     2.4.1 [Get Collaborator Is Admin](#get-collaborator-is-admin)  
     2.4.2 [Get Collaborator Is Deleted](#get-collaborator-is-deleted)  
     2.4.3 [Get Collaborators Ids From Sector](#get-collaborator-ids-from-sector-query-handler)  
@@ -66,6 +66,8 @@ This use case has the objective to Receive a Client `Email` and `Password` proce
 - Create Client Session Integration Event
 
 ---
+
+### `Collaborators`
 
 ### Create Collaborator Session
 
