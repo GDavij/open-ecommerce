@@ -14,7 +14,9 @@ This Documentation aims to document all Use Cases for User Access Module
     1.2.1 [Create Collaborator Session](#create-collaborator-session)
 
    1.3 [`Administrators`](#administrators)  
-    1.3.1 [Create Administrator]
+    1.3.1 [Create Administrator](#create-administrator)  
+    1.3.2 [Update Administrator](#update-administrator)  
+    1.3.3 [Delete Administrator](#delete-administrator)
 
 2. [Messaging Calls](#messaging-calls)  
    2.1 [`Auth`](#auth)  
@@ -110,6 +112,30 @@ This use case has the objective to receive a collaborator `E-mail` and `Password
 #### Objective
 
 This use case has the objective to create a administrator if none exists or if other administrator is the one making the request.
+
+#### Payload
+
+TODO: Request and Response
+
+---
+
+### Update Administrator
+
+#### Objective
+
+This use case has the objective to receive a administrator token and info about the data to update, it must update the administrator with the new Data and return the resource with the path to list administrators
+
+#### Payload
+
+TODO: Request and Response
+
+---
+
+### Delete Administrator
+
+#### Objective
+
+This use case has the objective to receive a administrator Token and if valid it must delete the administrator from the database
 
 #### Payload
 
