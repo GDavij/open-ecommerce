@@ -95,7 +95,7 @@ public class CreateClientSessionCommandHandlerTests
             mockedDatabaseClient.Id,
             mockedDatabaseClient.Password,
             ETokenType.Client,
-        TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
+        TokenExpirationTimeScope.OneDayFromNow(_userAccessDateTimeProvider));
 
         var expectedEncodedToken = _securityService.EncodeToken(expectedToken);
 

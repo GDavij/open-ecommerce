@@ -96,7 +96,7 @@ public class AuthenticateCollaboratorForSectorCommandHandlerTests
             databaseCollaborator.Id,
             databaseCollaborator.Password,
             ETokenType.Collaborator,
-            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
+            TokenExpirationTimeScope.OneDayFromNow(_userAccessDateTimeProvider));
         
         var validEncodedToken = _securityService.EncodeToken(validToken);
 
@@ -185,7 +185,7 @@ public class AuthenticateCollaboratorForSectorCommandHandlerTests
             databaseCollaborator.Id,
             invalidDerivedPassword,
             ETokenType.Collaborator,
-            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
+            TokenExpirationTimeScope.OneDayFromNow(_userAccessDateTimeProvider));
         
         var validEncodedToken = _securityService.EncodeToken(validToken);
 
@@ -342,7 +342,7 @@ public class AuthenticateCollaboratorForSectorCommandHandlerTests
             invalidCollaboratorId,
             databaseCollaborator.Password,
             ETokenType.Collaborator,
-            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
+            TokenExpirationTimeScope.OneDayFromNow(_userAccessDateTimeProvider));
 
         var invalidEncodedToken = _securityService.EncodeToken(token);
 

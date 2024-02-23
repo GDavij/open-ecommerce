@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using Core.Modules.UserAccess.Domain.Contracts.Providers;
+using JWT;
 
 namespace Core.Modules.UserAccess.Domain.Models;
 
@@ -40,6 +42,9 @@ internal class Token
             type,
             exp);
     }
+
+    public bool IsExpired(IUserAccessDateTimeProvider dateTimeProvider)
+        =>  Exp - dateTimeProvider.UtcNowOffset.ToUnixTimeSeconds() <= 0;
 }
 
 internal enum ETokenType

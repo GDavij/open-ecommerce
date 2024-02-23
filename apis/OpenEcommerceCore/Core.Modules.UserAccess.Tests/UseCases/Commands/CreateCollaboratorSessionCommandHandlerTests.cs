@@ -98,7 +98,7 @@ public class CreateCollaboratorSessionCommandHandlerTests
             mockedDatabaseCollaborator.Id,
             mockedDatabaseCollaborator.Password,
             ETokenType.Collaborator,
-            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
+            TokenExpirationTimeScope.OneDayFromNow(_userAccessDateTimeProvider));
 
         string expectedEncodedToken = _securityService.EncodeToken(expectedToken);
 

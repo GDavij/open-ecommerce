@@ -45,7 +45,7 @@ internal class CreateClientSessionCommandHandler : ICreateClientSessionCommandHa
             existentClient.Id,
             existentClient.Password,
             ETokenType.Client,
-            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
+            TokenExpirationTimeScope.OneDayFromNow(_userAccessDateTimeProvider));
 
         string encodedToken = _securityService.EncodeToken(token);
 

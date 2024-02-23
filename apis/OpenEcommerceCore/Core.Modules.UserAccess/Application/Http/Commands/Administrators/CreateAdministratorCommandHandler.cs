@@ -8,6 +8,7 @@ using Core.Modules.UserAccess.Domain.Contracts.Http.Commands.Administrators.Crea
 using Core.Modules.UserAccess.Domain.Contracts.Providers;
 using Core.Modules.UserAccess.Domain.Contracts.Services;
 using Core.Modules.UserAccess.Domain.Entities;
+using Core.Modules.UserAccess.Domain.Helpers;
 using Core.Modules.UserAccess.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,24 +31,26 @@ internal class CreateAdministratorCommandHandler : ICreateAdministratorCommandHa
 
     public async Task<CreationResult> Handle(CreateAdministratorCommand request, CancellationToken cancellationToken)
     {
-        var existsAdmin = await _dbContext.Collaborators.AnyAsync(c => c.IsAdmin, cancellationToken); 
-        if (existsAdmin && request.Authorization == null)
+        var existsAdmin = await _dbContext.Collaborators.AnyAsync(c => c.IsAdmin, cancellationToken);
+        
+        var authorization = request.Authorization;
+        if (existsAdmin && authorization == null)
         {
             return CreationResult.CouldNotCreate("Already exists administrator and no token was found", HttpStatusCode.Unauthorized);
         }
         
-        if (existsAdmin && request.Authorization != null)
+        if (existsAdmin && authorization != null)
         {
-            var encodedToken = request.Authorization.Split(' ')[1];
+            var encodedToken = BearerToken.ParseAndGetEncodedToken(authorization); 
             var isTokenValid = _securityService.TryParseEncodedToken(encodedToken, out Token token);
             if (!isTokenValid)
             {
                 return CreationResult.CouldNotCreate("Token is invalid", HttpStatusCode.BadRequest);
             }
 
-            
-            long tokenLastingTime = token.Exp - _dateTimeProvider.UtcNowOffset.ToUnixTimeSeconds();
-            if (tokenLastingTime <= 0)
+
+            bool isTokenExpired = token.IsExpired(_dateTimeProvider);
+            if (isTokenExpired)
             {
                 return CreationResult.CouldNotCreate("Token is expired", HttpStatusCode.BadRequest);
             }
@@ -57,6 +60,7 @@ internal class CreateAdministratorCommandHandler : ICreateAdministratorCommandHa
             {
                 return CreationResult.CouldNotCreate("Token is invalid", HttpStatusCode.BadRequest);
             }
+            
             byte[] tokenPassword = Convert.FromBase64String(token.Password);
             if (!tokenCollaborator.IsAdmin || !tokenCollaborator.Password.SequenceEqual(tokenPassword))
             {
@@ -64,7 +68,7 @@ internal class CreateAdministratorCommandHandler : ICreateAdministratorCommandHa
             }
         }
 
-        var collaboratorAlreadyExists = await _dbContext.Collaborators.AnyAsync(c => c.Email == request.Email);
+        var collaboratorAlreadyExists = await _dbContext.Collaborators.AnyAsync(c => c.Email == request.Email, cancellationToken);
         if (collaboratorAlreadyExists)
         {
             return CreationResult.CouldNotCreate($"Found an existing collaborator with email {request.Email}", HttpStatusCode.Conflict);

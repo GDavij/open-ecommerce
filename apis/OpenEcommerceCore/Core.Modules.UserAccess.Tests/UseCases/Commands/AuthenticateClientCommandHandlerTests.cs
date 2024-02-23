@@ -94,7 +94,7 @@ public class AuthenticateClientCommandHandlerTests
             existentClient.Id,
             existentClient.Password,
             ETokenType.Client,
-            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
+            TokenExpirationTimeScope.OneDayFromNow(_userAccessDateTimeProvider));
         
         var validEncodedToken = _securityService.EncodeToken(validToken);
 
@@ -182,7 +182,7 @@ public class AuthenticateClientCommandHandlerTests
             existentClient.Id,
             clientWrongDerivedPassword,
             ETokenType.Client,
-            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
+            TokenExpirationTimeScope.OneDayFromNow(_userAccessDateTimeProvider));
         
         var validEncodedToken = _securityService.EncodeToken(validToken);
 
@@ -261,7 +261,7 @@ public class AuthenticateClientCommandHandlerTests
             clientWrongId,
             existentClient.Password,
             ETokenType.Client,
-            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
+            TokenExpirationTimeScope.OneDayFromNow(_userAccessDateTimeProvider));
         
         var validEncodedToken = _securityService.EncodeToken(validToken);
 
@@ -383,7 +383,7 @@ public class AuthenticateClientCommandHandlerTests
             existentClient.Id,
             existentClient.Password,
             ETokenType.Client,
-            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
+            TokenExpirationTimeScope.OneDayFromNow(_userAccessDateTimeProvider));
         
         var validEncodedToken = _securityService.EncodeToken(validToken);
 

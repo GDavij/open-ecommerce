@@ -51,7 +51,7 @@ internal class CreateCollaboratorSessionCommandHandler : ICreateCollaboratorSess
             existentCollaborator.Id,
             existentCollaborator.Password,
             ETokenType.Collaborator,
-            TokenExpiration.OneDayFromNow(_userAccessDateTimeProvider));
+            TokenExpirationTimeScope.OneDayFromNow(_userAccessDateTimeProvider));
         
         string encodedToken = _securityService.EncodeToken(token);
 
