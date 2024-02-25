@@ -7,7 +7,7 @@ This Documentation aims to document all Use Cases for User Access Module
 # Index of use cases
 
 1. [Direct Endpoint Call](#direct-endpoint-call)  
-   1.1 [`Clients`](#clients)  
+    1.1 [`Clients`](#clients)  
     1.1.1 [Create Client Session](#create-client-session)
 
    1.2 [`Collaborators`](#collaborators)  
@@ -18,8 +18,11 @@ This Documentation aims to document all Use Cases for User Access Module
     1.3.2 [Update Administrator](#update-administrator)  
     1.3.3 [Delete Administrator](#delete-administrator)
 
+   1.4 [`Auth`](#auth)  
+    1.4.1 [Get Permissions](#get-permissions)
+
 2. [Messaging Calls](#messaging-calls)  
-   2.1 [`Auth`](#auth)  
+   2.1 [`Auth`](#auth-1)  
    2.1.1 [Authenticate Client](#authenticate-client)  
     2.1.2 [Authenticate Collaborator For Sector](#authenticate-collaborator-for-sector)
 
@@ -142,6 +145,30 @@ This use case has the objective to receive a administrator Token and if valid it
 TODO: Request and Response
 
 ---
+
+### List Administrators
+
+#### Objective
+
+This use has the objective to return all Administrators in a Paginated List
+
+#### Payload
+
+TODO: Request and Response
+
+---
+
+### `Auth`
+
+### Get Permissions
+
+#### Objective
+
+This use case has the objective to receive a token and it must return all the permissions the respective user has
+
+#### Payload
+
+TODO: Request and Response
 
 ## Messaging Calls
 
