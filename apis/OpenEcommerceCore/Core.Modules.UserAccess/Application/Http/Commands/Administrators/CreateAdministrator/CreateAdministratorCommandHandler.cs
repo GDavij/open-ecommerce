@@ -12,7 +12,7 @@ using Core.Modules.UserAccess.Domain.Helpers;
 using Core.Modules.UserAccess.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.Modules.UserAccess.Application.Http.Commands.Administrators;
+namespace Core.Modules.UserAccess.Application.Http.Commands.Administrators.CreateAdministrator;
 
 internal class CreateAdministratorCommandHandler : ICreateAdministratorCommandHandler
 {

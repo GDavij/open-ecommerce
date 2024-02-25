@@ -1,7 +1,7 @@
 using Core.Modules.UserAccess.Domain.Contracts.Http.Commands.Administrators.CreateAdministrator;
 using FluentValidation;
 
-namespace Core.Modules.UserAccess.Application.Http.Commands.Administrators;
+namespace Core.Modules.UserAccess.Application.Http.Commands.Administrators.CreateAdministrator;
 
 internal class CreateAdministratorCommandValidator : AbstractValidator<CreateAdministratorCommand>
 {
