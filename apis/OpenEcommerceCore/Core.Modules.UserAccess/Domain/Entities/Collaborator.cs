@@ -60,4 +60,9 @@ internal sealed class Collaborator
             isAdmin,
             false);
     }
+
+    public void Delete()
+    {
+        Deleted = true;
+    }
 }

@@ -1,6 +1,7 @@
 using Core.Modules.Shared.Domain.Constants;
 using Core.Modules.UserAccess.API.Decorators.Authentication;
 using Core.Modules.UserAccess.Domain.Contracts.Http.Commands.Administrators.CreateAdministrator;
+using Core.Modules.UserAccess.Domain.Contracts.Http.Commands.Administrators.DeleteAdministrator;
 using Core.Modules.UserAccess.Domain.Contracts.Http.Commands.Administrators.UpdateAdministrator;
 using FluentValidation;
 using MediatR;
@@ -50,6 +51,22 @@ public class AdministratorsController : ControllerBase
             Email = requestCommand.Email,
             Password = requestCommand.Password
         };
+
+        var validationResults = validator.Validate(command);
+        if (!validationResults.IsValid)
+        {
+            return BadRequest(validationResults.Errors);
+        }
+
+        var result = await _mediator.Send(command, cancellationToken);
+        return StatusCode((int)result.Code, result);
+    }
+
+    [HttpDelete("{id}")]
+    [IsAuthenticated]
+    public async Task<IActionResult> Delete([FromServices] AbstractValidator<DeleteAdministratorCommand> validator, [FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var command = new DeleteAdministratorCommand(id);
 
         var validationResults = validator.Validate(command);
         if (!validationResults.IsValid)
