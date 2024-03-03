@@ -1,0 +1,7 @@
+namespace Core.Modules.Stock.Domain.Exceptions.DynamicData.Resolvers;
+
+internal class NoResolverDynamicParameterFoundException : Exception
+{
+    public NoResolverDynamicParameterFoundException(Type parameterType) : base($"Could not resolve dynamic parameter {parameterType.AssemblyQualifiedName}")
+    { }
+}

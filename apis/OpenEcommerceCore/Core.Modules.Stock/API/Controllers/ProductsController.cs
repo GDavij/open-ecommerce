@@ -1,4 +1,5 @@
 using Core.Modules.Shared.Domain.Constants;
+using Core.Modules.Stock.API.Decorators.Authentication;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.AddImageToProduct;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateProduct;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteProduct;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Modules.Stock.API.Controllers;
 
+[IsAuthenticated]
 [ApiExplorerSettings(GroupName = SwaggerApiGroups.V1)]
 [ApiController]
 [Route("/api/stock/v1/[controller]")]

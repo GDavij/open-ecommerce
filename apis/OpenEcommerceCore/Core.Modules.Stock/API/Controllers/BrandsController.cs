@@ -1,4 +1,5 @@
 using Core.Modules.Shared.Domain.Constants;
+using Core.Modules.Stock.API.Decorators.Authentication;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.CreateBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.DeleteBrand;
 using Core.Modules.Stock.Domain.Contracts.Http.Commands.UpdateBrand;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Core.Modules.Stock.API.Controllers;
 
+[IsAuthenticated]
 [ApiExplorerSettings(GroupName = SwaggerApiGroups.V1)]
 [ApiController]
 [Route("/api/stock/v1/[controller]")]
