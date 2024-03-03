@@ -38,9 +38,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Application\Http\" />
       <Folder Include="Application\Http\Commands\Clients\" />
       <Folder Include="Application\Http\Commands\Collaborators\" />
+      <Folder Include="Application\Http\Queries\Administrators\" />
     </ItemGroup>
 
 </Project>

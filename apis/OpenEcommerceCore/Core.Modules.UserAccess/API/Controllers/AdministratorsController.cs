@@ -3,6 +3,7 @@ using Core.Modules.UserAccess.API.Decorators.Authentication;
 using Core.Modules.UserAccess.Domain.Contracts.Http.Commands.Administrators.CreateAdministrator;
 using Core.Modules.UserAccess.Domain.Contracts.Http.Commands.Administrators.DeleteAdministrator;
 using Core.Modules.UserAccess.Domain.Contracts.Http.Commands.Administrators.UpdateAdministrator;
+using Core.Modules.UserAccess.Domain.Contracts.Http.Queries.Administrators.ListAdministrators;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +39,21 @@ public class AdministratorsController : ControllerBase
         }
 
         var result = await _mediator.Send(command, cancellationToken);
+        return StatusCode((int)result.Code, result);
+    }
+    
+    [HttpGet]
+    [IsAuthenticated]
+    public async Task<IActionResult> List([FromServices] AbstractValidator<ListAdministratorsQuery> validator, [FromQuery] ListAdministratorsQuery query, CancellationToken cancellationToken)
+    {
+
+        var validationResults = validator.Validate(query);
+        if (!validationResults.IsValid)
+        {
+            return BadRequest(validationResults.Errors);
+        }
+
+        var result = await _mediator.Send(query, cancellationToken);
         return StatusCode((int)result.Code, result);
     }
 

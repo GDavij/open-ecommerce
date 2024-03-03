@@ -3,6 +3,7 @@ using Core.Modules.UserAccess.Application.Http.Commands.Administrators.CreateAdm
 using Core.Modules.UserAccess.Application.Http.Commands.Administrators.DeleteAdministrator;
 using Core.Modules.UserAccess.Application.Http.Commands.Administrators.UpdateAdministrator;
 using Core.Modules.UserAccess.Application.Http.Commands.Collaborators.CreateCollaboratorSession;
+using Core.Modules.UserAccess.Application.Http.Queries.Administrators.ListAdministrators;
 using Core.Modules.UserAccess.Application.Messaging.Commands.Auth;
 using Core.Modules.UserAccess.Application.Messaging.Commands.Collaborators;
 using Core.Modules.UserAccess.Application.Messaging.Queries.Administrators;
@@ -14,6 +15,7 @@ using Core.Modules.UserAccess.Domain.Contracts.Http.Commands.Administrators.Crea
 using Core.Modules.UserAccess.Domain.Contracts.Http.Commands.Administrators.DeleteAdministrator;
 using Core.Modules.UserAccess.Domain.Contracts.Http.Commands.Administrators.UpdateAdministrator;
 using Core.Modules.UserAccess.Domain.Contracts.Http.Commands.Collaborators.CreateCollaboratorSession;
+using Core.Modules.UserAccess.Domain.Contracts.Http.Queries.Administrators.ListAdministrators;
 using Core.Modules.UserAccess.Domain.Contracts.Providers;
 using Core.Modules.UserAccess.Domain.Contracts.Services;
 using Core.Modules.UserAccess.Domain.DynamicData;
@@ -55,7 +57,9 @@ public static class DependencyInjection
         services.AddScoped<AbstractValidator<CreateAdministratorCommand>, CreateAdministratorCommandValidator>();
         services.AddScoped<AbstractValidator<UpdateAdministratorCommand>, UpdateAdministratorCommandValidator>();
         services.AddScoped<AbstractValidator<DeleteAdministratorCommand>, DeleteAdministratorCommandValidator>();
-        
+
+        services.AddScoped<AbstractValidator<ListAdministratorsQuery>, ListAdministratorsQueryValidator>();
+            
         return services;
     }
 
