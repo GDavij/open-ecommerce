@@ -39,7 +39,7 @@ internal class CurrentCollaboratorAsyncResolver : ICurrentCollaboratorAsyncResol
          throw new NoResolverDynamicParameterFoundException(typeof(Identity));
       }
 
-      var collaborator = await _dbContext.Collaborators.FirstOrDefaultAsync(c => c.Id == identity.Id, _cancellationToken);
+      var collaborator = await _dbContext.Collaborators.FirstOrDefaultAsync(c => c.CollaboratorModuleId == identity.Id, _cancellationToken);
       if (collaborator is null)
       {
          throw new NullDataResolutionException(typeof(Collaborator));

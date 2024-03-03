@@ -14,7 +14,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace Core.Modules.UserAccess.API.Decorators.Authentication;
 
-internal class IsAuthenticated : Attribute, IAsyncAuthorizationFilter
+internal class IsAllowed : Attribute, IAsyncAuthorizationFilter
 {
     private IUserAccessContext _dbContext;
     private ISecurityService _securityService;
@@ -72,10 +72,9 @@ internal class IsAuthenticated : Attribute, IAsyncAuthorizationFilter
                 {
                     return AuthenticationResult.NotAuthenticated();
                 }
-        
+
                 var existentAdministrator = await _dbContext.Collaborators
-                    .Where(c => c.Id == token.Id && c.Deleted == false)
-                    .FirstOrDefaultAsync(c => c.IsAdmin, cancellationToken);
+                    .FirstOrDefaultAsync(c => c.Id == token.Id && c.Deleted == false, cancellationToken);
         
                 if (existentAdministrator is null)
                 {
